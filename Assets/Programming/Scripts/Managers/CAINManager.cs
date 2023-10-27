@@ -25,12 +25,17 @@ public class CAINManager : MonoBehaviour
 
     public void AskCain(CainQuestion question)
     {
+        /*
         GameObject prompt = Instantiate(terminalEntryTemplate, terminalTextScroll);
         PromptDisplay display = prompt.GetComponent<PromptDisplay>();
         display.questionText.text = question.prompt;
         display.question = question;
+        */
+
+        QuickAIDialogue.singleton.AddQuestion(question);
     }
 
+    [System.Serializable]
     public class CainQuestion
     {
         public RequestWorldModGoal caller;
