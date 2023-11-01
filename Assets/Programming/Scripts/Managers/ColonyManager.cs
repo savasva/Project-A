@@ -119,4 +119,25 @@ public class ColonyManager : MonoBehaviour
         cainTerminals = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.GetType() == typeof(TerminalObject)).ToList());
         //workObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => typeof(obj.taskType) == typeof(WorkTask)).ToList());
     }
+
+    //TODO: Using WorldObject as a parameter creates a cylic dependency between Colonist and WorldObject. This my bite us in the ass later.
+    public static MoveAction BuildMovementAction(Colonist col, WorldObject target)
+    {
+        Vector3 dir = target.transform.forward;
+        int linePos = target.queue.IndexOf(col);
+
+        if (linePos == -1)
+        {
+            linePos = target.queue.Count;
+        }
+
+        Vector3 dest = target.GetDestination() + (dir * linePos * 2.5f);
+        dest.y = col.transform.position.y;
+
+        MoveAction premovement = new MoveAction(string.Format("Moving to {0}", target.GetGameObject().name), dest);
+        premovement.doer = col;
+        premovement.dest = dest;
+
+        return premovement;
+    }
 }

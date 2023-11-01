@@ -46,7 +46,7 @@ public class SleepGoal : Goal
             return;
         }
 
-        MoveAction toBed = owner.BuildMovementAction(bed);
+        MoveAction toBed =  ColonyManager.BuildMovementAction(owner, bed);
 
         bed.Enqueue(owner);
         toBed.OnComplete = () =>

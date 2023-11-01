@@ -4,6 +4,7 @@ using UnityEngine;
 using static CAINManager;
 using UnityEngine.UI;
 using JetBrains.Annotations;
+using System.Runtime.InteropServices;
 
 public class QuickAIDialogue : MonoBehaviour
 {

@@ -34,16 +34,22 @@ public class BaseAction
 
     //public abstract bool CheckConditions(ConditionSet[] conditions);
 
+    public virtual void OnInterrupted()
+    {
+
+    }
+
     protected virtual void CompleteTask()
     {
+        OnComplete();
         if (doer.NeedsAction)
         {
-            doer.QueueAction(new UnoccupiedAction(doer));
+            Debug.Log(GetType());
+            //doer.QueueAction(new UnoccupiedAction(doer));
         }
         else
         {
-            doer.CompleteAction();
+            doer.DequeueAction();
         }
-        OnComplete();
     }
 }
