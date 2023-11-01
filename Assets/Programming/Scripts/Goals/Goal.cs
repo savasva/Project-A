@@ -11,6 +11,9 @@ public class Goal : ScriptableObject
     public List<Goal> dependentsGoals;
     public Action OnComplete;
 
+    //Line stuff
+    int repathRate = 60;
+
     public virtual void OnStart()
     {
         started = true;

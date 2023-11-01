@@ -15,6 +15,20 @@ public class UnoccupiedAction : BaseAction
         shouldWait = _waiting;
     }
 
+    public override void OnStart()
+    {
+        if (shouldWait)
+        {
+            doer.SetStaticAvoidance();
+            OnComplete += () =>
+            {
+                doer.SetMobileAvoidance();
+            };
+        }
+
+        base.OnStart();
+    }
+
     public override void OnTick()
     {
         if (shouldWait) return;

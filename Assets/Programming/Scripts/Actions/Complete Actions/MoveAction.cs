@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 //D-PROX
 [System.Serializable]
@@ -11,8 +7,6 @@ public class MoveAction : BaseAction
     public Vector3 dest;
     public float endDist;
     public bool isObstacle;
-    bool hasHandledObstacle = false;
-    int framesByObstacle;
 
     public MoveAction(string _name, Vector3 _dest, float _endDist = 1f) : base(_name) {
         dest = _dest;
@@ -39,6 +33,11 @@ public class MoveAction : BaseAction
         }
     }
 
+    public override void OnInterrupted()
+    {
+        doer.mover.ResetPath();
+    }
+
     /**
      * Returns true when Obstacle is properly handled. False otherwise.
      **/
@@ -54,12 +53,13 @@ public class MoveAction : BaseAction
             modGoal.owner = doer;
             modGoal.OnComplete = () =>
             {
-                doer.QueueAction(new MoveAction(name, dest));
+                MoveAction move = new MoveAction(name, dest);
+                move.OnComplete = OnComplete;
+                doer.QueueAction(move);
             };
 
             doer.Distract(modGoal);
             
-            Debug.Log("Obstacle handled!");
             return true;
         }
 

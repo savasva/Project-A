@@ -58,13 +58,13 @@ public class WorldObjectCollection
     public WorldObject GetNearestObject(Colonist col)
     {
         int closestIndex = 0;
-        float closestDist = -999;
+        float closestDist = 10000;
 
         if (objects.Count == 0) return null;
 
         if (objects.Count == 1) return objects[0];
 
-        /*for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < objects.Count; i++)
         {
             WorldObject obj = objects[i];
             Vector3 targetPos = (obj.moveDestination != null) ? obj.moveDestination.position : obj.transform.position;
@@ -72,21 +72,14 @@ public class WorldObjectCollection
             NavMeshPath path = new NavMeshPath();
             col.mover.CalculatePath(targetPos, path);
 
-            float dist = 0;
-
-            for (int j = 0; j < path.corners.Length - 1; i++)
-            {
-                dist += Vector3.Distance(path.corners[j], path.corners[j + 1]);
-            }
-
-            Debug.Log(dist);
+            float dist = CalculatePathLength(path);
 
             if (dist < closestDist)
             {
                 closestDist = dist;
                 closestIndex = i;
             }
-        }*/
+        }
 
         return objects[closestIndex];
     }
@@ -109,4 +102,19 @@ public class WorldObjectCollection
 
         return bestColonist;
     }*/
+
+    float CalculatePathLength(NavMeshPath path)
+    {
+
+        // Create a float to store the path length that is by default 0.
+        float pathLength = 0;
+
+        // Increment the path length by an amount equal to the distance between each waypoint and the next.
+        for (int i = 0; i < path.corners.Length - 1; i++)
+        {
+            pathLength += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+        }
+
+        return pathLength;
+    }
 }

@@ -57,7 +57,7 @@ public class EatGoal : Goal
     void TryToFindFood()
     {
         foodSource = (ContainerObject)ColonyManager.inst.eatObjects.GetFreestObject();
-        MoveAction toFood = owner.BuildMovementAction(foodSource);
+        MoveAction toFood = ColonyManager.BuildMovementAction(owner, foodSource);
 
         toFood.OnComplete = () =>
         {

@@ -38,7 +38,8 @@ public class WorldObject : MonoBehaviour, IInteractable
 
     public void Enqueue(Colonist col)
     {
-        queue.Add(col);
+        if (queue.IndexOf(col) == -1)
+            queue.Add(col);
     }
 
     public void Dequeue()

@@ -7332,7 +7332,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d97c5eb2f03ea4512832d5f3ed04f05d, type: 2}
     - target: {fileID: 5368166762696262069, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_Name
-      value: Colonist (1)
+      value: Xenobiologist
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513386612976635464, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: avoidancePriority
+      value: 49
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12148,7 +12152,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 8ed68b5240e854781a8080883d8d14b9, type: 2}
     - target: {fileID: 5368166762696262069, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_Name
-      value: Colonist
+      value: Engineer
       objectReference: {fileID: 0}
     - target: {fileID: 5513386612976635464, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_Radius

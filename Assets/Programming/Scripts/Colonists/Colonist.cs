@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -28,7 +27,11 @@ public class Colonist : MonoBehaviour
     public List<Goal> goalQueueVisualizer;
     public List<BaseAction> actionQueueVisualizer;
 
+    [Header("Pathfinding")]
     public NavMeshAgent mover;
+    int mobileAvoidance;
+    [SerializeField]
+    int staticAvoidance;
 
     private void Awake()
     {
@@ -38,6 +41,7 @@ public class Colonist : MonoBehaviour
 
         actionQueue = new DoubleEndedQueue<BaseAction>();
         goalQueue = new PriorityQueue<Goal>();
+        mobileAvoidance = mover.avoidancePriority;
     }
 
     // Start is called before the first frame update
@@ -136,7 +140,7 @@ public class Colonist : MonoBehaviour
     //TODO: Makes a little more sense to make Interruptions their own class of Goal with unique behavior for resuming the last task.
     public void Distract(Goal perscription)
     {
-        actionQueue.Dequeue();
+        DequeueAction();
         goalQueue.Enqueue(perscription, goalQueue.First.priority + 1);
         UpdateCurrentGoal();
     }
@@ -150,25 +154,27 @@ public class Colonist : MonoBehaviour
     }
 
     //Removes top action from actionQueue. Should be called upon completion.
-    public void CompleteAction()
+    public void DequeueAction()
     {
         actionQueue.Dequeue();
-        if (NeedsAction)
-            QueueAction(new UnoccupiedAction(this));
 
         actionQueueVisualizer = actionQueue.ToList();
     }
 
-    public MoveAction BuildMovementAction(WorldObject target)
+    //Begins a new action immedietaly without losing the current one.
+    public void InterruptAction(BaseAction replacement)
     {
-        Vector3 dir = target.transform.forward;
-        Vector3 dest = target.GetDestination() + (dir * target.queue.Count);
-        dest.y = transform.position.y;
+        currentAction.OnInterrupted();
+        actionQueue.AddFirst(replacement);
+    }
 
-        MoveAction premovement = new MoveAction(string.Format("Moving to {0}", target.GetGameObject().name), dest);
-        premovement.doer = this;
-        premovement.dest = dest;
+    public void SetStaticAvoidance()
+    {
+        mover.avoidancePriority = staticAvoidance;
+    }
 
-        return premovement;
+    public void SetMobileAvoidance()
+    {
+        mover.avoidancePriority = mobileAvoidance;
     }
 }
