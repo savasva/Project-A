@@ -5,6 +5,7 @@ using static CAINManager;
 using UnityEngine.UI;
 using JetBrains.Annotations;
 using System.Runtime.InteropServices;
+using TMPro;
 
 public class QuickAIDialogue : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class QuickAIDialogue : MonoBehaviour
 
     public List<CainQuestion> QuestionQueue;
 
-    public Text dialogueScript;
+    public TMP_Text dialogueScript;
 
     public bool inDialogue;
 
