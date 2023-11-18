@@ -44,8 +44,8 @@ public class QuickAIDialogue : MonoBehaviour
 
     public void EndDialogue()
     {
-        LLMManager.singleton.StartCoroutine(LLMManager.singleton.AskQuestion("Did CAIN helped to complete your request answer with only 'yes' or 'no'" +
-            " and dont finish your answer with a dot?"));
+        //LLMManager.singleton.StartCoroutine(LLMManager.singleton.AskQuestion("Did CAIN helped to complete your request answer with only 'yes' or 'no'" +
+          //  " and dont finish your answer with a dot?"));
         StartCoroutine(WaitForNeural());
     }
 
@@ -79,7 +79,7 @@ public class QuickAIDialogue : MonoBehaviour
         {
             //forming prompt
 
-            LLMManager.singleton.DialogueSesh = "User: " + QuestionQueue[0].prompt + "\r\nCAIN:";
+          //  LLMManager.singleton.DialogueSesh = "User: " + QuestionQueue[0].prompt + "\r\nCAIN:";
 
             string newPrompt = "Transcript of a dialog, where the User interacts with an Assistant named CAIN. " +
             "CAIN is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision. " +
@@ -89,7 +89,7 @@ public class QuickAIDialogue : MonoBehaviour
             "\r\nUser: " + QuestionQueue[0].prompt +
             "\r\nCAIN:";
 
-            LLMManager.singleton.StartCoroutine(LLMManager.singleton.modelCreation(newPrompt));
+          //  LLMManager.singleton.StartCoroutine(LLMManager.singleton.modelCreation(newPrompt));
         }
     }
 

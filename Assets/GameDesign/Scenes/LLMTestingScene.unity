@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 2037319891}
   - component: {fileID: 2037319890}
   - component: {fileID: 2037319889}
-  - component: {fileID: 2037319892}
+  - component: {fileID: 2037319893}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -687,7 +687,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2037319892
+--- !u!114 &2037319893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -696,17 +696,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2037319888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d97177ca531a9c4ea2cbd9870c1a8f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6de478cfeaa4232489aa915c860bf069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testBool: 0
-  sendinftoXenobio: 0
-  questionPushed: Engine malfunctioned
+  use: 0
+  InputText: Engine is broken
+  displayOutput: {fileID: 2017923780}
   engineerModel:
-    name: Engineer
-  xenobioModel:
-    name: Xenobi
-  display: {fileID: 2017923780}
+    name: 
+    prompt: 
+    ChatHistory: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
