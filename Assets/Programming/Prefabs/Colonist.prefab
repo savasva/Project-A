@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6a6dbe19b214ce583a4d31b3ff2149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   role: {fileID: 11400000, guid: 45f5d1e217f0c496fab85ae7b015a9f8, type: 2}
   personality:
     agreeableness: 1
@@ -92,18 +91,14 @@ MonoBehaviour:
     thirst: 0
     tiredness: 0.75
   framesPerReevaluation: 30
-  lastAction:
-    started: 0
-    doer: {fileID: 0}
-    name: Unnamed Task
-    completed: 0
-    benefit:
-      hunger: 0
-      thirst: 0
-      tiredness: 0
+  _currentGoal:
+    actionQueueVisualizer: []
+    subgoalQueueVisualizer: []
+    type: 0
+    state: 0
   goalQueueVisualizer: []
-  actionQueueVisualizer: []
   mover: {fileID: 0}
+  staticAvoidance: 0
 --- !u!33 &8189402498444181000
 MeshFilter:
   m_ObjectHideFlags: 0

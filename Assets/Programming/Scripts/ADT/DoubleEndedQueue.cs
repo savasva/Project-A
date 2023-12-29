@@ -7,12 +7,18 @@ using UnityEngine;
 public class DoubleEndedQueue<T>
 {
     [SerializeField]
-    private LinkedList<T> queue = new LinkedList<T>();
-    public int Count { get { return queue.Count; } }
+    protected LinkedList<T> queue = new LinkedList<T>();
+    public int Count { get { return queue.Count - 1; } }
     //TODO: default(T) may have unexpected consequences for us later. Be careful of using this function! Debug.Log is your friend.
-    public T First { get { if (Count > 0) return queue.First.Value; else return default(T); } }
+    public LinkedListNode<T> Head { get { return queue.First; } }
+    LinkedListNode<T> _cursor;
+    public LinkedListNode<T> Cursor { get { return _cursor; } }
+    public T First { get { if (Count > 0) return Head.Next.Value; else return default(T); } }
 
-    public DoubleEndedQueue() { }
+    public DoubleEndedQueue() {
+        queue.AddFirst(new LinkedListNode<T>(default(T)));
+        _cursor = Head;
+    }
 
     public bool Exists(T value)
     {
@@ -22,6 +28,8 @@ public class DoubleEndedQueue<T>
     public void Enqueue(T value)
     {
         queue.AddLast(value);
+        if (Cursor == Head)
+            Next();
     }
 
     public T Dequeue()
@@ -32,25 +40,44 @@ public class DoubleEndedQueue<T>
             return default(T);
         }
 
-        T firstValue = queue.First.Value;
-        queue.RemoveFirst();
+        if (Cursor == Head.Next)
+        {
+            if (Cursor.Next == null)
+                Prev();
+            else
+                Next();
+        }
+            
+
+        T firstValue = Head.Next.Value;
+        queue.Remove(Head.Next);
 
         return firstValue;
     }
 
     public void AddFirst(T value)
     {
-        queue.AddFirst(value);
+        queue.AddAfter(Head, value);
+        if (Cursor == Head)
+            Next();
     }
 
-    public T RemoveFirst()
+    public LinkedListNode<T> Next()
     {
-        if (Count == 0) return default(T);
+        if (Cursor.Next == null) return null;
 
-        T temp = queue.First.Value;
-        queue.RemoveFirst();
+        _cursor = Cursor.Next;
 
-        return temp;
+        return _cursor;
+    }
+
+    public LinkedListNode<T> Prev()
+    {
+        if (Cursor == Head || Cursor.Previous == Head) return null;
+
+        _cursor = Cursor.Previous;
+
+        return _cursor;
     }
 
     public List<T> ToList()
@@ -59,7 +86,7 @@ public class DoubleEndedQueue<T>
 
         if (Count == 0) return list;
 
-        LinkedListNode<T> curr = queue.First;
+        LinkedListNode<T> curr = Head.Next;
 
         do
         {

@@ -6,50 +6,74 @@ using UnityEngine;
 [System.Serializable]
 public class BaseAction
 {
-    public bool started;
+    public Goal owner;
+    public ActionState state = ActionState.Queued;
+    public bool isInterrupt = false;
 
     public Colonist doer;
     public string name = "Unnamed Task";
-    public bool completed = false;
     public Needs benefit = new Needs();
     public Action OnComplete = () => { };
 
     public BaseAction() { }
 
-    public BaseAction(string _name, BaseAction _caller = null)
+    public BaseAction(Colonist _doer, string _name, Goal _owner, bool _isInterrupt = false)
     {
+        doer = _doer;
         name = _name;
+        isInterrupt = _isInterrupt;
+        if (owner == null)
+        {
+            owner = doer.CurrentGoal.value;
+        }
+        else
+        {
+            owner = _owner;
+        }
     }
 
     public virtual void OnStart() {
-        started = true;
+        state = ActionState.Started;
     }
 
-    public virtual void PreTick() { }
+    public virtual void PreTick() {
+        if (state != ActionState.Started) return;
+    }
 
     /**
      * In inherited classes, this should come after anything that updates the completed variable!
      **/
-    public virtual void OnTick() { }
+    public virtual void OnTick() {
+        if (state != ActionState.Started) return;
+    }
 
     //public abstract bool CheckConditions(ConditionSet[] conditions);
 
     public virtual void OnInterrupted()
     {
-
+        state = ActionState.Interrupted;
     }
 
-    protected virtual void CompleteTask()
+    protected virtual void Complete()
     {
+        state = ActionState.Completed;
         OnComplete();
-        if (doer.NeedsAction)
+        if (!doer.NeedsGoal)
         {
-            Debug.Log(GetType());
-            //doer.QueueAction(new UnoccupiedAction(doer));
+            doer.CurrentGoal.value.CompleteAction();
         }
-        else
-        {
-            doer.DequeueAction();
-        }
+    }
+
+    public virtual (float, BaseAction) PredictFit(Goal goal, ColonistState examinee)
+    {
+        return (0f, null);
+    }
+
+    public enum ActionState
+    {
+        Queued,
+        Interrupted,
+        Started,
+        Completed
     }
 }

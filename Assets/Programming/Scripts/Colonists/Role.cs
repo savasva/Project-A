@@ -1,18 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
+using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Role", menuName = "Project A/Role", order = 1)]
-public class Role : ScriptableObject, IInteractable
+[System.Serializable]
+public abstract class Role : IInteractable
 {
-    [Header("Higher = More Important")]
-    public int importance;
-    //public Big5Personality bias;
     public Color color;
-    public Needs benefitMultiplier;
+    public virtual Type[] roleGoals {
+        get => new Type[0];
+    }
 
     public Vector3 GetDestination()
     {
-        
         return GetGameObject().transform.position;
     }
 
@@ -20,5 +19,21 @@ public class Role : ScriptableObject, IInteractable
     {
         Colonist matchingColonist = ColonyManager.inst.GetColonistByRole(this);
         return matchingColonist.gameObject;
+    }
+}
+
+public class EngineerRole : Role
+{
+    public override Type[] roleGoals
+    {
+        get => new Type[0];
+    }
+}
+
+public class XenobioRole : Role
+{
+    public override Type[] roleGoals
+    {
+        get => new Type[0];
     }
 }

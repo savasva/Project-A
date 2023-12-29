@@ -5,10 +5,8 @@ using UnityEngine;
 
 [System.Serializable]
 
-public class Big5Personality
+public struct Big5Personality
 {
-    public Big5Personality() { }
-
     public static Big5Personality neutral = new Big5Personality();
 
     /***

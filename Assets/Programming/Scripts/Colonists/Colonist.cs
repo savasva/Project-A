@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,26 +8,51 @@ using UnityEngine.AI;
 public class Colonist : MonoBehaviour
 {
     [Header("\"Who I am\" Variables")]
-    public Role role;
+    public ColonistState state;
     public Big5Personality personality;
-    public Needs needs;
 
-    [Header("Scheduling Variables")]
-    public int framesPerReevaluation = 30;
-    public Dictionary<string, BaseAction> genericTasks;
+    [Header("Memory")]
+    //Short-Term Memory / Working Memory
+    public MemoryContainer stm;
+    //Long-Term Memory
+    public MemoryContainer ltm;
 
-    DoubleEndedQueue<BaseAction> actionQueue;
-    public BaseAction currentAction { get { return actionQueue.First; } }
-    public BaseAction lastAction;
-    public bool NeedsAction { get { return actionQueue.Count == 0; } }
+    BaseAction CurrentAction {
+        get {
+            if (NeedsGoal) return null;
+
+            if (CurrentGoal.value.NeedsSubgoal)
+                return CurrentGoal.value.CurrentAction;
+            else
+                return CurrentSubaction;
+        }
+    }
+
+    BaseAction CurrentSubaction
+    {
+        get
+        {
+            if (NeedsGoal) return null;
+
+            return CurrentGoal.value.CurrentSubgoal.CurrentAction;
+        }
+    }
 
     PriorityQueue<Goal> goalQueue;
-    public PriorityQueue<Goal>.PriorityNode currentGoal { get { return goalQueue.First; } }
-    public PriorityQueue<Goal>.PriorityNode lastGoal;
-    public bool NeedsGoal { get { return goalQueue.Count == 0; } }
+    public PriorityQueue<Goal>.PriorityNode CurrentGoal {
+        get {
+            return goalQueue.First;
+        }
+    }
+    [SerializeField]
+    Goal _currentGoal;
 
+    public bool NeedsGoal {
+        get {
+            return goalQueue.Count == 0;
+        }
+    }
     public List<Goal> goalQueueVisualizer;
-    public List<BaseAction> actionQueueVisualizer;
 
     [Header("Pathfinding")]
     public NavMeshAgent mover;
@@ -33,27 +60,41 @@ public class Colonist : MonoBehaviour
     [SerializeField]
     int staticAvoidance;
 
-    private void Awake()
+    List<Type> personalGoalPool;
+
+    void Awake()
     {
         mover = GetComponent<NavMeshAgent>();
 
-        genericTasks = new Dictionary<string, BaseAction>();
-
-        actionQueue = new DoubleEndedQueue<BaseAction>();
+        //actionQueue = new DoubleEndedQueue<BaseAction>();
         goalQueue = new PriorityQueue<Goal>();
         mobileAvoidance = mover.avoidancePriority;
+        UpdateState();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        /**
+         * Initialize goals that can be instantiated by Colonists directly.
+         **/
+        personalGoalPool = new List<Type>();
+        personalGoalPool.AddRange(ColonyManager.inst.goalPool);
+        personalGoalPool.AddRange(state.role.roleGoals);
+        personalGoalPool = personalGoalPool.OrderBy((g) => {
+            Goal goal = (Goal)Activator.CreateInstance(g);
+            return (int)goal.type;
+        }).ToList();
     }
 
     // Update is called once per frame
     void Update()
     {
         OnGameTick();
+    }
+
+    void UpdateState()
+    {
+        state.position = transform.position;
     }
 
     /**
@@ -63,68 +104,57 @@ public class Colonist : MonoBehaviour
      **/
     void OnGameTick()
     {
-        //Update Colonists' state based on the currentTask, as well as progress the Task
-        
+ 
         if(NeedsGoal)
         {
             ChooseGoal();
             UpdateCurrentGoal();
         }
-        else
+
+        //Update Colonists' state based on the currentTask, as well as progress the Task
+        if (CurrentAction != null)
         {
-            if (Time.frameCount % framesPerReevaluation == 0)
+            if (CurrentAction.state != BaseAction.ActionState.Started && CurrentAction.state != BaseAction.ActionState.Completed)
             {
-                UpdateCurrentGoal();
+                CurrentAction.OnStart();
             }
+                
+            CurrentAction.PreTick();
+            CurrentAction.OnTick();
         }
 
-        if (currentAction != null && !currentAction.started)
-        {
-            currentAction.OnStart();
-        }
-
-        currentAction.PreTick();
-        currentAction.OnTick();
-
-        if (currentGoal != null)
-            currentGoal.value.OnTick();
-
-        lastGoal = currentGoal;
+        state.position = transform.position;
     }
 
     public void ChooseGoal()
     {
-        Goal goalToQueue;
-        float priority;
-
-        if (needs.hunger > 0.75f)
+        foreach (Type goalType in ColonyManager.inst.goalPool)
         {
-            goalToQueue = new EatGoal();
-            priority = 1000f;
-        }
-        else if (needs.tiredness > 0.75f)
-        {
-            goalToQueue = new SleepGoal();
-            priority = 500f;
-        }
-        else
-        {
-            Vector2 ranCirc = Random.insideUnitCircle * 10;
-            Vector3 wanderDest = new Vector3(ranCirc.x, transform.position.y, ranCirc.y);
-
-            goalToQueue = new MoveGoal(wanderDest);
-            priority = 0f;
+            Goal newGoal = (Goal)Activator.CreateInstance(goalType);
+            if (newGoal.Evaluate(this))
+            {
+                
+                newGoal.doer = this;
+                goalQueue.Enqueue(newGoal, 1000 - (int)newGoal.type);
+                return;
+            }
         }
 
-        goalToQueue.owner = this;
-        goalQueue.Enqueue(goalToQueue, priority);
+        //If no goal applies, just wander.
+        Vector2 ranCirc = UnityEngine.Random.insideUnitCircle * 10;
+        Vector3 wanderDest = new Vector3(ranCirc.x, transform.position.y, ranCirc.y);
+
+        goalQueue.Enqueue(new DProx(this, false, wanderDest), 0);
     }
 
     public void UpdateCurrentGoal()
     {
-        if (currentGoal != null && !currentGoal.value.started)
+        if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
-            currentGoal.value.OnStart();
+            Debug.LogFormat("Executing Goal {0}", CurrentGoal.value.GetType());
+            Planner.BuildPlan(this, CurrentGoal.value);
+            //CurrentGoal.value.Execute(false);
+
         }
 
         goalQueueVisualizer = goalQueue.ToList();
@@ -138,34 +168,12 @@ public class Colonist : MonoBehaviour
     }
 
     //TODO: Makes a little more sense to make Interruptions their own class of Goal with unique behavior for resuming the last task.
-    public void Distract(Goal perscription)
+    public async void Distract(Goal perscription)
     {
-        DequeueAction();
+        if (!NeedsGoal)
+            CurrentGoal.value.InterruptAction();
         goalQueue.Enqueue(perscription, goalQueue.First.priority + 1);
         UpdateCurrentGoal();
-    }
-
-    public void QueueAction(BaseAction task)
-    {
-        task.doer = this;
-        actionQueue.Enqueue(task);
-
-        actionQueueVisualizer = actionQueue.ToList();
-    }
-
-    //Removes top action from actionQueue. Should be called upon completion.
-    public void DequeueAction()
-    {
-        actionQueue.Dequeue();
-
-        actionQueueVisualizer = actionQueue.ToList();
-    }
-
-    //Begins a new action immedietaly without losing the current one.
-    public void InterruptAction(BaseAction replacement)
-    {
-        currentAction.OnInterrupted();
-        actionQueue.AddFirst(replacement);
     }
 
     public void SetStaticAvoidance()

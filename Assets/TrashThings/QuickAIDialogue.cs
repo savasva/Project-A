@@ -67,7 +67,7 @@ public class QuickAIDialogue : MonoBehaviour
 
 
         dialogueScript.text = "";
-        QuestionQueue[0].caller.ReceiveResponse(approved);
+        //QuestionQueue[0].caller.ReceiveResponse(approved);
         QuestionQueue.RemoveAt(0);
         inDialogue = false;
     }

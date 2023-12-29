@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Consumable
+[CreateAssetMenu(fileName = "New Consumable", menuName = "Project A/Consumable")]
+public class Consumable : ScriptableObject
 {
     public float consumeTime;
     public Needs nourishment;
 
-    public Consumable(float _consumeTime, Needs _nourishment)
+    public Consumable(float _consTime, Needs _nourishment)
     {
-        consumeTime = _consumeTime;
+        consumeTime = _consTime;
         nourishment = _nourishment;
     }
 }

@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Needs
+public struct Needs : IComparable
 {
     [Range(-1, 1)]
-    public float hunger = 0;
+    public float hunger;
 
     [Range(-1, 1)]
-    public float thirst = 0;
+    public float thirst;
 
     /**
      * -1 would be Well Rested, 0 would be Rested, and 1 would be Spent
      * Maybe pass out when tiredness is 1?
      **/
     [Range(-1, 1)]
-    public float tiredness = 0;
+    public float tiredness;
 
     public Needs self { get { return this; } }
-
-    public Needs()
-    {
-        
-    }
 
     public Needs(float _hunger, float _thirst, float _tiredness)
     {
@@ -84,5 +79,28 @@ public class Needs
     public override string ToString()
     {
         return string.Format("Hunger: {0}\nThirst: {1}\nTiredness: {2}", hunger, thirst, tiredness);
+    }
+
+    public bool Evaluate(IComparable other, Condition.Comparison comparison)
+    {
+        if (other.GetType() != typeof(Needs))
+        {
+            Debug.LogError("Evaluations \"other\" needs to be of same type as operand");
+            return false;
+        }
+
+        Needs operand = (Needs)other;
+
+
+        switch(comparison)
+        {
+            case Condition.Comparison.Above:
+                return self > operand;
+
+            case Condition.Comparison.Below:
+                return self < operand;
+        }
+
+        return false;
     }
 }

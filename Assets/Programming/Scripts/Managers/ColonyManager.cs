@@ -15,12 +15,21 @@ public class ColonyManager : MonoBehaviour
      */
     public Dictionary<Role, Colonist> colonists = new Dictionary<Role, Colonist>();
 
+    [Header("Goal Types")]
+    public Type[] goalPool = new Type[]
+    {
+        typeof(SleepGoal),
+        typeof(EatGoal),
+        //typeof(WorldModGoal)
+    };
+
     [Header("Background Info")]
     public WorldObjectCollection worldObjects;
     public WorldObjectCollection eatObjects;
     public WorldObjectCollection sleepObjects;
     public WorldObjectCollection workObjects;
     public WorldObjectCollection cainTerminals;
+    public Consumable[] consumables;
 
     private void Awake()
     {
@@ -39,7 +48,7 @@ public class ColonyManager : MonoBehaviour
     {
         foreach(Colonist col in FindObjectsByType<Colonist>(FindObjectsSortMode.None))
         {
-            colonists.Add(col.role, col);
+            colonists.Add(col.state.role, col);
         }
 
         PopulateKnowledgeBackground();
@@ -121,7 +130,7 @@ public class ColonyManager : MonoBehaviour
     }
 
     //TODO: Using WorldObject as a parameter creates a cylic dependency between Colonist and WorldObject. This my bite us in the ass later.
-    public static MoveAction BuildMovementAction(Colonist col, WorldObject target)
+    public static PTRANS BuildLinePTRANS(Colonist col, WorldObject target)
     {
         Vector3 dir = target.transform.forward;
         int linePos = target.queue.IndexOf(col);
@@ -134,10 +143,6 @@ public class ColonyManager : MonoBehaviour
         Vector3 dest = target.GetDestination() + (dir * linePos * 2.5f);
         dest.y = col.transform.position.y;
 
-        MoveAction premovement = new MoveAction(string.Format("Moving to {0}", target.GetGameObject().name), dest);
-        premovement.doer = col;
-        premovement.dest = dest;
-
-        return premovement;
+        return new PTRANS(col, string.Format("Moving to {0}", target.GetGameObject().name), dest, null);
     }
 }

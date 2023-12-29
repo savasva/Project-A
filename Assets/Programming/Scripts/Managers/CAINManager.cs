@@ -38,10 +38,10 @@ public class CAINManager : MonoBehaviour
     [System.Serializable]
     public class CainQuestion
     {
-        public RequestWorldModGoal caller;
+        public WorldModGoal caller;
         public string prompt;
 
-        public CainQuestion(string _prompt, RequestWorldModGoal _caller)
+        public CainQuestion(string _prompt, WorldModGoal _caller)
         {
             prompt = _prompt;
             caller = _caller;
