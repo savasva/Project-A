@@ -28,6 +28,8 @@ public class ColonyManager : MonoBehaviour
             inst = this;
         else if (inst != this)
             Destroy(this);
+
+        DontDestroyOnLoad(this);
     }
 
     private void Start()

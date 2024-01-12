@@ -21,7 +21,7 @@ public class EatGoal : Goal
 
     public override void OnTick()
     {
-        if (atFood && !hasFood && foodSource.lineLeader == owner)
+        if (atFood && !hasFood && foodSource.LineLeader == owner)
         {
             if (!foodSource.IsEmpty)
             {

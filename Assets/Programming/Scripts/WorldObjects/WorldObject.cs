@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * Authors Note:
- * I've tried to optimize this script to the point that it's mangled, sorry.
- */
 public class WorldObject : MonoBehaviour, IInteractable
 {
+    public WorldObjectInfo info;
     public Transform moveDestination;
     public Needs benefit;
     public bool obstacle;
+
     public List<Colonist> queue;
-    public Colonist lineLeader { get { if (queue.Count > 0) return queue[0]; else return null; } }
+    public Colonist LineLeader { get { if (queue.Count > 0) return queue[0]; return null; } }
 
     /*
      * Tasks this object is the target of.
@@ -29,11 +27,18 @@ public class WorldObject : MonoBehaviour, IInteractable
     public GameObject room;
     public Colonist owner;
 
-    public MonoBehaviour taskType;
-
     void Start()
     {
         
+    }
+
+    /// <summary>
+    /// What should this object do when it is interacted with by the Player?
+    /// ex: Switch to this camera if it's a CameraObject
+    /// </summary>
+    public virtual void OnUse()
+    {
+
     }
 
     public void Enqueue(Colonist col)
@@ -64,4 +69,10 @@ public class WorldObject : MonoBehaviour, IInteractable
     {
         return gameObject;
     }
+}
+
+[System.Serializable]
+public struct WorldObjectInfo
+{
+    public string name;
 }

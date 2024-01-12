@@ -41,7 +41,7 @@ public class RequestWorldModGoal : Goal
                 owner.DequeueAction();
             }
 
-            if (terminal.queue.Count > 0 && terminal.lineLeader != owner)
+            if (terminal.queue.Count > 0 && terminal.LineLeader != owner)
             {
                 //Don't allow to prompt before reaching front of line
                 atCain = false;
@@ -50,14 +50,14 @@ public class RequestWorldModGoal : Goal
                 MoveAction lineAdvance = ColonyManager.BuildMovementAction(owner, terminal);
                 owner.InterruptAction(lineAdvance);
             }
-            else if (terminal.lineLeader == owner)
+            else if (terminal.LineLeader == owner)
             {
                 owner.InterruptAction(BuildCainMovement());
             }
         }
 
         //If you're first in line, AskCain!
-        if (atCain && !askedForApproval && terminal.lineLeader == owner)
+        if (atCain && !askedForApproval && terminal.LineLeader == owner)
         {
             askedForApproval = true;
             //Ask CAIN to make change.
