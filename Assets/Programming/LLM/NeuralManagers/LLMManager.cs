@@ -5,15 +5,15 @@ using UnityEngine;
 using LLama;
 using LLama.Native;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class LLMManager : MonoBehaviour
 {
 
     public static LLMManager singleton;
 
-    public InputField GivenLine;
-    public Text textToOutput;
+    public TMP_InputField GivenLine;
+    public TMP_Text textToOutput;
 
     public string DialogueSesh = "User: Please tell me a joke?" + "\r\nCAIN:";
 
@@ -33,6 +33,7 @@ public class LLMManager : MonoBehaviour
     {
         Debug.Log(GivenLine.text);
         StartCoroutine(AskQuestion(GivenLine.text));
+        GivenLine.text = "";
     }
 
     public IEnumerator modelCreation(string prompt)
