@@ -6,7 +6,7 @@ public class DKnow : Goal
 {
     public WorldObject worldObj;
 
-    public DKnow(Colonist _colonist, bool _subgoal, WorldObject _worldObj) : base(_colonist, _subgoal, GoalTypes.Delta) {
+    public DKnow(Colonist _colonist, bool _subgoal, WorldObject _worldObj) : base("Acquire knowledge.", _colonist, _subgoal, GoalTypes.Delta) {
         worldObj = _worldObj;
     }
 

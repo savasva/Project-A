@@ -235,7 +235,7 @@ Transform:
   m_GameObject: {fileID: 1858141794774963412}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.21, z: 1.44}
+  m_LocalPosition: {x: -0.094, y: -2.21, z: -1.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -358,8 +358,8 @@ GameObject:
   - component: {fileID: 5756547977323041138}
   - component: {fileID: 3792643212867534393}
   - component: {fileID: 3682452796426566302}
-  - component: {fileID: -4554007110461324599}
   - component: {fileID: 4241376170239381255}
+  - component: {fileID: 8480494012797222416}
   m_Layer: 6
   m_Name: Bed
   m_TagString: Untagged
@@ -459,7 +459,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4554007110461324599
+--- !u!208 &4241376170239381255
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201155436041692232}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.375, y: 0.375, z: 0.375}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &8480494012797222416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,15 +484,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3201155436041692232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cfe2cac11c504756af4ffc2d739e9b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 8fd971f0c945d4c65bb38aa38d6c178a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions:
+  - rid: 421946748175384576
+  info:
+    name: 
   moveDestination: {fileID: 5400659094450308219}
   benefit:
     hunger: 0
     thirst: 0
     tiredness: -0.05
   obstacle: 0
+  queueable: 0
+  queue: []
   tasks: []
   bias:
     agreeableness: 0
@@ -515,24 +537,42 @@ MonoBehaviour:
     adventurousness: 0
     liberalism: 0
   room: {fileID: 0}
-  owner: {fileID: 0}
-  taskType: {fileID: 0}
---- !u!208 &4241376170239381255
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3201155436041692232}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.375, y: 0.375, z: 0.375}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 421946748175384576
+      type: {class: BedObject/SleepAction, ns: , asm: Assembly-CSharp}
+      data:
+        owner:
+          doer: {fileID: 0}
+          plan:
+            root:
+              state:
+                position: {x: 0, y: 0, z: 0}
+                needs:
+                  hunger: 0
+                  thirst: 0
+                  tiredness: 0
+                role:
+                  rid: -2
+            nodes: []
+            edges: []
+          name: 
+          type: 0
+          state: 0
+          actionQueueVisualizer: []
+          subgoalQueueVisualizer: []
+        state: 0
+        isInterrupt: 0
+        doer: {fileID: 0}
+        name: Unnamed Task
+        benefit:
+          hunger: 0
+          thirst: 0
+          tiredness: -0.05
+        bed: {fileID: 8480494012797222416}
 --- !u!1 &6367201900549770006
 GameObject:
   m_ObjectHideFlags: 0

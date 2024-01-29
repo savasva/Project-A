@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WorldObject : MonoBehaviour, IInteractable
 {
+    [SerializeReference]
+    public BaseAction[] actions;
+
     public WorldObjectInfo info;
     public Transform moveDestination;
     public Needs benefit;

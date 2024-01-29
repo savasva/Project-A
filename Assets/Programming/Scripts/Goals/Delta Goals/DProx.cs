@@ -13,19 +13,21 @@ public class DProx : Goal
 
     const float distThresh = 2.5f;
 
-    public override Func<ColonistState, float> preconditionFit {
+    public override Func<ColonistState, float> activationFit {
         get => (ColonistState state) => Vector3.Distance(state.position, destination);
     }
-    public override Func<ColonistState, float> postconditionFit
+    public override Func<ColonistState, float> resultFit
     {
-        get => (ColonistState state) => 1 - Vector3.Distance(state.position, destination);
+        get => (ColonistState state) => -Vector3.Distance(state.position, destination);
     }
 
-    public DProx(Colonist _colonist, bool _subgoal, Vector3 _destination, Goal _owner = null) : base(_colonist, _subgoal, GoalTypes.Delta, _owner) {
+    public DProx(Colonist _colonist, bool _subgoal, Vector3 _destination, Goal _owner = null)
+        : base(string.Format("Move to {0}", _destination), _colonist, _subgoal, GoalTypes.Delta, _owner) {
         destination = _destination;
     }
 
-    public DProx(Colonist _colonist, bool _subgoal, WorldObject _target, Goal _owner = null) : base(_colonist, _subgoal, GoalTypes.Delta, _owner)
+    public DProx(Colonist _colonist, bool _subgoal, WorldObject _target, Goal _owner = null)
+        : base(string.Format("Move to {0}", _target.name), _colonist, _subgoal, GoalTypes.Delta, _owner)
     {
         targetObj = _target;
     }

@@ -7,15 +7,16 @@ using Cysharp.Threading.Tasks;
 public class EatGoal : Goal
 {
     ContainerObject foodContainer;
-    Needs benefit = new Needs(0, 0, -0.2f);
+    Needs benefit = new Needs(0, 0, -0.2f, 0.01f);
 
-    public override Func<ColonistState, float> preconditionFit
+    public override Func<ColonistState, float> activationFit
     {
         get => (ColonistState state) => state.needs.hunger;
     }
-    public override Func<ColonistState, float> postconditionFit
+
+    public override Func<ColonistState, float> resultFit
     {
-        get => (ColonistState state) => state.needs.hunger;
+        get => (ColonistState state) => -state.needs.hunger;
     }
 
     public EatGoal() : base()
@@ -23,7 +24,7 @@ public class EatGoal : Goal
         type = GoalTypes.Satisfaction;
     }
 
-    public EatGoal(Colonist _colonist, bool _subgoal, Goal _owner = null) : base(_colonist, _subgoal, GoalTypes.Satisfaction, _owner) { }
+    public EatGoal(Colonist _colonist, bool _subgoal, Goal _owner = null) : base("Eat.", _colonist, _subgoal, GoalTypes.Satisfaction, _owner) { }
 
     public async override UniTask<bool> Body(bool interrupt)
     {
@@ -39,7 +40,7 @@ public class EatGoal : Goal
 
     public async override UniTask<bool> Do()
     {
-        INGEST ingest = new INGEST(doer, string.Format("Consuming {0}."), new Consumable(5f, new Needs(5f, 0f, 0f)), this);
+        INGEST ingest = new INGEST(doer, string.Format("Consuming {0}."), new Consumable(5f, new Needs(5f, 0f, 0f, 0f)), this);
         while (ingest.state != BaseAction.ActionState.Completed)
         {
             await UniTask.WaitForEndOfFrame();

@@ -6,6 +6,16 @@ using UnityEngine;
 [System.Serializable]
 public class BaseAction
 {
+    public virtual Func<ColonistState, bool> precondition
+    {
+        get => (ColonistState state) => true;
+    }
+
+    public virtual Func<ColonistState, bool> postcondition
+    {
+        get => (ColonistState state) => true;
+    }
+
     public Goal owner;
     public ActionState state = ActionState.Queued;
     public bool isInterrupt = false;
@@ -22,14 +32,14 @@ public class BaseAction
         doer = _doer;
         name = _name;
         isInterrupt = _isInterrupt;
-        if (owner == null)
+        /*if (owner == null)
         {
             owner = doer.CurrentGoal.value;
         }
         else
         {
             owner = _owner;
-        }
+        }*/
     }
 
     public virtual void OnStart() {
@@ -64,9 +74,14 @@ public class BaseAction
         }
     }
 
-    public virtual (float, BaseAction) PredictFit(Goal goal, ColonistState examinee)
+    public virtual (float, BaseAction, ColonistState) PredictFit(Goal goal, ColonistState examinee)
     {
-        return (0f, null);
+        return (0f, null, ColonistState.none);
+    }
+
+    public virtual (float, BaseAction, ColonistState) PredictFit(BaseAction prevAction, ColonistState examinee)
+    {
+        return (0f, null, ColonistState.none);
     }
 
     public enum ActionState

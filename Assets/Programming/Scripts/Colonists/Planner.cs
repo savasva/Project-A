@@ -10,10 +10,10 @@ public class Planner : MonoBehaviour
     static System.Type[] primativeActionTypes = new System.Type[] {
         typeof(INGEST),
         //typeof(MTRANS),
-        typeof(PTRANS)
+        typeof(PTRANS),
     };
 
-    static BaseAction[] objectActions;
+    BaseAction[] objectActions;
 
     void Awake()
     {
@@ -23,26 +23,70 @@ public class Planner : MonoBehaviour
             Destroy(this);
     }
 
-    public static void BuildPlan(Colonist col, Goal goal)
+    public static Plan BuildPlan(Colonist col, Goal goal)
     {
+        Plan plan = new Plan();
+
+        PlanNode root = plan.AddNode(col.state);
+
+        (PlanNode, PlanEdge) parent = (root, null);
+
         /**
          * Step 1: Find the type that fulfills the postcondition of our goal.
          **/
-        (float, BaseAction) bestFit = (0, null);
-        foreach (System.Type actionType in primativeActionTypes)
+
+        int i = 0;
+        do
         {
-            BaseAction action = (BaseAction)Activator.CreateInstance(actionType);
-            //Debug.LogFormat("Before: {0}", col.state.ToString());
+            (PlanNode, PlanEdge, float) bestFit = (null, null, -1f);
 
-            (float, BaseAction) chosenAction = action.PredictFit(goal, col.state);
-
-            Debug.Log(chosenAction);
-            if (chosenAction.Item1 > bestFit.Item1)
+            foreach (System.Type actionType in primativeActionTypes)
             {
-                Debug.Log(actionType.Name);
+                if (i != 0 && parent.Item2.action.GetType() == actionType) continue;
+                BaseAction action = (BaseAction)Activator.CreateInstance(actionType);
+
+                (float, BaseAction, ColonistState) chosenAction = (i == 0) ? action.PredictFit(goal, parent.Item1.state) : action.PredictFit(parent.Item2.action, parent.Item1.state);
+
+                PlanNode currNode = plan.AddNode(chosenAction.Item3);
+                PlanEdge currEdge = plan.AddEdge(chosenAction.Item2, parent.Item1, currNode, chosenAction.Item1);
+
+                //Debug.Log(chosenAction);
+                if (chosenAction.Item1 > bestFit.Item3)
+                {
+                    //Debug.Log(actionType.Name);
+                    bestFit = (currNode, currEdge, chosenAction.Item1);
+                }
             }
 
-            //Debug.LogFormat("After: {0}", col.state.ToString());
-        }
+            foreach (WorldObject obj in ColonyManager.inst.worldObjects.objects)
+            {
+                foreach (BaseAction action in obj.actions)
+                {
+                    if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
+
+                    (float, BaseAction, ColonistState) chosenAction = (i == 0) ? action.PredictFit(goal, parent.Item1.state) : action.PredictFit(parent.Item2.action, parent.Item1.state);
+
+                    PlanNode currNode = plan.AddNode(chosenAction.Item3);
+                    PlanEdge currEdge = plan.AddEdge(chosenAction.Item2, parent.Item1, currNode, chosenAction.Item1);
+
+                    //Debug.Log(chosenAction);
+                    if (chosenAction.Item1 > bestFit.Item3)
+                    {
+                        //Debug.Log(action.GetType().Name);
+                        bestFit = (currNode, currEdge, chosenAction.Item1);
+                    }
+                }
+            }
+
+            bestFit.Item2.action.doer = col;
+            parent = (bestFit.Item1, bestFit.Item2);
+            plan.stack.AddFirst(bestFit.Item2.action);
+
+            Debug.LogFormat("Selected {0} ({1}) at position {2}.", bestFit.Item2.action.GetType(), bestFit.Item3, i);
+
+            i++;
+        } while (!parent.Item2.action.precondition(parent.Item1.state) && i < 3);
+
+        return plan;
     }
 }

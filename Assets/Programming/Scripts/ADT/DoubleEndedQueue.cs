@@ -55,6 +55,11 @@ public class DoubleEndedQueue<T>
         return firstValue;
     }
 
+    public T Peek()
+    {
+        return Head.Next.Value;
+    }
+
     public void AddFirst(T value)
     {
         queue.AddAfter(Head, value);

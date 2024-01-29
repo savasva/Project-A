@@ -18,13 +18,17 @@ public struct Needs : IComparable
     [Range(-1, 1)]
     public float tiredness;
 
+    [Range(-1, 1)]
+    public float boredom;
+
     public Needs self { get { return this; } }
 
-    public Needs(float _hunger, float _thirst, float _tiredness)
+    public Needs(float _hunger, float _thirst, float _tiredness, float _boredom)
     {
         hunger = _hunger;
         thirst = _thirst;
         tiredness = _tiredness;
+        boredom = _boredom;
     }
 
     public void Clamp()
@@ -32,6 +36,7 @@ public struct Needs : IComparable
         hunger = Mathf.Clamp(hunger, -1, 1);
         thirst = Mathf.Clamp(thirst, -1, 1);
         tiredness = Mathf.Clamp(tiredness, -1, 1);
+        boredom = Mathf.Clamp(boredom, -1, 1);
     }
 
     public static Needs operator +(Needs a, Needs b) {
@@ -40,6 +45,7 @@ public struct Needs : IComparable
         aggregate.hunger = a.hunger + b.hunger;
         aggregate.thirst = a.thirst + b.thirst;
         aggregate.tiredness = a.tiredness + b.tiredness;
+        aggregate.boredom = a.boredom + b.boredom;
 
         return aggregate;
     }
@@ -51,6 +57,7 @@ public struct Needs : IComparable
         aggregate.hunger = a.hunger - b.hunger;
         aggregate.thirst = a.thirst - b.thirst;
         aggregate.tiredness = a.tiredness - b.tiredness;
+        aggregate.boredom = a.boredom - b.boredom;
 
         return aggregate;
     }
@@ -62,23 +69,24 @@ public struct Needs : IComparable
         aggregate.hunger = a.hunger * b;
         aggregate.thirst = a.thirst * b;
         aggregate.tiredness = a.tiredness * b;
+        aggregate.boredom = a.boredom * b;
 
         return aggregate;
     }
 
     public static bool operator <(Needs a, Needs b)
     {
-        return (a.hunger < b.hunger) && (a.thirst < b.thirst) && (a.tiredness < b.tiredness);
+        return (a.hunger < b.hunger) && (a.thirst < b.thirst) && (a.tiredness < b.tiredness) && (a.boredom < b.boredom);
     }
 
     public static bool operator >(Needs a, Needs b)
     {
-        return (a.hunger > b.hunger) && (a.thirst > b.thirst) && (a.tiredness > b.tiredness);
+        return (a.hunger > b.hunger) && (a.thirst > b.thirst) && (a.tiredness > b.tiredness) && (a.boredom > b.boredom);
     }
 
     public override string ToString()
     {
-        return string.Format("Hunger: {0}\nThirst: {1}\nTiredness: {2}", hunger, thirst, tiredness);
+        return string.Format("Hunger: {0}\nThirst: {1}\nTiredness: {2}\nBoredom: {3}", hunger, thirst, tiredness, boredom);
     }
 
     public bool Evaluate(IComparable other, Condition.Comparison comparison)

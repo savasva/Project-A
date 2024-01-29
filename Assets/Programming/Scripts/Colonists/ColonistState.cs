@@ -4,6 +4,8 @@ using System.Collections;
 [System.Serializable]
 public struct ColonistState
 {
+    public static ColonistState none = new ColonistState();
+
     public Vector3 position;
     public Needs needs;
     [SerializeReference]

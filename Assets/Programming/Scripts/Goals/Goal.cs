@@ -12,6 +12,7 @@ public class Goal
      **/
     protected Goal owner;
     public Colonist doer = null;
+    public Plan plan;
     /*protected virtual ConditionSet preconditions
     {
         get
@@ -27,14 +28,15 @@ public class Goal
         }
     }*/
 
-    public virtual Func<ColonistState, float> preconditionFit {
+    public virtual Func<ColonistState, float> activationFit {
         get => (ColonistState state) => 1;
     }
 
-    public virtual Func<ColonistState, float> postconditionFit {
+    public virtual Func<ColonistState, float> resultFit {
         get => (ColonistState state) => 1;
     }
 
+    public string name;
     public GoalTypes type;
     public GoalState state = GoalState.Queued;
     protected bool subgoal = false;
@@ -43,12 +45,13 @@ public class Goal
      * Actions
      **/
     [SerializeField]
-    protected DoubleEndedQueue<BaseAction> actionHistory = new DoubleEndedQueue<BaseAction>();
+    //protected DoubleEndedQueue<BaseAction> actionHistory = new DoubleEndedQueue<BaseAction>();
+    [SerializeReference]
     public List<BaseAction> actionQueueVisualizer = new List<BaseAction>();
     public BaseAction CurrentAction {
         get {
             if (NeedsSubgoal)
-                return actionHistory.Cursor.Value;
+                return plan.stack.Peek();
             else
                 return CurrentSubgoal.CurrentAction;
         }
@@ -67,8 +70,9 @@ public class Goal
         owner = this;
     }
 
-    public Goal(Colonist _colonist, bool _subgoal, GoalTypes _type, Goal _owner = null)
+    public Goal(string _name, Colonist _colonist, bool _subgoal, GoalTypes _type, Goal _owner = null)
     {
+        name = _name;
         subgoal = _subgoal;
         doer = _colonist;
         type = _type;
@@ -79,7 +83,7 @@ public class Goal
             owner = _owner;
     }
 
-    public bool Evaluate(Colonist col)
+    public virtual bool Evaluate(ColonistState state)
     {
         //return preconditionFit(col.state);
         return false;
@@ -116,6 +120,12 @@ public class Goal
         //Debug.Log("Cleaned up!");
     }
 
+    public void SetPlan(Plan newPlan)
+    {
+        plan = newPlan;
+        UpdatePreviews();
+    }
+
     protected void EnqueueAction(BaseAction action)
     {
         if (owner != this)
@@ -125,9 +135,9 @@ public class Goal
         }
 
         if (action.isInterrupt)
-            actionHistory.AddFirst(action);
+            plan.stack.AddFirst(action);
         else
-            actionHistory.Enqueue(action);
+            plan.stack.Enqueue(action);
 
         UpdatePreviews();
         Debug.LogFormat("{0}: Enqueued action {1}", GetType(), action.GetType());
@@ -142,7 +152,7 @@ public class Goal
         }
         if (CurrentAction != null) CurrentAction.state = BaseAction.ActionState.Interrupted;
 
-        if (action != null) actionHistory.AddFirst(action);
+        if (action != null) plan.stack.AddFirst(action);
 
         UpdatePreviews();
     }
@@ -154,7 +164,11 @@ public class Goal
             owner.CompleteAction();
             return;
         }
-        actionHistory.Next();
+        plan.stack.Dequeue();
+
+        if (plan.stack.Count == 0)
+            owner.CompleteGoal();
+
         UpdatePreviews();
     }
 
@@ -232,7 +246,7 @@ public class Goal
 
     void UpdatePreviews()
     {
-        actionQueueVisualizer = actionHistory.ToList();
+        actionQueueVisualizer = plan.stack.ToList();
         subgoalQueueVisualizer = subgoalQueue.ToList();
     }
 

@@ -7,6 +7,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Colonist : MonoBehaviour
 {
+    [SerializeField]
+    Plan currentPlan;
+
     [Header("\"Who I am\" Variables")]
     public ColonistState state;
     public Big5Personality personality;
@@ -19,7 +22,8 @@ public class Colonist : MonoBehaviour
 
     BaseAction CurrentAction {
         get {
-            if (NeedsGoal) return null;
+            //Debug.Log(CurrentGoal.value.NeedsSubgoal);
+            if (NeedsPlan) return null;
 
             if (CurrentGoal.value.NeedsSubgoal)
                 return CurrentGoal.value.CurrentAction;
@@ -32,7 +36,7 @@ public class Colonist : MonoBehaviour
     {
         get
         {
-            if (NeedsGoal) return null;
+            if (NeedsPlan) return null;
 
             return CurrentGoal.value.CurrentSubgoal.CurrentAction;
         }
@@ -47,9 +51,17 @@ public class Colonist : MonoBehaviour
     [SerializeField]
     Goal _currentGoal;
 
-    public bool NeedsGoal {
+    public bool NeedsGoal
+    {
+        get
+        {
+            return (CurrentGoal == null || CurrentGoal.value == null);
+        }
+    }
+
+    public bool NeedsPlan {
         get {
-            return goalQueue.Count == 0;
+            return NeedsGoal || CurrentGoal.value.plan.stack.Count == 0;
         }
     }
     public List<Goal> goalQueueVisualizer;
@@ -131,9 +143,8 @@ public class Colonist : MonoBehaviour
         foreach (Type goalType in ColonyManager.inst.goalPool)
         {
             Goal newGoal = (Goal)Activator.CreateInstance(goalType);
-            if (newGoal.Evaluate(this))
+            if (newGoal.Evaluate(state))
             {
-                
                 newGoal.doer = this;
                 goalQueue.Enqueue(newGoal, 1000 - (int)newGoal.type);
                 return;
@@ -141,20 +152,22 @@ public class Colonist : MonoBehaviour
         }
 
         //If no goal applies, just wander.
-        Vector2 ranCirc = UnityEngine.Random.insideUnitCircle * 10;
+        /*Vector2 ranCirc = UnityEngine.Random.insideUnitCircle * 10;
         Vector3 wanderDest = new Vector3(ranCirc.x, transform.position.y, ranCirc.y);
 
-        goalQueue.Enqueue(new DProx(this, false, wanderDest), 0);
+        goalQueue.Enqueue(new DProx(this, false, wanderDest), 0);*/
     }
 
+    /// <summary>
+    /// Activates highest priority goal.
+    /// </summary>
     public void UpdateCurrentGoal()
     {
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
             Debug.LogFormat("Executing Goal {0}", CurrentGoal.value.GetType());
-            Planner.BuildPlan(this, CurrentGoal.value);
+            CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
             //CurrentGoal.value.Execute(false);
-
         }
 
         goalQueueVisualizer = goalQueue.ToList();

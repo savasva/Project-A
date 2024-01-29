@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 public class SleepGoal : Goal
 {
     WorldObject bed;
-    Needs benefit = new Needs(0, 0, -0.2f);
+    Needs benefit = new Needs(0, 0, -0.2f, 0);
 
     /*protected override ConditionSet preconditions
     {
@@ -17,11 +17,23 @@ public class SleepGoal : Goal
         }
     }*/
 
-    public override Func<ColonistState, float> preconditionFit {
+    /// <summary>
+    /// Should be true if the Colonist IS tired
+    /// </summary>
+    public override Func<ColonistState, float> activationFit {
         get => (ColonistState state) => state.needs.tiredness;
     }
-    public override Func<ColonistState, float> postconditionFit {
+
+    /// <summary>
+    /// Should be true if the Colonist is NOT tired
+    /// </summary>
+    public override Func<ColonistState, float> resultFit {
         get => (ColonistState state) => -state.needs.tiredness;
+    }
+
+    public override bool Evaluate(ColonistState state)
+    {
+        return state.needs.tiredness >= 0.75f;
     }
 
     public SleepGoal() : base()
@@ -29,36 +41,5 @@ public class SleepGoal : Goal
         type = GoalTypes.Satisfaction;
     }
 
-    public SleepGoal(Colonist _colonist, bool _subgoal, Goal _owner = null) : base(_colonist, _subgoal, GoalTypes.Satisfaction, _owner) { }
-
-    public async override UniTask<bool> Body(bool interrupt)
-    {
-        //Go to bed (D-PROX)
-        bed = ColonyManager.inst.sleepObjects.GetFreeObject();
-        bed.Enqueue(doer);
-        DProx dprox = new DProx(doer, true, bed.GetDestination(), this);
-        if (!await dprox.Execute(interrupt)) return FailGoal();
-        if (!await Do()) return FailGoal();
-
-        return CompleteGoal();
-    }
-
-    public async override UniTask<bool> Do()
-    {
-        while (doer.state.needs.tiredness > -0.5f)
-        {
-            doer.state.needs += benefit * Time.deltaTime;
-            await UniTask.WaitForEndOfFrame();
-        }
-
-        return true;
-    }
-
-    public override void CleanUp()
-    {
-        if (bed != null)
-            bed.owner = null;
-
-        base.CleanUp();
-    }
+    public SleepGoal(Colonist _colonist, bool _subgoal, Goal _owner = null) : base("Get some sleep.", _colonist, _subgoal, GoalTypes.Satisfaction, _owner) { }
 }

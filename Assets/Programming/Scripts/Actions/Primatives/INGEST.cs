@@ -26,18 +26,18 @@ public class INGEST : BaseAction
         }
     }
 
-    public override (float, BaseAction) PredictFit(Goal goal, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Goal goal, ColonistState examinee)
     {
         //examinee.needs += target.nourishment;
-        (float, BaseAction) result = (0, null);
+        (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
         foreach (Consumable consumable in ColonyManager.inst.consumables)
         {
             examinee.needs += consumable.nourishment;
-            float fit = goal.postconditionFit(examinee);
+            float fit = goal.resultFit(examinee);
             if (fit > result.Item1)
             {
-                result = (fit, new INGEST(null, string.Format("Consume a {0}", consumable.name), consumable, goal));
+                result = (fit, new INGEST(null, string.Format("Consume a {0}", consumable.name), consumable, goal), examinee);
             }
             examinee.needs -= consumable.nourishment;
         }
