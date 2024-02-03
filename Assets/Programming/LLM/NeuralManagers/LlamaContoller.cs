@@ -9,21 +9,17 @@ using LLama.Common;
 public class LlamaContoller : MonoBehaviour
 {
     private string ModelPath = "Funny/zephyr-7b-beta.Q4_K_M.gguf";
+    public static LlamaContoller singleton;
+
+    public ColonistModel jsonParser;
 
     public ColonistModel engineerModel;
 
     public void Start()
     {
-        engineerModel = new ColonistModel();
+        singleton = this;
 
-        engineerModel.prompt = "Transcript of a dialogue where the User interacts with an Assistant named CAIN." +
-            "CAIN is helpful and asnwers User request's." +
-            "User is a ship colonist travelling in the space." +
-            "\nUser: Hello Cain. What just happened?" +
-            "\nCAIN: Our ship stopped" +
-            "\nUser: What? How did it happen?" +
-            "\nCAIN: I have no idea" +
-            "\nUser: ";
+        jsonParser = new ColonistModel();
     }
 
     public async void createModel(ColonistModel givenModel)
@@ -46,7 +42,7 @@ public class LlamaContoller : MonoBehaviour
         string buf = "";
 
         await foreach (var token in ChatConcurrent(givenModel.Session.ChatAsync(givenModel.ChatHistory,
-            new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } })))
+            new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:", "}" } })))
         {
             buf += token;
             Debug.Log(buf);
@@ -64,7 +60,7 @@ public class LlamaContoller : MonoBehaviour
     public async void askQuestion(ColonistModel givenModel, string givenText)
     {
 
-        string currQuestion = givenText + "\nUser: ";
+        string currQuestion = givenText;
         givenModel.ChatHistory += currQuestion;
 
 

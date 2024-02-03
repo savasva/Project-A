@@ -3582,9 +3582,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 924755200}
-        m_TargetAssemblyTypeName: LLMManager, Assembly-CSharp
-        m_MethodName: GenOutput
+      - m_Target: {fileID: 924755201}
+        m_TargetAssemblyTypeName: QuickAIDialogue, Assembly-CSharp
+        m_MethodName: SendResponce
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14645,8 +14645,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 924755199}
-  - component: {fileID: 924755200}
   - component: {fileID: 924755201}
+  - component: {fileID: 924755202}
   m_Layer: 0
   m_Name: LLMController
   m_TagString: Untagged
@@ -14669,23 +14669,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &924755200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924755198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cef48554145ef654c8d8a8fc7a16187b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GivenLine: {fileID: 81186027}
-  textToOutput: {fileID: 1123855836}
-  DialogueSesh: 'User: Please tell me a joke?
-
-    CAIN:'
 --- !u!114 &924755201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14700,7 +14683,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestionQueue: []
   dialogueScript: {fileID: 1123855836}
+  basicInput: {fileID: 81186027}
   inDialogue: 0
+  basicModel:
+    name: 
+    lastAnswer: 
+    prompt: 
+    ChatHistory: 
+--- !u!114 &924755202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924755198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de478cfeaa4232489aa915c860bf069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  engineerModel:
+    name: 
+    lastAnswer: 
+    prompt: 
+    ChatHistory: 
 --- !u!1 &935277748
 GameObject:
   m_ObjectHideFlags: 0
