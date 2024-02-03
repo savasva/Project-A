@@ -5,28 +5,12 @@ using System.Linq;
 using LLama;
 using LLama.Native;
 using LLama.Common;
-using TMPro;
 
 public class LlamaContoller : MonoBehaviour
 {
-    public bool use;
-    public string InputText;
-
     private string ModelPath = "Funny/zephyr-7b-beta.Q4_K_M.gguf";
-    
-    public TMP_Text displayOutput;
-    
 
     public ColonistModel engineerModel;
-
-    public void Update()
-    {
-        if(use)
-        {
-            use = false;
-            askQuestion(engineerModel);
-        }
-    }
 
     public void Start()
     {
@@ -37,13 +21,12 @@ public class LlamaContoller : MonoBehaviour
             "User is a ship colonist travelling in the space." +
             "\nUser: Hello Cain. What just happened?" +
             "\nCAIN: Our ship stopped" +
-            "\nUser: Can you please open door to Room 1 for me please?" +
-            "\nCAIN: ";
-
-        createModel(engineerModel);
+            "\nUser: What? How did it happen?" +
+            "\nCAIN: I have no idea" +
+            "\nUser: ";
     }
 
-    async void createModel(ColonistModel givenModel)
+    public async void createModel(ColonistModel givenModel)
     {      
         // Load a model
         var parameters = new ModelParams(Application.dataPath + "/Programming/LLM/ImportedLLMBases/" + ModelPath)
@@ -60,10 +43,6 @@ public class LlamaContoller : MonoBehaviour
 
         givenModel.ChatHistory = givenModel.prompt;
 
-        givenModel.ChatHistory = givenModel.ChatHistory + " " + InputText + "\nUser: ";
-
-        displayOutput.text = "User: ";
-
         string buf = "";
 
         await foreach (var token in ChatConcurrent(givenModel.Session.ChatAsync(givenModel.ChatHistory,
@@ -73,32 +52,34 @@ public class LlamaContoller : MonoBehaviour
             Debug.Log(buf);
         }
 
-        displayOutput.text += buf;
+        givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
+
+        givenModel.ChatHistory += buf;
 
         Debug.Log("Model Created");
 
         
     }
 
-    async void askQuestion(ColonistModel givenModel)
+    public async void askQuestion(ColonistModel givenModel, string givenText)
     {
 
-        givenModel.ChatHistory = InputText + "\nUser: ";
+        string currQuestion = givenText + "\nUser: ";
+        givenModel.ChatHistory += currQuestion;
 
-        displayOutput.text += givenModel.ChatHistory;
 
         string buf = "";
 
-        await foreach (var token in ChatConcurrent(givenModel.Session.ChatAsync(givenModel.ChatHistory, 
+        await foreach (var token in ChatConcurrent(givenModel.Session.ChatAsync(currQuestion, 
             new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" }})))
         {
             buf += token;
             Debug.Log(buf);
         }
 
-        displayOutput.text += buf;
+        givenModel.ChatHistory += buf;
 
-        
+        givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
     }
 
     /// <summary>
@@ -119,7 +100,10 @@ public class LlamaContoller : MonoBehaviour
     public class ColonistModel
     {
         public string name;
+        public string lastAnswer;
+        [TextArea(3, 10)]
         public string prompt;
+        [TextArea(3, 10)]
         public string ChatHistory;
         public ChatSession Session;
     }
