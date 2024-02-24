@@ -53,8 +53,7 @@ public class Colonist : MonoBehaviour
 
     public bool NeedsGoal
     {
-        get
-        {
+        get {
             return (CurrentGoal == null || CurrentGoal.value == null);
         }
     }
@@ -65,6 +64,8 @@ public class Colonist : MonoBehaviour
         }
     }
     public List<Goal> goalQueueVisualizer;
+
+    List<IInteractable> knownInteractables;
 
     [Header("Pathfinding")]
     public NavMeshAgent mover;
@@ -126,13 +127,7 @@ public class Colonist : MonoBehaviour
         //Update Colonists' state based on the currentTask, as well as progress the Task
         if (CurrentAction != null)
         {
-            if (CurrentAction.state != BaseAction.ActionState.Started && CurrentAction.state != BaseAction.ActionState.Completed)
-            {
-                CurrentAction.OnStart();
-            }
-                
-            CurrentAction.PreTick();
-            CurrentAction.OnTick();
+            UpdateCurrentAction();
         }
 
         state.position = transform.position;
@@ -161,7 +156,7 @@ public class Colonist : MonoBehaviour
     /// <summary>
     /// Activates highest priority goal.
     /// </summary>
-    public void UpdateCurrentGoal()
+    private void UpdateCurrentGoal()
     {
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
@@ -173,6 +168,17 @@ public class Colonist : MonoBehaviour
         goalQueueVisualizer = goalQueue.ToList();
     }
 
+    public void UpdateCurrentAction()
+    {
+        if (CurrentAction.state != BaseAction.ActionState.Started && CurrentAction.state != BaseAction.ActionState.Completed)
+        {
+            CurrentAction.OnStart();
+        }
+
+        CurrentAction.PreTick();
+        CurrentAction.OnTick();
+    }
+
     //Removes top goal from goalQueue. Should be called upon completion.
     public void CompleteGoal()
     {
@@ -181,7 +187,7 @@ public class Colonist : MonoBehaviour
     }
 
     //TODO: Makes a little more sense to make Interruptions their own class of Goal with unique behavior for resuming the last task.
-    public async void Distract(Goal perscription)
+    public void Distract(Goal perscription)
     {
         if (!NeedsGoal)
             CurrentGoal.value.InterruptAction();
@@ -197,5 +203,15 @@ public class Colonist : MonoBehaviour
     public void SetMobileAvoidance()
     {
         mover.avoidancePriority = mobileAvoidance;
+    }
+
+    public void AddInteractable(IInteractable interactable)
+    {
+        knownInteractables.Add(interactable);
+    }
+
+    public void RemoveInteractable(IInteractable interactable)
+    {
+        knownInteractables.Remove(interactable);
     }
 }
