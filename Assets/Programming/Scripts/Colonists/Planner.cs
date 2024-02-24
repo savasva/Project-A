@@ -30,6 +30,7 @@ public class Planner : MonoBehaviour
         PlanNode root = plan.AddNode(col.state);
 
         (PlanNode, PlanEdge) parent = (root, null);
+        Func<ColonistState, float> predicate = goal.resultFit;
 
         /**
          * Step 1: Find the type that fulfills the postcondition of our goal.
@@ -40,39 +41,47 @@ public class Planner : MonoBehaviour
         {
             (PlanNode, PlanEdge, float) bestFit = (null, null, -1f);
 
+            (float, BaseAction, ColonistState) chosenAction = (0, null, ColonistState.none);
+
+            /*
+             * Check every action primative
+             */
             foreach (System.Type actionType in primativeActionTypes)
             {
                 if (i != 0 && parent.Item2.action.GetType() == actionType) continue;
+
                 BaseAction action = (BaseAction)Activator.CreateInstance(actionType);
 
-                (float, BaseAction, ColonistState) chosenAction = (i == 0) ? action.PredictFit(goal, parent.Item1.state) : action.PredictFit(parent.Item2.action, parent.Item1.state);
+                if (i == 0)
+                    chosenAction = action.PredictFit(predicate, parent.Item1.state);
+                else
+                    action.PredictFit(parent.Item2.action.precondition, parent.Item1.state);
 
                 PlanNode currNode = plan.AddNode(chosenAction.Item3);
                 PlanEdge currEdge = plan.AddEdge(chosenAction.Item2, parent.Item1, currNode, chosenAction.Item1);
 
-                //Debug.Log(chosenAction);
                 if (chosenAction.Item1 > bestFit.Item3)
                 {
-                    //Debug.Log(actionType.Name);
                     bestFit = (currNode, currEdge, chosenAction.Item1);
                 }
             }
 
+            /*
+             * Check any objects in the world for actions
+             */
             foreach (WorldObject obj in ColonyManager.inst.worldObjects.objects)
             {
                 foreach (BaseAction action in obj.actions)
                 {
                     if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
-                    (float, BaseAction, ColonistState) chosenAction = (i == 0) ? action.PredictFit(goal, parent.Item1.state) : action.PredictFit(parent.Item2.action, parent.Item1.state);
+                    action.PredictFit(predicate, parent.Item1.state);
 
                     PlanNode currNode = plan.AddNode(chosenAction.Item3);
                     PlanEdge currEdge = plan.AddEdge(chosenAction.Item2, parent.Item1, currNode, chosenAction.Item1);
 
-                    //Debug.Log(chosenAction);
                     if (chosenAction.Item1 > bestFit.Item3)
                     {
-                        //Debug.Log(action.GetType().Name);
                         bestFit = (currNode, currEdge, chosenAction.Item1);
                     }
                 }
@@ -85,7 +94,7 @@ public class Planner : MonoBehaviour
             Debug.LogFormat("Selected {0} ({1}) at position {2}.", bestFit.Item2.action.GetType(), bestFit.Item3, i);
 
             i++;
-        } while (!parent.Item2.action.precondition(parent.Item1.state) && i < 3);
+        } while (parent.Item2.action.precondition(parent.Item1.state) < 0 && i < 3);
 
         return plan;
     }

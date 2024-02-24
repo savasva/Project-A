@@ -1,29 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.Serialization;
+using System;
 
 public class ContainerObject : WorldObject
 {
+    public Inventory contents;
     public int capacity;
-    [SerializeField]
-    private int count;
 
-    public List<Consumable> contents;
+    public bool IsEmpty { get { return contents.Count <= 0; } }
 
-    public bool IsEmpty { get { return count <= 0; } }
-
-    public bool HasEnough(int amount) {
-        return count > amount;
+    public bool HasEnough(InventoryItem item, int amount) {
+        return contents[item.name].count > amount;
     }
 
-    public void Consume(int amount)
+    public bool Consume(InventoryItem item, int amount)
     {
-        count -= amount;
-    }
+        if (contents[item.name] == null || contents[item.name].count < amount) return false;
 
-    public void Add(Consumable item)
-    {
-        if (count < capacity)
-            contents.Add(item);
+        contents[item.name].count -= amount;
+
+        return true;
     }
 }

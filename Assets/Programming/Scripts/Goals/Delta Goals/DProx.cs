@@ -8,10 +8,6 @@ using UnityEngine.AI;
 public class DProx : Goal
 {
     Vector3 destination;
-    WorldObject targetObj;
-    WorldObject obstacle = null;
-
-    const float distThresh = 2.5f;
 
     public override Func<ColonistState, float> activationFit {
         get => (ColonistState state) => Vector3.Distance(state.position, destination);
@@ -29,29 +25,7 @@ public class DProx : Goal
     public DProx(Colonist _colonist, bool _subgoal, WorldObject _target, Goal _owner = null)
         : base(string.Format("Move to {0}", _target.name), _colonist, _subgoal, GoalTypes.Delta, _owner)
     {
-        targetObj = _target;
-    }
-
-    public async override UniTask<bool> Body(bool interrupt)
-    {
-        PTRANS move = new PTRANS(doer, string.Format("Moving to {0}.", destination.ToString()), destination, owner, interrupt);
-        move.doer = doer;
-        if (interrupt)
-            InterruptAction(move);
-        else
-            EnqueueAction(move);
-
-        while (move.state != BaseAction.ActionState.Completed)
-        {
-            if (obstacle == null)
-            {
-                obstacle = CheckForObstacles();
-            }
-            
-            await UniTask.WaitForEndOfFrame();
-        }
-
-        return CompleteGoal();
+        destination = _target.GetDestination();
     }
 
     WorldObject CheckForObstacles()

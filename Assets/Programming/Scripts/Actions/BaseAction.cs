@@ -6,19 +6,17 @@ using UnityEngine;
 [System.Serializable]
 public class BaseAction
 {
-    public virtual Func<ColonistState, bool> precondition
+    public virtual Func<ColonistState, float> precondition
     {
-        get => (ColonistState state) => true;
+        get => (ColonistState state) => 1;
     }
 
-    public virtual Func<ColonistState, bool> postcondition
+    public virtual Func<ColonistState, float> postcondition
     {
-        get => (ColonistState state) => true;
+        get => (ColonistState state) => 1;
     }
 
-    public Goal owner;
     public ActionState state = ActionState.Queued;
-    public bool isInterrupt = false;
 
     public Colonist doer;
     public string name = "Unnamed Task";
@@ -27,19 +25,10 @@ public class BaseAction
 
     public BaseAction() { }
 
-    public BaseAction(Colonist _doer, string _name, Goal _owner, bool _isInterrupt = false)
+    public BaseAction(Colonist _doer, string _name)
     {
         doer = _doer;
         name = _name;
-        isInterrupt = _isInterrupt;
-        /*if (owner == null)
-        {
-            owner = doer.CurrentGoal.value;
-        }
-        else
-        {
-            owner = _owner;
-        }*/
     }
 
     public virtual void OnStart() {
@@ -57,8 +46,6 @@ public class BaseAction
         if (state != ActionState.Started) return;
     }
 
-    //public abstract bool CheckConditions(ConditionSet[] conditions);
-
     public virtual void OnInterrupted()
     {
         state = ActionState.Interrupted;
@@ -74,12 +61,7 @@ public class BaseAction
         }
     }
 
-    public virtual (float, BaseAction, ColonistState) PredictFit(Goal goal, ColonistState examinee)
-    {
-        return (0f, null, ColonistState.none);
-    }
-
-    public virtual (float, BaseAction, ColonistState) PredictFit(BaseAction prevAction, ColonistState examinee)
+    public virtual (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
     {
         return (0f, null, ColonistState.none);
     }

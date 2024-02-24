@@ -145,6 +145,6 @@ public class ColonyManager : MonoBehaviour
         Vector3 dest = target.GetDestination() + (dir * linePos * 2.5f);
         dest.y = col.transform.position.y;
 
-        return new PTRANS(col, string.Format("Moving to {0}", target.GetGameObject().name), dest, null);
+        return new PTRANS(col, string.Format("Moving to {0}", target.GetGameObject().name), dest);
     }
 }

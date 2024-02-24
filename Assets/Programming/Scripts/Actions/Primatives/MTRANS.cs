@@ -7,7 +7,7 @@ public class MTRANS : BaseAction
     public Memory mem;
     public MemoryContainer dest;
 
-    public MTRANS(Colonist _doer, string _name, string _identifier, Memory _memory, MemoryContainer _target, Goal _owner = null, bool _isInterrupt = false) : base(_doer, _name, _owner, _isInterrupt)
+    public MTRANS(Colonist _doer, string _name, string _identifier, Memory _memory, MemoryContainer _target) : base(_doer, _name)
     {
         mem = _memory;
         dest = _target;

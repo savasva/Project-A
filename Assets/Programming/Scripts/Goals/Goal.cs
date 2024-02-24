@@ -12,21 +12,8 @@ public class Goal
      **/
     protected Goal owner;
     public Colonist doer = null;
+
     public Plan plan;
-    /*protected virtual ConditionSet preconditions
-    {
-        get
-        {
-            return new ConditionSet();
-        }
-    }*/
-    /*public virtual ConditionSet postConditions
-    {
-        get
-        {
-            return new ConditionSet();
-        }
-    }*/
 
     public virtual Func<ColonistState, float> activationFit {
         get => (ColonistState state) => 1;
@@ -36,9 +23,11 @@ public class Goal
         get => (ColonistState state) => 1;
     }
 
+    public GoalState state = GoalState.Queued;
+
     public string name;
     public GoalTypes type;
-    public GoalState state = GoalState.Queued;
+    
     protected bool subgoal = false;
 
     /**
@@ -134,10 +123,7 @@ public class Goal
             return;
         }
 
-        if (action.isInterrupt)
-            plan.stack.AddFirst(action);
-        else
-            plan.stack.Enqueue(action);
+        plan.stack.Enqueue(action);
 
         UpdatePreviews();
         Debug.LogFormat("{0}: Enqueued action {1}", GetType(), action.GetType());
@@ -145,11 +131,6 @@ public class Goal
 
     public void InterruptAction(BaseAction action = null)
     {
-        if (action.owner != this)
-        {
-            action.owner.InterruptAction(action);
-            return;
-        }
         if (CurrentAction != null) CurrentAction.state = BaseAction.ActionState.Interrupted;
 
         if (action != null) plan.stack.AddFirst(action);

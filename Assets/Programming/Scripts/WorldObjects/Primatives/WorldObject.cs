@@ -8,6 +8,7 @@ public class WorldObject : MonoBehaviour, IInteractable
     public BaseAction[] actions;
 
     public WorldObjectInfo info;
+    public WorldObjectState state;
     public Transform moveDestination;
     public Needs benefit;
     
@@ -75,10 +76,32 @@ public class WorldObject : MonoBehaviour, IInteractable
     {
         return gameObject;
     }
+
+    /// <summary>
+    /// Gives the distance between a colonist and this object.
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    public float Proximity(ColonistState state)
+    {
+        return Vector3.Distance(state.position, moveDestination.position);
+    }
 }
 
 [System.Serializable]
 public struct WorldObjectInfo
 {
     public string name;
+    public List<WorldObjectAttributes> attributes;
+}
+
+[System.Serializable]
+public struct WorldObjectState
+{
+    public bool aflame;
+}
+
+public enum WorldObjectAttributes
+{
+    Flamable
 }

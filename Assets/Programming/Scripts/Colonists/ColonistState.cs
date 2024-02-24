@@ -11,6 +11,8 @@ public struct ColonistState
     [SerializeReference]
     public Role role;
 
+    public Inventory inventory;
+
     public override string ToString()
     {
         return string.Format("\n{0}\n{1}\n{2}", position, needs, role.GetType());

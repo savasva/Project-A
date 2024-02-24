@@ -1,0 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InventorySlot
+{
+    public InventoryItem item;
+    public int count;
+
+    public InventorySlot(InventoryItem _item)
+    {
+        item = _item;
+        count = 1;
+    }
+}

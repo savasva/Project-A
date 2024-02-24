@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 public class SleepGoal : Goal
 {
     WorldObject bed;
-    Needs benefit = new Needs(0, 0, -0.2f, 0);
+    Needs benefit = new Needs(0, 0, -0.2f, 0, -0.05f);
 
     /*protected override ConditionSet preconditions
     {
