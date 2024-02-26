@@ -8,7 +8,7 @@ public class INGEST : BaseAction
     {
         get => (ColonistState state) =>
         {
-            if (state.inventory[target.name] == null) return 0;
+            if (!state.inventory.ContainsKey(target.name) || state.inventory[target.name].count == 0) return float.MinValue;
 
             return state.inventory[target.name].count;
         };
@@ -43,7 +43,6 @@ public class INGEST : BaseAction
 
     public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
     {
-        //examinee.needs += target.nourishment;
         (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
         foreach (Consumable consumable in ColonyManager.inst.consumables)

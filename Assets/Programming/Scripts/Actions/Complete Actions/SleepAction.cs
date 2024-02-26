@@ -9,7 +9,7 @@ public class SleepAction : BaseAction
     public override Func<ColonistState, float> precondition
     {
         get => (ColonistState state) => {
-            return -((WorldObject)bed).Proximity(state);
+            return -bed.Proximity(state);
         };
     }
 
@@ -36,12 +36,6 @@ public class SleepAction : BaseAction
         base.Complete();
     }
 
-    /// <summary>
-    /// The Action equivalent of "results" in the Goal class.
-    /// </summary>
-    /// <param name="goal"></param>
-    /// <param name="examinee"></param>
-    /// <returns></returns>
     public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
     {
         //TODO: Update sleep time to be derived from GameTime whenever it is implemented.

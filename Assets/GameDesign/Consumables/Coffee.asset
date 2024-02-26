@@ -11,10 +11,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 936dd8c3f312441c0a56a0fdc5ed14a4, type: 3}
   m_Name: Coffee
-  m_EditorClassIdentifier: 
-  consumeTime: 5
+  m_EditorClassIdentifier: Assembly-CSharp::Consumable
+  consumeTime: 10
   nourishment:
     hunger: 0
-    thirst: -0.35
-    tiredness: -0.75
-    boredom: -0.2
+    thirst: -0.25
+    tiredness: -0.5
+    boredom: 0
+    stress: 0

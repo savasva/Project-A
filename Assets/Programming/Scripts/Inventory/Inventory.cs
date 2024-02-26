@@ -22,7 +22,7 @@ public class Inventory : SerializedDictionary<string, InventorySlot>
 
     public void Add(InventoryItem item)
     {
-        if (this[item.name] == null)
+        if (!ContainsKey(item.name))
         {
             Add(item.name, new InventorySlot(item));
         }
@@ -32,5 +32,10 @@ public class Inventory : SerializedDictionary<string, InventorySlot>
         }
     }
 
-
+    public void Remove(InventoryItem item)
+    {
+        if (!ContainsKey(item.name) || this[item.name].count == 0) return;
+        
+        this[item.name].count--;
+    }
 }

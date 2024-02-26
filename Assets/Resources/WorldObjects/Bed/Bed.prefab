@@ -504,7 +504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - rid: 421946748175384576
+  - rid: 5548853152682082600
   info:
     name: 
     attributes: 
@@ -561,38 +561,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 421946748175384576
-      type: {class: BedObject/SleepAction, ns: , asm: Assembly-CSharp}
+    - rid: 5548853152682082600
+      type: {class: SleepAction, ns: , asm: Assembly-CSharp}
       data:
-        owner:
-          doer: {fileID: 0}
-          plan:
-            root:
-              state:
-                position: {x: 0, y: 0, z: 0}
-                needs:
-                  hunger: 0
-                  thirst: 0
-                  tiredness: 0
-                role:
-                  rid: -2
-            nodes: []
-            edges: []
-          name: 
-          type: 0
-          state: 0
-          actionQueueVisualizer: []
-          subgoalQueueVisualizer: []
         state: 0
-        isInterrupt: 0
         doer: {fileID: 0}
-        name: Unnamed Task
+        name: 
         benefit:
           hunger: 0
           thirst: 0
           tiredness: -0.05
+          boredom: 0
+          stress: 0
         bed: {fileID: 8480494012797222416}
 --- !u!208 &4241376170239381255
 NavMeshObstacle:

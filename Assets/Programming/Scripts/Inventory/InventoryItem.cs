@@ -4,8 +4,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 
-[Serializable]
-public class InventoryItem : ScriptableObject
+public abstract class InventoryItem : ScriptableObject
 {
     
 }

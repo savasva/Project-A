@@ -14,9 +14,6 @@ public abstract class Sense : MonoBehaviour
         rangeTransforms = new List<Transform>();
         rangeInteractables = new List<IInteractable>();
         owner = GetComponent<Colonist>();
-
-        //Make sure our IInteractable detector doesn't collide
-        GetComponent<SphereCollider>().isTrigger = true;
     }
 
     protected abstract List<IInteractable> Scan(); 

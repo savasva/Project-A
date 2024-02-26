@@ -39,23 +39,26 @@ public class Planner : MonoBehaviour
         int i = 0;
         do
         {
-            (PlanNode, PlanEdge, float) bestFit = (null, null, -1f);
+            (PlanNode, PlanEdge, float) bestFit = (null, null, float.MinValue);
 
-            (float, BaseAction, ColonistState) chosenAction = (0, null, ColonistState.none);
+            (float, BaseAction, ColonistState) chosenAction = (float.MinValue, null, ColonistState.none);
 
             /*
              * Check every action primative
              */
             foreach (System.Type actionType in primativeActionTypes)
             {
+                //Don't let the same action be taken repeatedly
                 if (i != 0 && parent.Item2.action.GetType() == actionType) continue;
 
+                //Initialize action
                 BaseAction action = (BaseAction)Activator.CreateInstance(actionType);
 
+                //If first go, run based on goal. Otherwise, do based on parent.
                 if (i == 0)
-                    chosenAction = action.PredictFit(predicate, parent.Item1.state);
+                    chosenAction = action.PredictFit(goal.resultFit, parent.Item1.state);
                 else
-                    action.PredictFit(parent.Item2.action.precondition, parent.Item1.state);
+                    chosenAction = action.PredictFit(parent.Item2.action.precondition, parent.Item1.state);
 
                 PlanNode currNode = plan.AddNode(chosenAction.Item3);
                 PlanEdge currEdge = plan.AddEdge(chosenAction.Item2, parent.Item1, currNode, chosenAction.Item1);
@@ -75,7 +78,11 @@ public class Planner : MonoBehaviour
                 {
                     if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
-                    action.PredictFit(predicate, parent.Item1.state);
+                    //If first go, run based on goal. Otherwise, do based on parent.
+                    if (i == 0)
+                        chosenAction = action.PredictFit(goal.resultFit, parent.Item1.state);
+                    else
+                        chosenAction = action.PredictFit(parent.Item2.action.precondition, parent.Item1.state);
 
                     PlanNode currNode = plan.AddNode(chosenAction.Item3);
                     PlanEdge currEdge = plan.AddEdge(chosenAction.Item2, parent.Item1, currNode, chosenAction.Item1);
@@ -87,6 +94,11 @@ public class Planner : MonoBehaviour
                 }
             }
 
+            if (bestFit.Item2 == null)
+            {
+                Debug.LogErrorFormat("No Action could be found that fulfills {0}", parent.Item2.action.name);
+                break;
+            }
             bestFit.Item2.action.doer = col;
             parent = (bestFit.Item1, bestFit.Item2);
             plan.stack.AddFirst(bestFit.Item2.action);
@@ -94,7 +106,7 @@ public class Planner : MonoBehaviour
             Debug.LogFormat("Selected {0} ({1}) at position {2}.", bestFit.Item2.action.GetType(), bestFit.Item3, i);
 
             i++;
-        } while (parent.Item2.action.precondition(parent.Item1.state) < 0 && i < 3);
+        } while (parent.Item2.action.precondition(parent.Item1.state) <= 0 && i < 3);
 
         return plan;
     }
