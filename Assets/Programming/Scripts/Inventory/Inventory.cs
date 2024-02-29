@@ -41,6 +41,6 @@ public class Inventory : SerializedDictionary<string, InventorySlot>
 
     public bool Has(string key)
     {
-        return ContainsKey(key);
+        return ContainsKey(key) && this[key].count > 0;
     }
 }

@@ -3,20 +3,19 @@
 [Serializable]
 public class EatGoal : Goal
 {
+    public override GoalTypes type => GoalTypes.Satisfaction;
+
     public override Func<ColonistState, float> activationFit
     {
         get => (ColonistState state) => state.needs.hunger;
     }
 
-    public override Func<ColonistState, float> resultFit
+    public override Func<ColonistState, WorldObjectInfo, float> resultFit
     {
-        get => (ColonistState state) => -state.needs.hunger;
+        get => (ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.hunger;
     }
 
-    public EatGoal() : base()
-    {
-        type = GoalTypes.Satisfaction;
-    }
+    public EatGoal() : base() { }
 
-    public EatGoal(Colonist _colonist) : base("Eat.", _colonist, GoalTypes.Satisfaction) { }
+    public EatGoal(Colonist _colonist) : base("Eat.", _colonist) { }
 }

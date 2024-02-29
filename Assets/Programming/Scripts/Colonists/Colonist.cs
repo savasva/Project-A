@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector.Editor.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,41 +74,66 @@ public class Colonist : MonoBehaviour
     [SerializeField]
     int staticAvoidance;
 
-    List<Type> personalGoalPool;
+    List<Goal> personalGoalPool;
+    Sense[] senses;
 
-    void Awake()
+    private void Awake()
     {
         mover = GetComponent<NavMeshAgent>();
 
         //actionQueue = new DoubleEndedQueue<BaseAction>();
         goalQueue = new PriorityQueue<Goal>();
+        senses = GetComponents<Sense>();
         mobileAvoidance = mover.avoidancePriority;
         UpdateState();
     }
 
-    void Start()
+    private void Start()
     {
         /**
          * Initialize goals that can be instantiated by Colonists directly.
          **/
-        personalGoalPool = new List<Type>();
-        personalGoalPool.AddRange(ColonyManager.inst.goalPool);
-        personalGoalPool.AddRange(state.role.roleGoals);
-        personalGoalPool = personalGoalPool.OrderBy((g) => {
-            Goal goal = (Goal)Activator.CreateInstance(g);
-            return (int)goal.type;
-        }).ToList();
+        personalGoalPool = new List<Goal>();
+        personalGoalPool.AddRange(ColonyManager.inst.GlobalGoalPool);
+        personalGoalPool.AddRange(state.role.Goals);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         OnGameTick();
     }
 
-    void UpdateState()
+    private void LateUpdate()
+    {
+        AfterGameTick();
+    }
+
+    private void UpdateState()
     {
         state.position = transform.position;
+    }
+
+    private List<Goal> GoalPool {
+        get
+        {
+            List<Goal> pool = new List<Goal>(personalGoalPool);
+            
+            foreach (Sense sense in senses)
+            {
+                Debug.Log(sense.GetType().Name);
+                foreach (IInteractable obj in sense.Scan())
+                {
+                    pool.AddRange(obj.Goals);
+                }
+            }
+
+            pool = pool.OrderBy((g) => {
+                return (int)g.type;
+            }).ToList();
+
+            return pool;
+        }
     }
 
     /**
@@ -115,15 +141,8 @@ public class Colonist : MonoBehaviour
      * in-game Tick. This is useful incase we want to have things update less frequently than
      * once every frame.
      **/
-    void OnGameTick()
+    private void OnGameTick()
     {
- 
-        if(NeedsGoal)
-        {
-            ChooseGoal();
-            UpdateCurrentGoal();
-        }
-
         //Update Colonists' state based on the currentTask, as well as progress the Task
         if (CurrentAction != null)
         {
@@ -133,13 +152,27 @@ public class Colonist : MonoBehaviour
         state.position = transform.position;
     }
 
+    private void AfterGameTick()
+    {
+        if (NeedsGoal)
+        {
+            ChooseGoal();
+            UpdateCurrentGoal();
+        }
+    }
+
     public void ChooseGoal()
     {
-        foreach (Type goalType in ColonyManager.inst.goalPool)
+        foreach (Goal goal in GoalPool)
         {
-            Goal newGoal = (Goal)Activator.CreateInstance(goalType);
-            if (newGoal.Evaluate(state))
-            {
+            if (goal.Evaluate(state)) {
+                //TODO: Implement COPY function
+                Goal newGoal = goal.DeepCopy();
+                if (goal.GetType() == typeof(ExtinguishGoal))
+                {
+                    ExtinguishGoal eGoal = (ExtinguishGoal)goal;
+                    Debug.Log(eGoal.obj);
+                }
                 newGoal.doer = this;
                 goalQueue.Enqueue(newGoal, 1000 - (int)newGoal.type);
                 return;

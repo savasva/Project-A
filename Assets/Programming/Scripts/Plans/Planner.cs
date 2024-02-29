@@ -2,10 +2,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Planner : MonoBehaviour
 {
     public static Planner inst;
+
+    public const int maxPlanSteps = 3;
 
     static System.Type[] primativeActionTypes = new System.Type[] {
         typeof(INGEST),
@@ -31,7 +34,7 @@ public class Planner : MonoBehaviour
         PlanNode root = plan.AddNode(col.state);
 
         (PlanNode, PlanEdge) parent = (root, null);
-        Func<ColonistState, float> predicate = goal.resultFit;
+        Func<ColonistState, WorldObjectInfo, float> predicate = goal.resultFit;
 
         /**
          * Step 1: Find the type that fulfills the postcondition of our goal.
@@ -75,7 +78,9 @@ public class Planner : MonoBehaviour
              */
             foreach (WorldObject obj in ColonyManager.inst.worldObjects.objects)
             {
-                foreach (BaseAction action in obj.actions)
+                BaseAction[] actions = obj.Actions;
+
+                foreach (BaseAction action in actions)
                 {
                     if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
@@ -107,7 +112,7 @@ public class Planner : MonoBehaviour
             Debug.LogFormat("Selected {0} ({1}) at position {2}.", bestFit.Item2.action.GetType(), bestFit.Item3, i);
 
             i++;
-        } while (parent.Item2.action.precondition(parent.Item1.state) <= 0 && i < 3);
+        } while (parent.Item2.action.precondition(parent.Item1.state, WorldObjectInfo.none) <= 0 && i < maxPlanSteps);
 
         return plan;
     }

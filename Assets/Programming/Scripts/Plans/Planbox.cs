@@ -11,7 +11,7 @@ public abstract class Planbox
         doer = _doer;
     }
 
-    protected static ConditionSet controllablePrecondition;
+    /*protected static ConditionSet controllablePrecondition;
     protected static ConditionSet uncontrollablePrecondition;
     protected static ConditionSet mediatingPrecondition;
 
@@ -19,7 +19,5 @@ public abstract class Planbox
     public static bool Evaluate(ColonistState colState)
     {
         return (controllablePrecondition.IsFulfilled(colState) && uncontrollablePrecondition.IsFulfilled(colState) && mediatingPrecondition.IsFulfilled(colState));
-    }
-
-    public abstract UniTask<bool> Act();
+    }*/
 }

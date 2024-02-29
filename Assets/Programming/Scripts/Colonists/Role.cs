@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public abstract class Role : IInteractable
 {
     public Color color;
-    public virtual Type[] roleGoals {
-        get => new Type[0];
+    public virtual List<Goal> Goals {
+        get => new List<Goal>();
     }
+
+    public BaseAction[] Actions => new BaseAction[0];
 
     public Vector3 GetDestination()
     {
@@ -24,16 +27,10 @@ public abstract class Role : IInteractable
 
 public class EngineerRole : Role
 {
-    public override Type[] roleGoals
-    {
-        get => new Type[0];
-    }
+
 }
 
 public class XenobioRole : Role
 {
-    public override Type[] roleGoals
-    {
-        get => new Type[0];
-    }
+
 }

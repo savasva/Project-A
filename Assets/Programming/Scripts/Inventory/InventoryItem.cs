@@ -4,7 +4,8 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 
-public abstract class InventoryItem : ScriptableObject
+[CreateAssetMenu(fileName = "New Inventory Item", menuName = "Project A/Inventory Item")]
+public class InventoryItem : ScriptableObject
 {
     
 }

@@ -5,45 +5,51 @@ using UnityEngine;
 public class TAKE : BaseAction
 {
     WorldItem worldItem;
+    bool destroyOnComplete = false;
 
     //TODO: Precondition based on ownership?
-    public override Func<ColonistState, float> precondition
+    public override Func<ColonistState, WorldObjectInfo, float> precondition
     {
-        get => (ColonistState state) =>
+        get => (ColonistState colState, WorldObjectInfo objInfo) =>
         {
             //TODO: Should this be an action tied to the Fire Extinguisher itself??
-            return -ActionHelpers.Proximity(state, worldItem);
+            return -ActionHelpers.Proximity(colState, worldItem);
         };
     }
 
     public TAKE() : base() { }
 
-    public TAKE(Colonist _doer, string _name, WorldItem _item) : base(_doer, _name)
+    public TAKE(Colonist _doer, string _name, WorldItem _item, bool _destroyOnComplete = false) : base(_doer, _name)
     {
         worldItem = _item;
         benefit = new Needs(0.01f, 0.01f, 0.01f, 0.01f, 0);
+        destroyOnComplete = _destroyOnComplete;
     }
 
     public override void OnStart()
     {
         worldItem.Take(doer);
-        Complete();
         base.OnStart();
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
+    public override void OnTick()
+    {
+        Complete();
+    }
+
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
     {
         (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
-        foreach (WorldObject obj in ColonyManager.inst.worldObjects.objects)
+        foreach (WorldItem worldItem in ColonyManager.inst.worldItems)
         {
             examinee.inventory.Add(worldItem.item);
 
-            float fit = predicate(examinee);
+            float fit = predicate(examinee, WorldObjectInfo.none);
 
             if (fit > result.Item1)
             {
-                result = (fit, new PTRANS(null, string.Format("Moving to {0}", examinee.position), examinee.position), examinee);
+                result = (fit, new TAKE(null, string.Format("Taking {0}.", worldItem.name), worldItem), examinee);
             }
 
             examinee.inventory.Remove(worldItem.item);

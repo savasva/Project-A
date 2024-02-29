@@ -10,11 +10,11 @@ public class ExtinguishAction : BaseAction
     FlamableProperty prop;
     const float ExtinguishRate = 0.05f;
 
-    public override Func<ColonistState, float> precondition
+    public override Func<ColonistState, WorldObjectInfo, float> precondition
     {
-        get => (ColonistState state) => {
+        get => (ColonistState colState, WorldObjectInfo objInfo) => {
             //TODO: Should this be an action tied to the Fire Extinguisher itself??
-            return (obj.state.aflame && state.inventory.Has("Fire Extinguisher")) ? 1 : -1;
+            return (colState.inventory.Has("Fire Extinguisher")) ? 1 : -1;
         };
     }
 
@@ -27,13 +27,15 @@ public class ExtinguishAction : BaseAction
     {
         base.OnStart();
         prop = (FlamableProperty)obj.info.GetProperty(typeof(FlamableProperty));
+        Debug.Log(obj.name);
+        Debug.Log(prop.burnProgress);
     }
 
     public override void OnTick()
     {
         base.OnTick();
 
-        if (prop.burnProgress == 0)
+        if (prop.burnProgress <= 0)
         {
             Complete();
         }
@@ -43,13 +45,29 @@ public class ExtinguishAction : BaseAction
 
     protected override void Complete()
     {
-        obj.state.aflame = false;
+        obj.info.state.aflame = false;
 
         base.Complete();
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
     {
-        return (predicate(examinee), new ExtinguishAction(obj), examinee);
+        /*foreach (WorldObject currObj in ColonyManager.inst.flamableObjects.objects)
+        {
+            Debug.Log(currObj.info.state.aflame);
+            if (currObj.info.state.aflame)
+            {
+                return (predicate(examinee, currObj.info), new ExtinguishAction(currObj), examinee);
+            }
+        }*/
+
+        Debug.LogFormat("{0}, {1}", obj.info.state.aflame, predicate(examinee, obj.info));
+        if (obj.info.state.aflame)
+        {
+            obj.info.state.aflame = false;
+            return (predicate(examinee, obj.info), new ExtinguishAction(obj), examinee);
+        }
+
+        return (float.MinValue, null, examinee);
     }
 }

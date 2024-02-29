@@ -1,35 +1,43 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class ExtinguishGoal : Goal
 {
-    WorldObject obj;
+    public WorldObject obj;
+
+    public override GoalTypes type => GoalTypes.Crisis;
 
     /// <summary>
     /// Should be true if object is on fire
     /// </summary>
     public override Func<ColonistState, float> activationFit
     {
-        get => (ColonistState state) => obj.state.aflame ? 1f : -1f;
+        get => (ColonistState state) => obj.info.state.aflame ? 1f : -1f;
     }
 
     /// <summary>
     /// Should be true if the object is NOT on fire
     /// </summary>
-    public override Func<ColonistState, float> resultFit
+    public override Func<ColonistState, WorldObjectInfo, float> resultFit
     {
-        get => (ColonistState state) => obj.state.aflame ? -1f : 1f;
+        get => (ColonistState colState, WorldObjectInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f;
     }
 
     public override bool Evaluate(ColonistState state)
     {
-        return state.needs.tiredness >= 0.75f;
+        return obj.info.state.aflame;
     }
 
-    public ExtinguishGoal() : base()
+    public override Goal DeepCopy()
     {
-        type = GoalTypes.Crisis;
+        ExtinguishGoal goal = new ExtinguishGoal(doer, obj);
+        return goal;
     }
 
-    public ExtinguishGoal(Colonist _colonist, WorldObject _obj) : base(string.Format("Extinguish {0}.", _obj.name), _colonist, GoalTypes.Crisis) { }
+    public ExtinguishGoal() : base() { }
+
+    public ExtinguishGoal(Colonist _colonist, WorldObject _obj) : base(string.Format("Extinguish {0}.", _obj.name), _colonist) {
+        obj = _obj;
+    }
 }

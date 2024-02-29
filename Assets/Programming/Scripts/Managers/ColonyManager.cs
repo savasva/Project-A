@@ -15,20 +15,24 @@ public class ColonyManager : MonoBehaviour
      */
     public Dictionary<Role, Colonist> colonists = new Dictionary<Role, Colonist>();
 
-    [Header("Goal Types")]
-    public Type[] goalPool = new Type[]
-    {
-        typeof(SleepGoal),
-        typeof(EatGoal),
-        //typeof(WorldModGoal)
-    };
+    public Goal[] GlobalGoalPool {
+        get {
+            return new Goal[]
+            {
+                new SleepGoal(),
+                new EatGoal()
+            };
+        }
+    }
 
     [Header("Background Info")]
+    public List<WorldItem> worldItems;
     public WorldObjectCollection worldObjects;
     public WorldObjectCollection eatObjects;
     public WorldObjectCollection sleepObjects;
     public WorldObjectCollection workObjects;
     public WorldObjectCollection cainTerminals;
+    public WorldObjectCollection flamableObjects;
     public Consumable[] consumables;
 
     private void Awake()
@@ -48,6 +52,11 @@ public class ColonyManager : MonoBehaviour
 
     public void PopulateWorld()
     {
+        foreach (WorldObject obj in worldObjects.objects)
+        {
+            obj.info.InitProperties(obj);
+        }
+
         foreach(Colonist col in FindObjectsByType<Colonist>(FindObjectsSortMode.None))
         {
             colonists.Add(col.state.role, col);
@@ -119,6 +128,8 @@ public class ColonyManager : MonoBehaviour
     //O(n) with a lot of overhead from FindObjectsOfType
     public void PopulateKnowledgeBackground()
     {
+        worldItems = FindObjectsByType<WorldItem>(FindObjectsSortMode.None).ToList();
+
         //TODO: May be better to populate this by hand, but it only rudns once so shrug emoji.
         worldObjects = new WorldObjectCollection(FindObjectsByType<WorldObject>(FindObjectsSortMode.None).ToList());
 
@@ -129,6 +140,7 @@ public class ColonyManager : MonoBehaviour
         eatObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.benefit.hunger < 0).ToList());
         cainTerminals = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.GetType() == typeof(TerminalObject)).ToList());
         //workObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => typeof(obj.taskType) == typeof(WorkTask)).ToList());
+        flamableObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.info.GetProperty(typeof(FlamableProperty)) != null).ToList());
     }
 
     //TODO: Using WorldObject as a parameter creates a cylic dependency between Colonist and WorldObject. This my bite us in the ass later.

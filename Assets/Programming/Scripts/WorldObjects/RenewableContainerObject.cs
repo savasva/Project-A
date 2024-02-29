@@ -14,10 +14,10 @@ public class RenewableContainerObject : ContainerObject
         RenewableContainerObject container;
         float currRenewTime = 0;
 
-        public override Func<ColonistState, float> precondition
+        public override Func<ColonistState, WorldObjectInfo, float> precondition
         {
-            get => (ColonistState state) => {
-                return -ActionHelpers.Proximity(state, container);
+            get => (ColonistState colState, WorldObjectInfo objInfo) => {
+                return -ActionHelpers.Proximity(colState, container);
             };
         }
 
@@ -48,9 +48,9 @@ public class RenewableContainerObject : ContainerObject
             base.Complete();
         }
 
-        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
+        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
         {
-            return (predicate(examinee), new RenewAction(container), examinee);
+            return (predicate(examinee, WorldObjectInfo.none), new RenewAction(container), examinee);
         }
     }
 }

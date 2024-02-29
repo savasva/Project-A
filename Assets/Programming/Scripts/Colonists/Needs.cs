@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct Needs : IComparable
+public struct Needs
 {
     [Range(-1, 1)]
     public float hunger;
@@ -105,28 +105,5 @@ public struct Needs : IComparable
     public override string ToString()
     {
         return string.Format("Hunger: {0} | Thirst: {1} | Tiredness: {2} | Boredom: {3} | Stress: {4}", hunger, thirst, tiredness, boredom, stress);
-    }
-
-    public bool Evaluate(IComparable other, Condition.Comparison comparison)
-    {
-        if (other.GetType() != typeof(Needs))
-        {
-            Debug.LogError("Evaluations \"other\" needs to be of same type as operand");
-            return false;
-        }
-
-        Needs operand = (Needs)other;
-
-
-        switch(comparison)
-        {
-            case Condition.Comparison.Above:
-                return self > operand;
-
-            case Condition.Comparison.Below:
-                return self < operand;
-        }
-
-        return false;
     }
 }

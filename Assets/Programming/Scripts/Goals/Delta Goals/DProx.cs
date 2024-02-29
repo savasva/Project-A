@@ -7,23 +7,25 @@ using UnityEngine.AI;
 [System.Serializable]
 public class DProx : Goal
 {
+    public override GoalTypes type => GoalTypes.Delta;
+
     Vector3 destination;
 
     public override Func<ColonistState, float> activationFit {
         get => (ColonistState state) => Vector3.Distance(state.position, destination);
     }
-    public override Func<ColonistState, float> resultFit
+    public override Func<ColonistState, WorldObjectInfo, float> resultFit
     {
-        get => (ColonistState state) => -Vector3.Distance(state.position, destination);
+        get => (ColonistState colState, WorldObjectInfo objInfo) => -Vector3.Distance(colState.position, destination);
     }
 
     public DProx(Colonist _colonist, Vector3 _destination)
-        : base(string.Format("Move to {0}", _destination), _colonist, GoalTypes.Delta) {
+        : base(string.Format("Move to {0}", _destination), _colonist) {
         destination = _destination;
     }
 
     public DProx(Colonist _colonist, WorldObject _target)
-        : base(string.Format("Move to {0}", _target.name), _colonist, GoalTypes.Delta)
+        : base(string.Format("Move to {0}", _target.name), _colonist)
     {
         destination = _target.GetDestination();
     }

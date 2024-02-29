@@ -29,7 +29,7 @@ public class Vision : Sense
         }
     }
 
-    protected override List<IInteractable> Scan()
+    public override List<IInteractable> Scan()
     {
         List<IInteractable> valids = new List<IInteractable>();
 

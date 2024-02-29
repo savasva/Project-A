@@ -6,10 +6,10 @@ public class SleepAction : BaseAction
     [SerializeReference]
     public WorldObject bed;
 
-    public override Func<ColonistState, float> precondition
+    public override Func<ColonistState, WorldObjectInfo, float> precondition
     {
-        get => (ColonistState state) => {
-            return -ActionHelpers.Proximity(state, bed);
+        get => (ColonistState colState, WorldObjectInfo objInfo) => {
+            return -ActionHelpers.Proximity(colState, bed);
         };
     }
 
@@ -36,13 +36,13 @@ public class SleepAction : BaseAction
         base.Complete();
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
     {
         //TODO: Update sleep time to be derived from GameTime whenever it is implemented.
         float sleepTime = 200;
 
         examinee.needs += (benefit * sleepTime);
 
-        return (predicate(examinee), new SleepAction(this.bed), examinee);
+        return (predicate(examinee, WorldObjectInfo.none), new SleepAction(bed), examinee);
     }
 }

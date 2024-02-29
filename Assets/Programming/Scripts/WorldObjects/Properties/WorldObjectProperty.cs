@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public abstract class WorldObjectProperty
+public class WorldObjectProperty
 {
-    public abstract List<BaseAction> propActions { get; }
+    public WorldObject obj;
+    public virtual BaseAction[] PropActions { get; }
+    public virtual Goal[] PropGoals { get; }
+
+    public void InitProperty(WorldObject owner)
+    {
+        obj = owner;
+    }
 }

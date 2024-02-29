@@ -16,7 +16,7 @@ public abstract class Sense : MonoBehaviour
         owner = GetComponent<Colonist>();
     }
 
-    protected abstract List<IInteractable> Scan(); 
+    public abstract List<IInteractable> Scan(); 
 
     protected abstract bool IsValid(Transform interactable);
 }

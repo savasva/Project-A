@@ -5,6 +5,8 @@ using UnityEngine;
 //TODO: This should probably be abstracted into a generalized "AskCain" goal.
 public class WorldModGoal : Goal
 {
+    public override GoalTypes type => GoalTypes.Instrumental;
+
     WorldObject terminal;
     string requestText;
     WorldObject modTarget;
@@ -12,7 +14,7 @@ public class WorldModGoal : Goal
     string modMethod;
 
     public WorldModGoal(Colonist _colonist, string _requestText, WorldObject _target, string _method)
-        : base(string.Format("Request for {0}", _requestText), _colonist, GoalTypes.Instrumental)
+        : base(string.Format("Request for {0}", _requestText), _colonist)
     {
         requestText = _requestText;
         modTarget = _target;

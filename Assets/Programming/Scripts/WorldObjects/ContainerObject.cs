@@ -29,13 +29,13 @@ public class ContainerObject : WorldObject
         public ContainerObject vendor;
         public Consumable target;
 
-        public override Func<ColonistState, float> precondition
+        public override Func<ColonistState, WorldObjectInfo, float> precondition
         {
-            get => (ColonistState state) =>
+            get => (ColonistState colState, WorldObjectInfo objInfo) =>
             {
                 if (!vendor.contents.ContainsKey(target.name) || vendor.contents[target.name].count == 0) return float.MinValue;
 
-                return -ActionHelpers.Proximity(state, vendor);
+                return -ActionHelpers.Proximity(colState, vendor);
             };
         }
 
@@ -59,17 +59,17 @@ public class ContainerObject : WorldObject
             Complete();
         }
 
-        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
+        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
         {
             (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
             foreach (KeyValuePair<string, InventorySlot> slot in vendor.contents)
             {
                 examinee.inventory.Add(slot.Value.item);
-                float fit = predicate(examinee);
+                float fit = predicate(examinee, WorldObjectInfo.none);
                 if (fit > result.Item1)
                 {
-                    result = (fit, new VendAction(null, string.Format("Get {0}", slot.Value.item), vendor, (Consumable)slot.Value.item), examinee);
+                    result = (fit, new VendAction(null, string.Format("Get {0} from {1}", slot.Value.item, vendor.name), vendor, (Consumable)slot.Value.item), examinee);
                 }
                 examinee.inventory.Remove(slot.Value.item);
             }

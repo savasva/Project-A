@@ -13,11 +13,11 @@ public class ASK : Planbox
         question = _question;
     }
 
-    public async override UniTask<bool> Act()
+    /*public async override UniTask<bool> Act()
     {
         MTRANS mtrans = new MTRANS(doer, "Ask {0} for {1}.", Random.Range(0f, 10000f).ToString(), question, recipient.stm);
         
 
         return true;
-    }
+    }*/
 }

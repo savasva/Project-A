@@ -18,14 +18,14 @@ public class Goal
         get => (ColonistState state) => 1;
     }
 
-    public virtual Func<ColonistState, float> resultFit {
-        get => (ColonistState state) => 1;
+    public virtual Func<ColonistState, WorldObjectInfo, float> resultFit {
+        get => (ColonistState colState, WorldObjectInfo objInfo) => 1;
     }
 
     public GoalState state = GoalState.Queued;
 
     public string name;
-    public GoalTypes type;
+    public virtual GoalTypes type => GoalTypes.Instrumental;
     
     protected bool subgoal = false;
 
@@ -56,11 +56,10 @@ public class Goal
 
     public Goal() { }
 
-    public Goal(string _name, Colonist _colonist, GoalTypes _type)
+    public Goal(string _name, Colonist _colonist)
     {
         name = _name;
         doer = _colonist;
-        type = _type;
     }
 
     public virtual bool Evaluate(ColonistState state)
@@ -123,6 +122,13 @@ public class Goal
     {
         actionQueueVisualizer = plan.stack.ToList();
         subgoalQueueVisualizer = subgoalQueue.ToList();
+    }
+
+    public virtual Goal DeepCopy()
+    {
+        Goal newGoal = (Goal)Activator.CreateInstance(GetType());
+
+        return newGoal;
     }
 
     public enum GoalTypes

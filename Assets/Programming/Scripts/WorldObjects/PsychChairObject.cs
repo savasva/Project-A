@@ -10,10 +10,10 @@ public class PsychChairObject : WorldObject
         [SerializeField]
         PsychChairObject seat;
 
-        public override Func<ColonistState, float> precondition
+        public override Func<ColonistState, WorldObjectInfo, float> precondition
         {
-            get => (ColonistState state) => {
-                return -ActionHelpers.Proximity(state, seat);
+            get => (ColonistState colState, WorldObjectInfo objInfo) => {
+                return -ActionHelpers.Proximity(colState, seat);
             };
         }
 
@@ -45,14 +45,14 @@ public class PsychChairObject : WorldObject
         /// <param name="goal"></param>
         /// <param name="examinee"></param>
         /// <returns></returns>
-        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, float> predicate, ColonistState examinee)
+        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
         {
             //TODO: Update sleep time to be derived from GameTime whenever it is implemented.
             float sleepTime = 200;
 
             examinee.needs += (benefit * sleepTime);
 
-            return (predicate(examinee), new TherapyAction(this.seat), examinee);
+            return (predicate(examinee, WorldObjectInfo.none), new TherapyAction(this.seat), examinee);
         }
     }
 }
