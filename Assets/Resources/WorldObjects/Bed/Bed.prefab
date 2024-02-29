@@ -506,8 +506,9 @@ MonoBehaviour:
   actions:
   - rid: 5548853152682082600
   info:
-    name: 
-    attributes: 
+    name: Bed
+    properties:
+    - rid: 7034652963203973138
   state:
     aflame: 0
   moveDestination: {fileID: 5400659094450308219}
@@ -574,6 +575,10 @@ MonoBehaviour:
           boredom: 0
           stress: 0
         bed: {fileID: 8480494012797222416}
+    - rid: 7034652963203973138
+      type: {class: FlamableProperty, ns: , asm: Assembly-CSharp}
+      data:
+        burnProgress: 0
 --- !u!208 &4241376170239381255
 NavMeshObstacle:
   m_ObjectHideFlags: 0

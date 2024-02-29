@@ -11,6 +11,7 @@ public class Planner : MonoBehaviour
         typeof(INGEST),
         //typeof(MTRANS),
         typeof(PTRANS),
+        typeof(TAKE)
     };
 
     BaseAction[] objectActions;

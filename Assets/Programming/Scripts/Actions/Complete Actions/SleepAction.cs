@@ -9,7 +9,7 @@ public class SleepAction : BaseAction
     public override Func<ColonistState, float> precondition
     {
         get => (ColonistState state) => {
-            return -bed.Proximity(state);
+            return -ActionHelpers.Proximity(state, bed);
         };
     }
 

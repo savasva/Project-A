@@ -28,7 +28,6 @@ public class PTRANS : BaseAction
 
         if (doer.mover.hasPath && doer.mover.remainingDistance <= doer.mover.stoppingDistance)
         {
-            Debug.Log("Complete!");
             doer.mover.ResetPath();
             Complete();
         }

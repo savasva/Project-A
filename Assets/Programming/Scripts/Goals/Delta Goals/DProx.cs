@@ -17,13 +17,13 @@ public class DProx : Goal
         get => (ColonistState state) => -Vector3.Distance(state.position, destination);
     }
 
-    public DProx(Colonist _colonist, bool _subgoal, Vector3 _destination, Goal _owner = null)
-        : base(string.Format("Move to {0}", _destination), _colonist, _subgoal, GoalTypes.Delta, _owner) {
+    public DProx(Colonist _colonist, Vector3 _destination)
+        : base(string.Format("Move to {0}", _destination), _colonist, GoalTypes.Delta) {
         destination = _destination;
     }
 
-    public DProx(Colonist _colonist, bool _subgoal, WorldObject _target, Goal _owner = null)
-        : base(string.Format("Move to {0}", _target.name), _colonist, _subgoal, GoalTypes.Delta, _owner)
+    public DProx(Colonist _colonist, WorldObject _target)
+        : base(string.Format("Move to {0}", _target.name), _colonist, GoalTypes.Delta)
     {
         destination = _target.GetDestination();
     }
@@ -56,10 +56,10 @@ public class DProx : Goal
         Debug.Log(obstacle.name);
         if (obstacle.GetType() == typeof(DoorObject))
         {
-            WorldModGoal igoal = new WorldModGoal(doer, true, "CAIN, please open the door.", obstacle, "Open", owner);
-            Interrupt(igoal);
+            WorldModGoal igoal = new WorldModGoal(doer, "CAIN, please open the door.", obstacle, "Open");
+            //Interrupt(igoal);
 
-            return;
+            //return;
         }
 
         throw new NotImplementedException(string.Format("The type {0} has no HandleObstacle implementation.", obstacle.GetType()));

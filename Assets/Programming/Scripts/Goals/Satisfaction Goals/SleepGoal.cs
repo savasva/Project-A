@@ -1,22 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using Cysharp.Threading.Tasks;
+﻿using System;
 
 [System.Serializable]
 public class SleepGoal : Goal
 {
-    WorldObject bed;
-    Needs benefit = new Needs(0, 0, -0.2f, 0, -0.05f);
-
-    /*protected override ConditionSet preconditions
-    {
-        get
-        {
-            return new ConditionSet(new Condition(new Needs(-10f, -10f, 0.8f), Condition.Comparison.Above));
-        }
-    }*/
-
     /// <summary>
     /// Should be true if the Colonist IS tired
     /// </summary>
@@ -41,5 +27,5 @@ public class SleepGoal : Goal
         type = GoalTypes.Satisfaction;
     }
 
-    public SleepGoal(Colonist _colonist, bool _subgoal, Goal _owner = null) : base("Get some sleep.", _colonist, _subgoal, GoalTypes.Satisfaction, _owner) { }
+    public SleepGoal(Colonist _colonist) : base("Get some sleep.", _colonist, GoalTypes.Satisfaction) { }
 }

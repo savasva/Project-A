@@ -11,8 +11,8 @@ public class WorldModGoal : Goal
     //This is a method to be run on the given modTarget. Will be executed with Broadcast.
     string modMethod;
 
-    public WorldModGoal(Colonist _colonist, bool _subgoal, string _requestText, WorldObject _target, string _method, Goal _owner = null)
-        : base(string.Format("Request for {0}", _requestText), _colonist, _subgoal, GoalTypes.Instrumental, _owner)
+    public WorldModGoal(Colonist _colonist, string _requestText, WorldObject _target, string _method)
+        : base(string.Format("Request for {0}", _requestText), _colonist, GoalTypes.Instrumental)
     {
         requestText = _requestText;
         modTarget = _target;
@@ -20,6 +20,7 @@ public class WorldModGoal : Goal
         terminal = ColonyManager.inst.cainTerminals.GetNearestObject(doer);
     }
 
+    /*
     public async override UniTask<bool> Body(bool interrupt)
     {
         DProx dprox = new DProx(doer, true, terminal.GetDestination(), this);
@@ -36,7 +37,7 @@ public class WorldModGoal : Goal
         return true;
     }
 
-    /*public override void OnStart()
+    public override void OnStart()
     {
         owner.QueueAction(BuildCainMovement());
         owner.QueueAction(new UnoccupiedAction(owner, true));

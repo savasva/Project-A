@@ -38,4 +38,9 @@ public class Inventory : SerializedDictionary<string, InventorySlot>
         
         this[item.name].count--;
     }
+
+    public bool Has(string key)
+    {
+        return ContainsKey(key);
+    }
 }

@@ -13,7 +13,7 @@ public class PsychChairObject : WorldObject
         public override Func<ColonistState, float> precondition
         {
             get => (ColonistState state) => {
-                return -seat.Proximity(state);
+                return -ActionHelpers.Proximity(state, seat);
             };
         }
 

@@ -35,7 +35,7 @@ public class ContainerObject : WorldObject
             {
                 if (!vendor.contents.ContainsKey(target.name) || vendor.contents[target.name].count == 0) return float.MinValue;
 
-                return -vendor.Proximity(state);
+                return -ActionHelpers.Proximity(state, vendor);
             };
         }
 

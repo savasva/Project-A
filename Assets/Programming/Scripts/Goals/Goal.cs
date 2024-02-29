@@ -10,7 +10,6 @@ public class Goal
     /**
      * Parameters
      **/
-    protected Goal owner;
     public Colonist doer = null;
 
     public Plan plan;
@@ -55,21 +54,13 @@ public class Goal
     public bool NeedsSubgoal { get { return subgoalQueue.Count == 0; } }
     public int SubgoalCount { get { return subgoalQueue.Count; } }
 
-    public Goal() {
-        owner = this;
-    }
+    public Goal() { }
 
-    public Goal(string _name, Colonist _colonist, bool _subgoal, GoalTypes _type, Goal _owner = null)
+    public Goal(string _name, Colonist _colonist, GoalTypes _type)
     {
         name = _name;
-        subgoal = _subgoal;
         doer = _colonist;
         type = _type;
-
-        if (_owner == null)
-            owner = this;
-        else
-            owner = _owner;
     }
 
     public virtual bool Evaluate(ColonistState state)
@@ -77,16 +68,6 @@ public class Goal
         //return preconditionFit(col.state);
         return false;
     }
-
-    public async UniTask<bool> Execute(bool interrupt)
-    {
-        state = GoalState.Started;
-        return await Body(interrupt);
-    }
-
-    public async virtual UniTask<bool> Body(bool interrupt) { return true; }
-
-    public async virtual UniTask<bool> Do() { return true; }
 
     public bool CompleteGoal()
     {
@@ -102,11 +83,7 @@ public class Goal
     }
 
     public virtual void CleanUp() {
-        if (!subgoal)
-            doer.CompleteGoal();
-        else
-            DequeueSubgoal();
-        //Debug.Log("Cleaned up!");
+        doer.CompleteGoal();;
     }
 
     public void SetPlan(Plan newPlan)
@@ -117,12 +94,6 @@ public class Goal
 
     protected void EnqueueAction(BaseAction action)
     {
-        if (owner != this)
-        {
-            owner.EnqueueAction(action);
-            return;
-        }
-
         plan.stack.Enqueue(action);
 
         UpdatePreviews();
@@ -140,88 +111,11 @@ public class Goal
 
     public void CompleteAction()
     {
-        if (owner != this)
-        {
-            owner.CompleteAction();
-            return;
-        }
         plan.stack.Dequeue();
 
         if (plan.stack.Count == 0)
-            owner.CompleteGoal();
+            CompleteGoal();
 
-        UpdatePreviews();
-    }
-
-    protected void EnqueueSubgoal(Goal subgoal)
-    {
-        if (owner != this)
-        {
-            owner.EnqueueSubgoal(subgoal);
-            return;
-        }
-
-        subgoalQueue.Enqueue(subgoal);
-        UpdateCurrentSubgoal();
-        UpdatePreviews();
-    }
-
-    protected Goal DequeueSubgoal()
-    {
-        if (owner != this)
-        {
-            return owner.DequeueSubgoal();
-        }
-        if (NeedsSubgoal) return null;
-
-        Goal dequeued = subgoalQueue.Dequeue();
-        //UpdateCurrentSubgoal();
-        UpdatePreviews();
-        return dequeued;
-    }
-
-    protected void Interrupt(Goal subgoal)
-    {
-        if (owner != this)
-        {
-            owner.Interrupt(subgoal);
-            return;
-        }
-
-        state = GoalState.Interrupted;
-        CurrentAction.OnInterrupted();
-        subgoalQueue.AddFirst(subgoal);
-        UpdateCurrentSubgoal(true);
-        Debug.Log(state);
-        UpdatePreviews();
-    }
-
-    protected void UpdateCurrentSubgoal(bool interrupt = false)
-    {
-        if (owner != this)
-        {
-            owner.UpdateCurrentSubgoal(interrupt);
-            return;
-        }
-
-        if (!NeedsSubgoal && CurrentSubgoal.state != GoalState.Started)
-        {
-            Debug.LogFormat("{0}: Executing Subgoal {1}", GetType(), CurrentSubgoal.GetType());
-            CurrentSubgoal.Execute(interrupt);
-        }
-
-        UpdatePreviews();
-    }
-
-    protected void CompleteSubgoal()
-    {
-        if (owner != this)
-        {
-            owner.CompleteSubgoal();
-            return;
-        }
-        subgoalQueue.Dequeue();
-        UpdateCurrentSubgoal();
         UpdatePreviews();
     }
 

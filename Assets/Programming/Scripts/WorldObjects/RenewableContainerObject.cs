@@ -17,7 +17,7 @@ public class RenewableContainerObject : ContainerObject
         public override Func<ColonistState, float> precondition
         {
             get => (ColonistState state) => {
-                return -container.Proximity(state);
+                return -ActionHelpers.Proximity(state, container);
             };
         }
 

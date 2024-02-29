@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,32 +77,23 @@ public class WorldObject : MonoBehaviour, IInteractable
     {
         return gameObject;
     }
-
-    /// <summary>
-    /// Gives the distance between a colonist and this object.
-    /// </summary>
-    /// <param name="state"></param>
-    /// <returns></returns>
-    public float Proximity(ColonistState state)
-    {
-        return Vector3.Distance(state.position, moveDestination.position);
-    }
 }
 
 [System.Serializable]
 public struct WorldObjectInfo
 {
     public string name;
-    public List<WorldObjectAttributes> attributes;
+    [SerializeReference]
+    public List<WorldObjectProperty> properties;
+
+    public WorldObjectProperty GetProperty(Type property)
+    {
+        return properties.Find(p => p.GetType() == property);
+    }
 }
 
 [System.Serializable]
 public struct WorldObjectState
 {
     public bool aflame;
-}
-
-public enum WorldObjectAttributes
-{
-    Flamable
 }
