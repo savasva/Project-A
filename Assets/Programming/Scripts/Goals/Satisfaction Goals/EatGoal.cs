@@ -5,14 +5,9 @@ public class EatGoal : Goal
 {
     public override GoalTypes type => GoalTypes.Satisfaction;
 
-    public override Func<ColonistState, float> activationFit
+    public override Condition resultFit
     {
-        get => (ColonistState state) => state.needs.hunger;
-    }
-
-    public override Func<ColonistState, WorldObjectInfo, float> resultFit
-    {
-        get => (ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.hunger;
+        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.hunger);
     }
 
     public EatGoal() : base() { }

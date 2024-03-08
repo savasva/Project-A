@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class BaseAction
 {
-    public virtual Func<ColonistState, WorldObjectInfo, float> precondition
+    public virtual Condition[] preconditions
     {
-        get => (ColonistState colState, WorldObjectInfo objInfo) => 1;
-    }
-
-    public virtual Func<ColonistState, float> postcondition
-    {
-        get => (ColonistState state) => 1;
+        get => new Condition[0];
     }
 
     public ActionState state = ActionState.Queued;

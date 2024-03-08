@@ -6,10 +6,12 @@ public class SleepAction : BaseAction
     [SerializeReference]
     public WorldObject bed;
 
-    public override Func<ColonistState, WorldObjectInfo, float> precondition
+    public override Condition[] preconditions
     {
-        get => (ColonistState colState, WorldObjectInfo objInfo) => {
-            return -ActionHelpers.Proximity(colState, bed);
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                return -ActionHelpers.Proximity(colState, bed);
+            })
         };
     }
 

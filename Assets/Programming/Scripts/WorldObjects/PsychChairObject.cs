@@ -10,10 +10,12 @@ public class PsychChairObject : WorldObject
         [SerializeField]
         PsychChairObject seat;
 
-        public override Func<ColonistState, WorldObjectInfo, float> precondition
+        public override Condition[] preconditions
         {
-            get => (ColonistState colState, WorldObjectInfo objInfo) => {
-                return -ActionHelpers.Proximity(colState, seat);
+            get => new Condition[] {
+                new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                    return -ActionHelpers.Proximity(colState, seat);
+                })
             };
         }
 

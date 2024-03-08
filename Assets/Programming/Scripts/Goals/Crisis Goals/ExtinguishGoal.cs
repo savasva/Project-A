@@ -9,19 +9,11 @@ public class ExtinguishGoal : Goal
     public override GoalTypes type => GoalTypes.Crisis;
 
     /// <summary>
-    /// Should be true if object is on fire
+    /// Should be positive if the object is NOT on fire
     /// </summary>
-    public override Func<ColonistState, float> activationFit
+    public override Condition resultFit
     {
-        get => (ColonistState state) => obj.info.state.aflame ? 1f : -1f;
-    }
-
-    /// <summary>
-    /// Should be true if the object is NOT on fire
-    /// </summary>
-    public override Func<ColonistState, WorldObjectInfo, float> resultFit
-    {
-        get => (ColonistState colState, WorldObjectInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f;
+        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f);
     }
 
     public override bool Evaluate(ColonistState state)

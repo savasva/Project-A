@@ -4,19 +4,15 @@ using UnityEngine;
 [System.Serializable]
 public class INGEST : BaseAction
 {
-    public override Func<ColonistState, WorldObjectInfo, float> precondition
+    public override Condition[] preconditions
     {
-        get => (ColonistState colState, WorldObjectInfo objInfo) =>
-        {
-            if (!colState.inventory.ContainsKey(target.name) || colState.inventory[target.name].count == 0) return float.MinValue;
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                if (!colState.inventory.ContainsKey(target.name) || colState.inventory[target.name].count == 0) return float.MinValue;
 
-            return colState.inventory[target.name].count;
+                return colState.inventory[target.name].count;
+            })
         };
-    }
-
-    public override Func<ColonistState, float> postcondition
-    {
-        get => (ColonistState state) => Needs.Difference(state.needs, state.needs + target.nourishment);
     }
 
     Consumable target;

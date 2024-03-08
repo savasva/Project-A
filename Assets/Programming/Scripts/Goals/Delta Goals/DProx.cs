@@ -11,12 +11,9 @@ public class DProx : Goal
 
     Vector3 destination;
 
-    public override Func<ColonistState, float> activationFit {
-        get => (ColonistState state) => Vector3.Distance(state.position, destination);
-    }
-    public override Func<ColonistState, WorldObjectInfo, float> resultFit
+    public override Condition resultFit
     {
-        get => (ColonistState colState, WorldObjectInfo objInfo) => -Vector3.Distance(colState.position, destination);
+        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -Vector3.Distance(colState.position, destination));
     }
 
     public DProx(Colonist _colonist, Vector3 _destination)

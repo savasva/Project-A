@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class Plan
         stack = new DoubleEndedQueue<BaseAction>();
     }
 
-    public PlanNode AddNode(ColonistState state)
+    /*public PlanNode AddNode(ColonistState state)
     {
         PlanNode newNode = new PlanNode(state);
         nodes.Add(newNode);
@@ -48,5 +49,5 @@ public class Plan
         newEdge.SetWeight(weight);
 
         return newEdge;
-    }
+    }*/
 }

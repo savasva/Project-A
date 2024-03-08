@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: Should this be an action tied to the Fire Extinguisher itself??
 public class ExtinguishAction : BaseAction
 {
     [SerializeField]
@@ -10,11 +11,16 @@ public class ExtinguishAction : BaseAction
     FlamableProperty prop;
     const float ExtinguishRate = 0.05f;
 
-    public override Func<ColonistState, WorldObjectInfo, float> precondition
+    public override Condition[] preconditions
     {
-        get => (ColonistState colState, WorldObjectInfo objInfo) => {
-            //TODO: Should this be an action tied to the Fire Extinguisher itself??
-            return (colState.inventory.Has("Fire Extinguisher")) ? 1 : -1;
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                return -ActionHelpers.Proximity(colState, obj);
+            }),
+            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                return colState.inventory.Has("Fire Extinguisher") ? 1 : -1;
+            })
+            
         };
     }
 
@@ -61,11 +67,13 @@ public class ExtinguishAction : BaseAction
             }
         }*/
 
-        Debug.LogFormat("{0}, {1}", obj.info.state.aflame, predicate(examinee, obj.info));
+        //Debug.LogFormat("{0}, {1}", obj.info.state.aflame, predicate(examinee, obj.info));
         if (obj.info.state.aflame)
         {
             obj.info.state.aflame = false;
-            return (predicate(examinee, obj.info), new ExtinguishAction(obj), examinee);
+            float fit = predicate(examinee, obj.info);
+            obj.info.state.aflame = true;
+            return (fit, new ExtinguishAction(obj), examinee);
         }
 
         return (float.MinValue, null, examinee);

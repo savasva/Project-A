@@ -29,19 +29,16 @@ public class ContainerObject : WorldObject
         public ContainerObject vendor;
         public Consumable target;
 
-        public override Func<ColonistState, WorldObjectInfo, float> precondition
+        public override Condition[] preconditions
         {
-            get => (ColonistState colState, WorldObjectInfo objInfo) =>
-            {
-                if (!vendor.contents.ContainsKey(target.name) || vendor.contents[target.name].count == 0) return float.MinValue;
+            get => new Condition[] {
+                new Condition((ColonistState colState, WorldObjectInfo objInfo) =>
+                {
+                    if (!vendor.contents.ContainsKey(target.name) || vendor.contents[target.name].count == 0) return float.MinValue;
 
-                return -ActionHelpers.Proximity(colState, vendor);
+                    return -ActionHelpers.Proximity(colState, vendor);
+                })
             };
-        }
-
-        public override Func<ColonistState, float> postcondition
-        {
-            get => (ColonistState state) => Needs.Difference(state.needs, state.needs + target.nourishment);
         }
 
         public VendAction() : base() { }

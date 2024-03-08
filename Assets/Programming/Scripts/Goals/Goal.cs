@@ -14,12 +14,8 @@ public class Goal
 
     public Plan plan;
 
-    public virtual Func<ColonistState, float> activationFit {
-        get => (ColonistState state) => 1;
-    }
-
-    public virtual Func<ColonistState, WorldObjectInfo, float> resultFit {
-        get => (ColonistState colState, WorldObjectInfo objInfo) => 1;
+    public virtual Condition resultFit {
+        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => 1);
     }
 
     public GoalState state = GoalState.Queued;

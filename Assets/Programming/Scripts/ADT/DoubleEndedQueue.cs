@@ -11,6 +11,7 @@ public class DoubleEndedQueue<T>
     public int Count { get { return queue.Count - 1; } }
     //TODO: default(T) may have unexpected consequences for us later. Be careful of using this function! Debug.Log is your friend.
     public LinkedListNode<T> Head { get { return queue.First; } }
+    public LinkedListNode<T> Tail { get { return queue.Last; } }
     LinkedListNode<T> _cursor;
     public LinkedListNode<T> Cursor { get { return _cursor; } }
     public T First { get { if (Count > 0) return Head.Next.Value; else return default(T); } }

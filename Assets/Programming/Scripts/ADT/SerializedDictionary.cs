@@ -12,22 +12,22 @@ public abstract class SerializedDictionary<TKey, TValue> : Dictionary<TKey, TVal
 
 	void ISerializationCallbackReceiver.OnAfterDeserialize()
 	{
-		this.Clear();
-		for (int i = 0; i < this.keyData.Count && i < this.valueData.Count; i++)
+		Clear();
+		for (int i = 0; i < keyData.Count && i < valueData.Count; i++)
 		{
-			this[this.keyData[i]] = this.valueData[i];
+			this[keyData[i]] = valueData[i];
 		}
 	}
 
 	void ISerializationCallbackReceiver.OnBeforeSerialize()
 	{
-		this.keyData.Clear();
-		this.valueData.Clear();
+		keyData.Clear();
+		valueData.Clear();
 
 		foreach (var item in this)
 		{
-			this.keyData.Add(item.Key);
-			this.valueData.Add(item.Value);
+			keyData.Add(item.Key);
+			valueData.Add(item.Value);
 		}
 	}
 }

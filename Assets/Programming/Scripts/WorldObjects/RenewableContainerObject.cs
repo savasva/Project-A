@@ -14,10 +14,12 @@ public class RenewableContainerObject : ContainerObject
         RenewableContainerObject container;
         float currRenewTime = 0;
 
-        public override Func<ColonistState, WorldObjectInfo, float> precondition
+        public override Condition[] preconditions
         {
-            get => (ColonistState colState, WorldObjectInfo objInfo) => {
-                return -ActionHelpers.Proximity(colState, container);
+            get => new Condition[] {
+                new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                    return -ActionHelpers.Proximity(colState, container);
+                })
             };
         }
 

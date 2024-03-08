@@ -36,4 +36,6 @@ public class PlanEdge
     {
         weight = newWeight;
     }
+
+    public float Weight => weight;
 }

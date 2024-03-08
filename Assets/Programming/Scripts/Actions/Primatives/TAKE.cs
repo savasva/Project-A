@@ -8,12 +8,14 @@ public class TAKE : BaseAction
     bool destroyOnComplete = false;
 
     //TODO: Precondition based on ownership?
-    public override Func<ColonistState, WorldObjectInfo, float> precondition
+    public override Condition[] preconditions
     {
-        get => (ColonistState colState, WorldObjectInfo objInfo) =>
-        {
-            //TODO: Should this be an action tied to the Fire Extinguisher itself??
-            return -ActionHelpers.Proximity(colState, worldItem);
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjectInfo objInfo) =>
+            {
+                //TODO: Should this be an action tied to the Fire Extinguisher itself??
+                return -ActionHelpers.Proximity(colState, worldItem);
+            })
         };
     }
 
@@ -50,6 +52,7 @@ public class TAKE : BaseAction
             if (fit > result.Item1)
             {
                 result = (fit, new TAKE(null, string.Format("Taking {0}.", worldItem.name), worldItem), examinee);
+                Debug.Log(worldItem.name);
             }
 
             examinee.inventory.Remove(worldItem.item);
