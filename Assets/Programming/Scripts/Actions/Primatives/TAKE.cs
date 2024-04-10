@@ -8,7 +8,7 @@ public class TAKE : BaseAction
     bool destroyOnComplete = false;
 
     //TODO: Precondition based on ownership?
-    public override Condition[] preconditions
+    public override Condition[] controllablePreconditions
     {
         get => new Condition[] {
             new Condition((ColonistState colState, WorldObjectInfo objInfo) =>
@@ -24,7 +24,6 @@ public class TAKE : BaseAction
     public TAKE(Colonist _doer, string _name, WorldItem _item, bool _destroyOnComplete = false) : base(_doer, _name)
     {
         worldItem = _item;
-        benefit = new Needs(0.01f, 0.01f, 0.01f, 0.01f, 0);
         destroyOnComplete = _destroyOnComplete;
     }
 

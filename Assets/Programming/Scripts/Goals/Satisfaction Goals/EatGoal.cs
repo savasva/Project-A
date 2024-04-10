@@ -10,6 +10,11 @@ public class EatGoal : Goal
         get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.hunger);
     }
 
+    public override bool Evaluate(ColonistState state)
+    {
+        return state.needs.hunger >= 0.8f;
+    }
+
     public EatGoal() : base() { }
 
     public EatGoal(Colonist _colonist) : base("Eat.", _colonist) { }

@@ -1,18 +1,24 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class BaseAction
 {
-    public virtual Condition[] preconditions
+    public virtual Condition[] controllablePreconditions
     {
         get => new Condition[0];
+    }
+
+    public virtual bool[] uncontrollablePreconditions
+    {
+        get => new bool[0];
     }
 
     public ActionState state = ActionState.Queued;
 
     public Colonist doer;
     public string name = "Unnamed Task";
-    public Needs benefit = new Needs();
+    public virtual Needs Benefit => new Needs();
     public Action OnComplete = () => { };
 
     public BaseAction() { }
@@ -36,6 +42,7 @@ public class BaseAction
      **/
     public virtual void OnTick() {
         if (state != ActionState.Started) return;
+        doer.state.needs += Benefit * Time.deltaTime;
     }
 
     public virtual void OnInterrupted()
@@ -63,6 +70,16 @@ public class BaseAction
     public virtual (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
     {
         return (0f, null, ColonistState.none);
+    }
+
+    protected bool IsValid()
+    {
+        foreach (bool cond in uncontrollablePreconditions)
+        {
+            if (!cond) return false;
+        }
+
+        return true;
     }
 
     public enum ActionState

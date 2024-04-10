@@ -14,7 +14,7 @@ public class RenewableContainerObject : ContainerObject
         RenewableContainerObject container;
         float currRenewTime = 0;
 
-        public override Condition[] preconditions
+        public override Condition[] controllablePreconditions
         {
             get => new Condition[] {
                 new Condition((ColonistState colState, WorldObjectInfo objInfo) => {

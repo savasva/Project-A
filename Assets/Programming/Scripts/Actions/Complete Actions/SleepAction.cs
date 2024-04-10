@@ -6,7 +6,7 @@ public class SleepAction : BaseAction
     [SerializeReference]
     public WorldObject bed;
 
-    public override Condition[] preconditions
+    public override Condition[] controllablePreconditions
     {
         get => new Condition[] {
             new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
@@ -15,9 +15,23 @@ public class SleepAction : BaseAction
         };
     }
 
+    public override bool[] uncontrollablePreconditions
+    {
+        get => new bool[]
+        {
+            bed.queue.Count == 0
+        };
+    }
+
     public SleepAction(WorldObject _obj)
     {
         bed = _obj;
+    }
+
+    public override void OnStart()
+    {
+        bed.queue.Add(doer);
+        base.OnStart();
     }
 
     public override void OnTick()
@@ -34,16 +48,21 @@ public class SleepAction : BaseAction
 
     protected override void Complete()
     {
-        doer.mover.ResetPath();
+        bed.queue.Remove(doer);
         base.Complete();
     }
 
     public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
     {
+        if (!IsValid())
+        {
+            return (float.MinValue, null, examinee);
+        }
+
         //TODO: Update sleep time to be derived from GameTime whenever it is implemented.
         float sleepTime = 200;
 
-        examinee.needs += (benefit * sleepTime);
+        examinee.needs += (Benefit * sleepTime);
 
         return (predicate(examinee, WorldObjectInfo.none), new SleepAction(bed), examinee);
     }

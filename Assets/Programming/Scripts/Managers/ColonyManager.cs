@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System;
-using UnityEngine.AI;
 
 public class ColonyManager : MonoBehaviour
 {
@@ -24,6 +22,10 @@ public class ColonyManager : MonoBehaviour
             };
         }
     }
+
+    [Header("Gameplay")]
+    public float currentEnergy;
+    public float maxEnergy = 100;
 
     [Header("Background Info")]
     public List<WorldItem> worldItems;
@@ -48,6 +50,7 @@ public class ColonyManager : MonoBehaviour
     private void Start()
     {
         PopulateWorld();
+        currentEnergy = maxEnergy;
     }
 
     public void PopulateWorld()

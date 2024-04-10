@@ -26,8 +26,6 @@ public class Planner : MonoBehaviour
 
     public static (ColonistState, BaseAction) GetBestAction(Colonist col, ColonistState comparisonState, Condition cond)
     {
-        //PlanNode bestAction = new PlanNode(colState);
-        //PlanEdge bestEdge = new PlanEdge(null, null, null, float.MinValue);
         PlanEdge bestAction = new PlanEdge(null, null, null, float.MinValue);
         ColonistState bestState = comparisonState;
 
@@ -97,7 +95,7 @@ public class Planner : MonoBehaviour
 
         currentPlan.stack.AddFirst(bestAction);
 
-        foreach (Condition precondition in bestAction.preconditions)
+        foreach (Condition precondition in bestAction.controllablePreconditions)
         {
             float predicateFit = precondition.predicate(bestState, WorldObjectInfo.none);
             if (predicateFit <= 0)

@@ -166,24 +166,12 @@ public class Colonist : MonoBehaviour
         foreach (Goal goal in GoalPool)
         {
             if (goal.Evaluate(state)) {
-                //TODO: Implement COPY function
                 Goal newGoal = goal.DeepCopy();
-                if (goal.GetType() == typeof(ExtinguishGoal))
-                {
-                    ExtinguishGoal eGoal = (ExtinguishGoal)goal;
-                    Debug.Log(eGoal.obj);
-                }
                 newGoal.doer = this;
                 goalQueue.Enqueue(newGoal, 1000 - (int)newGoal.type);
                 return;
             }
         }
-
-        //If no goal applies, just wander.
-        /*Vector2 ranCirc = UnityEngine.Random.insideUnitCircle * 10;
-        Vector3 wanderDest = new Vector3(ranCirc.x, transform.position.y, ranCirc.y);
-
-        goalQueue.Enqueue(new DProx(this, false, wanderDest), 0);*/
     }
 
     /// <summary>
@@ -194,7 +182,8 @@ public class Colonist : MonoBehaviour
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
             Debug.LogFormat("Executing Goal {0}", CurrentGoal.value.GetType());
-            CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
+            currentPlan = Planner.BuildPlan(this, CurrentGoal.value);
+            CurrentGoal.value.SetPlan(currentPlan);
             //CurrentGoal.value.Execute(false);
         }
 

@@ -5,12 +5,12 @@ using UnityEngine;
 public class PTRANS : BaseAction
 {
     Vector3 dest;
+    public override Needs Benefit => new Needs(0.01f, 0.01f, 0.01f, 0.01f, 0);
 
     public PTRANS(): base() { }
 
     public PTRANS(Colonist _doer, string _name, Vector3 _dest) : base(_doer, _name) {
         dest = _dest;
-        benefit = new Needs(0.01f, 0.01f, 0.01f, 0.01f, 0);
     }
 
     public override void OnStart()
@@ -23,9 +23,6 @@ public class PTRANS : BaseAction
     public override void OnTick()
     {
         base.OnTick();
-
-        doer.state.needs += benefit * Time.deltaTime;
-
         if (doer.mover.hasPath && doer.mover.remainingDistance <= doer.mover.stoppingDistance)
         {
             doer.mover.ResetPath();

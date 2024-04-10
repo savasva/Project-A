@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5400659094450308219}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: MoveDest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4044645552105754082}
   - component: {fileID: 7258850635091215089}
   - component: {fileID: 4437277543504029095}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Pillow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 3682452796426566302}
   - component: {fileID: -4554007110461324599}
   - component: {fileID: 4241376170239381255}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,12 +206,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cfe2cac11c504756af4ffc2d739e9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions:
+  - rid: 7317707531814699008
+  info:
+    name: 
+    properties:
+    - rid: 7317707531814699009
+    state:
+      isNone: 0
+      aflame: 0
   moveDestination: {fileID: 5400659094450308219}
   benefit:
     hunger: 0
     thirst: 0
     tiredness: -0.05
+    boredom: 0
+    stress: 0
   obstacle: 0
+  queueable: 0
   queue: []
   tasks: []
   bias:
@@ -251,8 +263,21 @@ MonoBehaviour:
     adventurousness: 0
     liberalism: 0
   room: {fileID: 0}
-  owner: {fileID: 0}
-  taskType: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7317707531814699008
+      type: {class: SleepAction, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        doer: {fileID: 0}
+        name: Get some sleep.
+        bed: {fileID: -4554007110461324599}
+    - rid: 7317707531814699009
+      type: {class: FlamableProperty, ns: , asm: Assembly-CSharp}
+      data:
+        obj: {fileID: -4554007110461324599}
+        burnProgress: 0
 --- !u!208 &4241376170239381255
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -332,6 +357,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1a77b9ba9f8d42c48935ab6e3aec61e9, type: 3}
       propertyPath: m_Name
       value: Bed
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1a77b9ba9f8d42c48935ab6e3aec61e9, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

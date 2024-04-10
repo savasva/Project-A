@@ -11,7 +11,7 @@ public class ExtinguishAction : BaseAction
     FlamableProperty prop;
     const float ExtinguishRate = 0.05f;
 
-    public override Condition[] preconditions
+    public override Condition[] controllablePreconditions
     {
         get => new Condition[] {
             new Condition((ColonistState colState, WorldObjectInfo objInfo) => {

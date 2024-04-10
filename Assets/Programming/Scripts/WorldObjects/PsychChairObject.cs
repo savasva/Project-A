@@ -10,7 +10,7 @@ public class PsychChairObject : WorldObject
         [SerializeField]
         PsychChairObject seat;
 
-        public override Condition[] preconditions
+        public override Condition[] controllablePreconditions
         {
             get => new Condition[] {
                 new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
@@ -52,7 +52,7 @@ public class PsychChairObject : WorldObject
             //TODO: Update sleep time to be derived from GameTime whenever it is implemented.
             float sleepTime = 200;
 
-            examinee.needs += (benefit * sleepTime);
+            examinee.needs += (Benefit * sleepTime);
 
             return (predicate(examinee, WorldObjectInfo.none), new TherapyAction(this.seat), examinee);
         }

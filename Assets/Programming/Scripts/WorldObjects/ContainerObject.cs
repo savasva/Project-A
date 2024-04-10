@@ -29,7 +29,7 @@ public class ContainerObject : WorldObject
         public ContainerObject vendor;
         public Consumable target;
 
-        public override Condition[] preconditions
+        public override Condition[] controllablePreconditions
         {
             get => new Condition[] {
                 new Condition((ColonistState colState, WorldObjectInfo objInfo) =>
