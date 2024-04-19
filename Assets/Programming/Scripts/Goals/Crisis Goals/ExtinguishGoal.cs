@@ -6,12 +6,12 @@ public class ExtinguishGoal : Goal
 {
     public WorldObject obj;
 
-    public override GoalTypes type => GoalTypes.Crisis;
+    public override GoalTypes GoalType => GoalTypes.Crisis;
 
     /// <summary>
     /// Should be positive if the object is NOT on fire
     /// </summary>
-    public override Condition resultFit
+    public override Condition ResultFit
     {
         get => new Condition((ColonistState colState, WorldObjectInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f);
     }

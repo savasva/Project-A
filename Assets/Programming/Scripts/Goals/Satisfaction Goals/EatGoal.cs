@@ -3,9 +3,9 @@
 [Serializable]
 public class EatGoal : Goal
 {
-    public override GoalTypes type => GoalTypes.Satisfaction;
+    public override GoalTypes GoalType => GoalTypes.Satisfaction;
 
-    public override Condition resultFit
+    public override Condition ResultFit
     {
         get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.hunger);
     }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using System;
 
 [System.Serializable]
@@ -14,14 +13,17 @@ public class Goal
 
     public Plan plan;
 
-    public virtual Condition resultFit {
+    /// <summary>
+    /// The criteria that must be met in order for this goal to be valid. The better the match, the higher the value this function should return.
+    /// </summary>
+    public virtual Condition ResultFit {
         get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => 1);
     }
 
     public GoalState state = GoalState.Queued;
 
-    public string name;
-    public virtual GoalTypes type => GoalTypes.Instrumental;
+    private string name;
+    public virtual GoalTypes GoalType => GoalTypes.Instrumental;
     
     protected bool subgoal = false;
 
@@ -78,7 +80,7 @@ public class Goal
     }
 
     public virtual void CleanUp() {
-        doer.CompleteGoal();;
+        doer.CompleteGoal();
     }
 
     public void SetPlan(Plan newPlan)

@@ -5,7 +5,7 @@ using UnityEngine;
 //TODO: This should probably be abstracted into a generalized "AskCain" goal.
 public class WorldModGoal : Goal
 {
-    public override GoalTypes type => GoalTypes.Instrumental;
+    public override GoalTypes GoalType => GoalTypes.Instrumental;
 
     WorldObject terminal;
     string requestText;

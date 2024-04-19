@@ -49,6 +49,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlan:
     root:
+      action:
+        state: 0
+        doer: {fileID: 0}
+        name: Unnamed Task
+        benefit:
+          hunger: 0
+          thirst: 0
+          tiredness: 0
+          boredom: 0
+          stress: 0
       state:
         position: {x: 0, y: 0, z: 0}
         needs:
@@ -61,6 +71,8 @@ MonoBehaviour:
           rid: -2
         inventory:
           keyData: []
+          valueData: []
+      weight: 0
     nodes: []
     edges: []
   state:
@@ -75,6 +87,7 @@ MonoBehaviour:
       rid: 421946701150945282
     inventory:
       keyData: []
+      valueData: []
   personality:
     agreeableness: 1
     trust: 0
@@ -115,6 +128,16 @@ MonoBehaviour:
     doer: {fileID: 0}
     plan:
       root:
+        action:
+          state: 0
+          doer: {fileID: 0}
+          name: Unnamed Task
+          benefit:
+            hunger: 0
+            thirst: 0
+            tiredness: 0
+            boredom: 0
+            stress: 0
         state:
           position: {x: 0, y: 0, z: 0}
           needs:
@@ -127,11 +150,12 @@ MonoBehaviour:
             rid: -2
           inventory:
             keyData: []
+            valueData: []
+        weight: 0
       nodes: []
       edges: []
     state: 0
     name: 
-    type: 0
     actionQueueVisualizer: []
     subgoalQueueVisualizer: []
   goalQueueVisualizer: []
@@ -250,7 +274,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ed68b5240e854781a8080883d8d14b9, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

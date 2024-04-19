@@ -3,12 +3,12 @@
 [System.Serializable]
 public class SleepGoal : Goal
 {
-    public override GoalTypes type => GoalTypes.Satisfaction;
+    public override GoalTypes GoalType => GoalTypes.Satisfaction;
 
     /// <summary>
     /// Should be true if the Colonist is NOT tired
     /// </summary>
-    public override Condition resultFit {
+    public override Condition ResultFit {
         get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.tiredness);
     }
 

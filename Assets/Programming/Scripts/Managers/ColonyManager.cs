@@ -35,6 +35,9 @@ public class ColonyManager : MonoBehaviour
     public WorldObjectCollection flamableObjects;
     public Consumable[] consumables;
 
+    [Header("Lights")]
+    public Light[] lights;
+
     private void Awake()
     {
         if (inst == null)
@@ -61,6 +64,8 @@ public class ColonyManager : MonoBehaviour
         {
             colonists.Add(col.state.role, col);
         }
+
+        lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
 
         PopulateKnowledgeBackground();
 

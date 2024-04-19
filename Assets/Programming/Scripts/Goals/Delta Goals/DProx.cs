@@ -7,11 +7,11 @@ using UnityEngine.AI;
 [System.Serializable]
 public class DProx : Goal
 {
-    public override GoalTypes type => GoalTypes.Delta;
+    public override GoalTypes GoalType => GoalTypes.Delta;
 
     Vector3 destination;
 
-    public override Condition resultFit
+    public override Condition ResultFit
     {
         get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -Vector3.Distance(colState.position, destination));
     }

@@ -284,7 +284,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 127
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: e8853356e467349f8b45de429ede2e7e, type: 2}
   m_TargetDisplay: 0
@@ -311,9 +311,10 @@ MonoBehaviour:
   actions: []
   info:
     name: Storage Cam
-    attributes: 
-  state:
-    aflame: 0
+    properties: []
+    state:
+      isNone: 0
+      aflame: 0
   moveDestination: {fileID: 0}
   benefit:
     hunger: 0
@@ -362,7 +363,7 @@ MonoBehaviour:
     adventurousness: 0
     liberalism: 0
   room: {fileID: 0}
-  cam: {fileID: 0}
+  cam: {fileID: 7426199075925557251}
   accessible: 1
   references:
     version: 2
