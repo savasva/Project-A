@@ -5632,7 +5632,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 199516993}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 737635877}
+        m_TargetAssemblyTypeName: Screen_Manager, Assembly-CSharp
+        m_MethodName: SwitchToCameraScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &199516993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14619,6 +14631,7 @@ GameObject:
   - component: {fileID: 737635874}
   - component: {fileID: 737635873}
   - component: {fileID: 737635876}
+  - component: {fileID: 737635877}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -14736,6 +14749,23 @@ MonoBehaviour:
   - {fileID: 786443240}
   - {fileID: 1969552249}
   DialoguePanel: {fileID: 1292161020}
+--- !u!114 &737635877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737635871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4bb14fbf46db84c946ada167ccd4d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraScreen: {fileID: 1927045654}
+  AlertScreen: {fileID: 542614294}
+  ChatScreen: {fileID: 1314281913}
+  ProfilesScreen: {fileID: 457548888}
+  SettingsScreen: {fileID: 1118342829}
 --- !u!1 &740353594
 GameObject:
   m_ObjectHideFlags: 0
@@ -26477,7 +26507,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1244015233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 737635877}
+        m_TargetAssemblyTypeName: Screen_Manager, Assembly-CSharp
+        m_MethodName: SwitchToProfilesScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1244015233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32787,7 +32829,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1540327208}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 737635877}
+        m_TargetAssemblyTypeName: Screen_Manager, Assembly-CSharp
+        m_MethodName: SwitchToAlertScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1540327208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44889,7 +44943,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1893357626}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 737635877}
+        m_TargetAssemblyTypeName: Screen_Manager, Assembly-CSharp
+        m_MethodName: SwitchToChatScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1893357626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47598,7 +47664,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2087996281}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 737635877}
+        m_TargetAssemblyTypeName: Screen_Manager, Assembly-CSharp
+        m_MethodName: SwitchToSettingsScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2087996281
 MonoBehaviour:
   m_ObjectHideFlags: 0
