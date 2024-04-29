@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonParser: {fileID: 0}
-  engineerModel: {fileID: 0}
+  engineerModel: {fileID: 11400000, guid: 082ac6334a1bb496e83de07f981e686a, type: 2}
 --- !u!4 &494214907
 Transform:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class QuickAIDialogue : MonoBehaviour
 
     public bool inDialogue;
 
-    public LlamaContoller.ColonistModel basicModel;
+    public ColonistModel basicModel;
 
     
 

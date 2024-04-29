@@ -1,9 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
-using System.Linq;
 using LLama;
-using LLama.Native;
 using LLama.Common;
 using Cysharp.Threading.Tasks;
 
@@ -41,7 +38,7 @@ public class LlamaContoller : MonoBehaviour
         givenModel.session = new ChatSession(ex);
 
         //Add System Prompt to history
-        //givenModel.chatHistory.AddMessage(AuthorRole.System, givenModel.prompt);
+        givenModel.session.AddSystemMessage(givenModel.prompt);
 
         //string buf = "";
 
@@ -80,20 +77,28 @@ public class LlamaContoller : MonoBehaviour
     //    givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
     //}
 
-    public void PromptTest (string prompt) {
-        Debug.Log(ProcessPrompt(engineerModel, prompt));
+    public async void PromptTest (string prompt) {
+        float startTime = Time.fixedTime;
+        string res = await ProcessPrompt(engineerModel, prompt);
+        Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.fixedTime - startTime, res);
     }
 
     async UniTask<string> ProcessPrompt(ColonistModel model, string prompt)
     {
         string response = "";
-        await foreach (var token in model.session.ChatAsync(new ChatHistory.Message(AuthorRole.User, prompt),
-            new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } }))
+
+        ChatHistory.Message userMsg = new ChatHistory.Message(AuthorRole.User, prompt);
+        //model.session.AddMessage(userMsg);
+
+        await foreach (var token in model.session.ChatAsync(userMsg,
+            new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "User:" } }))
         {
             response += token;
         }
 
-        model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
+        Debug.Log(model.session.ToString());
+
+        //model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
 
         return response;
     }
@@ -109,20 +114,5 @@ public class LlamaContoller : MonoBehaviour
         {           
             yield return token;
         }
-    }
-
-
-    [CreateAssetMenu(fileName = "New LLM Model", menuName = "Project A/LLM Model")]
-    [System.Serializable]
-    public class ColonistModel : ScriptableObject
-    {
-        public new string name;
-        public string lastAnswer;
-        [TextArea(3, 10)]
-        public string prompt;
-
-        public ChatHistory chatHistory;
-
-        public ChatSession session;
     }
 }

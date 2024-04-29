@@ -15,8 +15,8 @@ public class PromptSubmitter : MonoBehaviour
     void Start()
     {
         self = GetComponent<Button>();
-        Button.ButtonClickedEvent OnClick = new Button.ButtonClickedEvent();
-        OnClick.AddListener(() =>
+
+        self.onClick.AddListener(() =>
         {
             LlamaContoller.inst.PromptTest(promptField.text);
         });
