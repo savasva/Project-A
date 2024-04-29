@@ -15,12 +15,28 @@ public class ColonyManager : MonoBehaviour
      */
     public Dictionary<Role, Colonist> colonists = new Dictionary<Role, Colonist>();
 
+    public Goal[] GlobalGoalPool {
+        get {
+            return new Goal[]
+            {
+                new SleepGoal(),
+                new EatGoal()
+            };
+        }
+    }
+
     [Header("Background Info")]
+    public List<WorldItem> worldItems;
     public WorldObjectCollection worldObjects;
     public WorldObjectCollection eatObjects;
     public WorldObjectCollection sleepObjects;
     public WorldObjectCollection workObjects;
     public WorldObjectCollection cainTerminals;
+    public WorldObjectCollection flamableObjects;
+    public Consumable[] consumables;
+
+    [Header("Lights")]
+    public Light[] lights;
 
     private void Awake()
     {
@@ -28,6 +44,8 @@ public class ColonyManager : MonoBehaviour
             inst = this;
         else if (inst != this)
             Destroy(this);
+
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
@@ -37,10 +55,17 @@ public class ColonyManager : MonoBehaviour
 
     public void PopulateWorld()
     {
+        foreach (WorldObject obj in worldObjects.objects)
+        {
+            obj.info.InitProperties(obj);
+        }
+
         foreach(Colonist col in FindObjectsByType<Colonist>(FindObjectsSortMode.None))
         {
-            colonists.Add(col.role, col);
+            colonists.Add(col.state.role, col);
         }
+
+        lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
 
         PopulateKnowledgeBackground();
 
@@ -108,6 +133,8 @@ public class ColonyManager : MonoBehaviour
     //O(n) with a lot of overhead from FindObjectsOfType
     public void PopulateKnowledgeBackground()
     {
+        worldItems = FindObjectsByType<WorldItem>(FindObjectsSortMode.None).ToList();
+
         //TODO: May be better to populate this by hand, but it only rudns once so shrug emoji.
         worldObjects = new WorldObjectCollection(FindObjectsByType<WorldObject>(FindObjectsSortMode.None).ToList());
 
@@ -118,10 +145,11 @@ public class ColonyManager : MonoBehaviour
         eatObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.benefit.hunger < 0).ToList());
         cainTerminals = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.GetType() == typeof(TerminalObject)).ToList());
         //workObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => typeof(obj.taskType) == typeof(WorkTask)).ToList());
+        flamableObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.info.GetProperty(typeof(FlamableProperty)) != null).ToList());
     }
 
     //TODO: Using WorldObject as a parameter creates a cylic dependency between Colonist and WorldObject. This my bite us in the ass later.
-    public static MoveAction BuildMovementAction(Colonist col, WorldObject target)
+    public static PTRANS BuildLinePTRANS(Colonist col, WorldObject target)
     {
         Vector3 dir = target.transform.forward;
         int linePos = target.queue.IndexOf(col);
@@ -134,10 +162,6 @@ public class ColonyManager : MonoBehaviour
         Vector3 dest = target.GetDestination() + (dir * linePos * 2.5f);
         dest.y = col.transform.position.y;
 
-        MoveAction premovement = new MoveAction(string.Format("Moving to {0}", target.GetGameObject().name), dest);
-        premovement.doer = col;
-        premovement.dest = dest;
-
-        return premovement;
+        return new PTRANS(col, string.Format("Moving to {0}", target.GetGameObject().name), dest);
     }
 }

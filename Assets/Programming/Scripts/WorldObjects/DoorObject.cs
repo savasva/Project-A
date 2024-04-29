@@ -16,16 +16,16 @@ public class DoorObject : WorldObject
         GetComponent<Animator>().SetTrigger("Close");
     }
 
-    void OnTriggerEnter(Collider other)
+    /*void OnTriggerEnter(Collider other)
     {
         if (obstacle && other.CompareTag("Colonist"))
         {
             Colonist col = other.GetComponent<Colonist>();
-            if (col.currentAction.GetType() == typeof(MoveAction))
+            if (col.currentAction.GetType() == typeof(PTRANS))
             {
-                ((MoveAction)col.currentAction).HandleObstacle(this);
+                ((PTRANS)col.currentAction).HandleObstacle(this);
                 Debug.Log("Handle obstacle!");
             }
         }
-    }
+    }*/
 }

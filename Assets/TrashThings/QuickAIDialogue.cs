@@ -52,22 +52,22 @@ public class QuickAIDialogue : MonoBehaviour
 
     public void SendResponce()
     {
-        LlamaContoller.singleton.askQuestion(basicModel, basicInput.text + "\r\nBOB:");
+        //LlamaContoller.inst.askQuestion(basicModel, basicInput.text + "\r\nBOB:");
         basicInput.text = "";
     }
 
     public void EndDialogue()
     {
-        LlamaContoller.singleton.jsonParser.prompt = basicModel.ChatHistory 
+        LlamaContoller.inst.jsonParser.prompt = basicModel.chatHistory 
             + "\n\nBased on this transcript we can form JSON file  with only one variable WasBobRequstFufilled, as follows: {\"WasBobRequstFufilled\":";
-        LlamaContoller.singleton.createModel(LlamaContoller.singleton.jsonParser);
+        LlamaContoller.inst.CreateModel(basicModel);
         StartCoroutine(WaitForNeural());
     }
 
     IEnumerator WaitForNeural()
     {
         yield return new WaitForSeconds(5f);
-        string response = LlamaContoller.singleton.jsonParser.ChatHistory;
+        /*string response = LlamaContoller.inst.jsonParser.chatHistory;
         Debug.Log(response);
 
         char[] stringArray = response.ToCharArray();
@@ -99,9 +99,9 @@ public class QuickAIDialogue : MonoBehaviour
 
 
         dialogueScript.text = "";
-        QuestionQueue[0].caller.ReceiveResponse(approved);
+        //QuestionQueue[0].caller.ReceiveResponse(approved);
         QuestionQueue.RemoveAt(0);
-        inDialogue = false;
+        inDialogue = false;*/
     }
 
     class tempJson
@@ -127,7 +127,7 @@ public class QuickAIDialogue : MonoBehaviour
 
             basicModel.prompt = newPrompt;
 
-            LlamaContoller.singleton.createModel(basicModel);
+            LlamaContoller.inst.CreateModel(basicModel);
 
 
         }
