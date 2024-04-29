@@ -6,7 +6,8 @@ using Cysharp.Threading.Tasks;
 
 public class LlamaContoller : MonoBehaviour
 {
-    private string ModelPath = "llama3-8B.gguf"; // = "Funny/zephyr-7b-beta.Q4_K_M.gguf";
+    private string ModelPath = "llama3-8B-Q2K.gguf";
+    //private string ModelPath = "phi-3.gguf";
     public static LlamaContoller inst;
 
     public ColonistModel jsonParser;
@@ -78,9 +79,13 @@ public class LlamaContoller : MonoBehaviour
     //}
 
     public async void PromptTest (string prompt) {
-        float startTime = Time.fixedTime;
+        UIManager.inst.AddUserMessage(prompt);
+
+        float startTime = Time.realtimeSinceStartup;
         string res = await ProcessPrompt(engineerModel, prompt);
-        Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.fixedTime - startTime, res);
+        Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
+
+        UIManager.inst.AddCrewMessage(res);
     }
 
     async UniTask<string> ProcessPrompt(ColonistModel model, string prompt)
@@ -90,13 +95,11 @@ public class LlamaContoller : MonoBehaviour
         ChatHistory.Message userMsg = new ChatHistory.Message(AuthorRole.User, prompt);
         //model.session.AddMessage(userMsg);
 
-        await foreach (var token in model.session.ChatAsync(userMsg,
-            new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "User:" } }))
+        await foreach (var token in model.session.ChatAsync(userMsg, false,
+            new InferenceParams() { Temperature = 0.6f, MaxTokens = 55, AntiPrompts = new List<string> { "User:", } }))
         {
             response += token;
         }
-
-        Debug.Log(model.session.ToString());
 
         //model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
 
