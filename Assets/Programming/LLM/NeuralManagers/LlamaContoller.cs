@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LLama;
 using LLama.Common;
 using Cysharp.Threading.Tasks;
+using System.Security.Cryptography;
 
 public class LlamaContoller : MonoBehaviour
 {
@@ -41,51 +42,20 @@ public class LlamaContoller : MonoBehaviour
         //Add System Prompt to history
         givenModel.session.AddSystemMessage(givenModel.prompt);
 
-        //string buf = "";
-
-        //await foreach (var token in givenModel.session.ChatAsync(new ChatHistory.Message(AuthorRole.User, givenModel.prompt),
-        //    inferenceParams: new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } }))
-        //{
-        //    buf += token;
-        //    Debug.Log(buf);
-        //}
-
-        //givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
-
-        //givenModel.chatHistory += buf;
-
         Debug.Log("Model Created");
     }
 
-    //public async void askQuestion(ColonistModel givenModel, string givenText)
-    //{
-
-    //    string currQuestion = givenText;
-    //    givenModel.chatHistory.AddMessage(AuthorRole.User, currQuestion);
-
-
-    //    string buf = "";
-
-    //    await foreach (var token in ChatConcurrent(givenModel.session.ChatAsync(new ChatHistory.Message(AuthorRole.Assistant, currQuestion),
-    //        new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } })))
-    //    {
-    //        buf += token;
-    //        Debug.Log(buf);
-    //    }
-
-    //    //givenModel.chatHistory += buf;
-
-    //    givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
-    //}
-
-    public async void PromptTest (string prompt) {
+    public void PromptTest (string prompt) {
         UIManager.inst.AddUserMessage(prompt);
 
-        float startTime = Time.realtimeSinceStartup;
-        string res = await ProcessPrompt(engineerModel, prompt);
-        Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
+        //float startTime = Time.realtimeSinceStartup;
+        //string res = await ProcessPrompt(engineerModel, prompt);
 
-        UIManager.inst.AddCrewMessage(res);
+        ProcessPrompt(engineerModel, prompt).Forget();
+
+        //Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
+
+        //UIManager.inst.AddCrewMessage(res);
     }
 
     async UniTask<string> ProcessPrompt(ColonistModel model, string prompt)
@@ -95,27 +65,30 @@ public class LlamaContoller : MonoBehaviour
         ChatHistory.Message userMsg = new ChatHistory.Message(AuthorRole.User, prompt);
         //model.session.AddMessage(userMsg);
 
-        await foreach (var token in model.session.ChatAsync(userMsg, false,
-            new InferenceParams() { Temperature = 0.6f, MaxTokens = 55, AntiPrompts = new List<string> { "User:", } }))
+        AsyncChatEntry msgUI = UIManager.inst.AddCrewMessage();
+
+        await UniTask.SwitchToThreadPool();
+
+        IAsyncEnumerable<string> chatStream = model.session.ChatAsync(userMsg, false,
+            new InferenceParams() {
+                Temperature = 0.6f,
+                MaxTokens = 55,
+                AntiPrompts = new List<string> { "User:", }
+            }
+        );
+
+        await foreach (var token in chatStream)
         {
             response += token;
+            await UniTask.SwitchToMainThread();
+            msgUI.Append(token);
+            await UniTask.SwitchToThreadPool();
         }
+
+        await UniTask.SwitchToMainThread();
 
         //model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
 
         return response;
-    }
-
-    /// <summary>
-    /// Wraps AsyncEnumerable with transition to the thread pool. 
-    /// </summary>
-    /// <param name="tokens"></param>
-    /// <returns>IAsyncEnumerable computed on a thread pool</returns>
-    private async IAsyncEnumerable<string> ChatConcurrent(IAsyncEnumerable<string> tokens)
-    {
-        await foreach (var token in tokens)
-        {           
-            yield return token;
-        }
     }
 }

@@ -47,9 +47,10 @@ public class UIManager : MonoBehaviour
         message.Find("Content").GetComponent<TMP_Text>().text = msg;
     }
 
-    public void AddCrewMessage(string msg)
+    public AsyncChatEntry AddCrewMessage()
     {
         Transform message = Instantiate(crewMessageTemplate, chatMessageContainer.transform).transform;
-        message.Find("Content").GetComponent<TMP_Text>().text = msg;
+
+        return message.GetComponent<AsyncChatEntry>();
     }
 }
