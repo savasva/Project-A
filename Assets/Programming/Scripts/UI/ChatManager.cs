@@ -3,36 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.UI;
 using TMPro;
-using System.IO;
-using System.Linq;
+//using System.Linq;
+using LLama.Common;
 
 public class ChatManager : MonoBehaviour
 {
-    //Message Text Field
+    //Message Text Field to be set to current chat history
     [SerializeField] private TMP_Text MessageTextComponent;
 
-    //[SerializeField] private GameObject recalTextObject;
-    private string txt;
-
-    void Start()
-    {
-        //get engr chat log
-        //...
-
-        //get bio chat log
-        //...
-
-        //store all lines of file in fileLines
-        //string fileLines = File.ReadAllText(txt);
-        //List<string> fileLines = File.ReadAllLines(readFromFilePath).ToList();
-
-        //
-    }
+    //whatever holds the engr's chat history???
+    //...
 
     public void SelectEngrChat()
     {
-        //set the text shown in the text component to the engineer's chat history
-        //MessageTextComponent.text = ;
+        //get engr chat history
+        //ChatHistory engrHistory = ;
+
+        //set the text shown in the text component to the engr's chat history
+        //MessageTextComponent.text = HistoryToText(ChatHistory history);
     }
 
     public void SelectBioChat()
