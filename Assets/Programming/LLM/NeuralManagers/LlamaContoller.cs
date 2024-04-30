@@ -1,15 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
-using System.Linq;
 using LLama;
-using LLama.Native;
 using LLama.Common;
 using Cysharp.Threading.Tasks;
+using PimDeWitte.UnityMainThreadDispatcher;
 
 public class LlamaContoller : MonoBehaviour
 {
-    private string ModelPath = "llama3-8B.gguf"; // = "Funny/zephyr-7b-beta.Q4_K_M.gguf";
+    private string ModelPath = "llama3-8B-Q2K.gguf";
+    //private string ModelPath = "phi-3.gguf";
     public static LlamaContoller inst;
 
     public ColonistModel jsonParser;
@@ -41,88 +40,60 @@ public class LlamaContoller : MonoBehaviour
         givenModel.session = new ChatSession(ex);
 
         //Add System Prompt to history
-        //givenModel.chatHistory.AddMessage(AuthorRole.System, givenModel.prompt);
-
-        //string buf = "";
-
-        //await foreach (var token in givenModel.session.ChatAsync(new ChatHistory.Message(AuthorRole.User, givenModel.prompt),
-        //    inferenceParams: new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } }))
-        //{
-        //    buf += token;
-        //    Debug.Log(buf);
-        //}
-
-        //givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
-
-        //givenModel.chatHistory += buf;
+        givenModel.session.AddSystemMessage(givenModel.prompt);
 
         Debug.Log("Model Created");
     }
 
-    //public async void askQuestion(ColonistModel givenModel, string givenText)
-    //{
-
-    //    string currQuestion = givenText;
-    //    givenModel.chatHistory.AddMessage(AuthorRole.User, currQuestion);
-
-
-    //    string buf = "";
-
-    //    await foreach (var token in ChatConcurrent(givenModel.session.ChatAsync(new ChatHistory.Message(AuthorRole.Assistant, currQuestion),
-    //        new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } })))
-    //    {
-    //        buf += token;
-    //        Debug.Log(buf);
-    //    }
-
-    //    //givenModel.chatHistory += buf;
-
-    //    givenModel.lastAnswer = buf.Replace("\nCAIN:", "");
-    //}
-
     public void PromptTest (string prompt) {
-        Debug.Log(ProcessPrompt(engineerModel, prompt));
+        UIManager.inst.AddUserMessage(prompt);
+
+        //float startTime = Time.realtimeSinceStartup;
+        //string res = await ProcessPrompt(engineerModel, prompt);
+
+        ProcessPrompt(engineerModel, prompt).Forget();
+
+        //Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
+
+        //UIManager.inst.AddCrewMessage(res);
     }
 
     async UniTask<string> ProcessPrompt(ColonistModel model, string prompt)
     {
         string response = "";
-        await foreach (var token in model.session.ChatAsync(new ChatHistory.Message(AuthorRole.User, prompt),
-            new InferenceParams() { Temperature = 0.6f, AntiPrompts = new List<string> { "CAIN:" } }))
+
+        ChatHistory.Message userMsg = new ChatHistory.Message(AuthorRole.User, prompt);
+        //model.session.AddMessage(userMsg);
+
+        AsyncChatEntry msgUI = UIManager.inst.AddCrewMessage();
+
+        await UniTask.SwitchToThreadPool();
+
+        IAsyncEnumerable<string> chatStream = model.session.ChatAsync(userMsg, false,
+            new InferenceParams() {
+                Temperature = model.temperature,
+                MaxTokens = model.maxTokens,
+                AntiPrompts = new List<string> { "User:", }
+            }
+        );
+
+        await foreach (var token in chatStream)
         {
             response += token;
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                msgUI.Append(token);
+            });
+            //msgUI.SendMessage("Append", token);
+            //await UniTask.SwitchToMainThread();
+            //msgUI.Append(token);
+            //await UniTask.SwitchToThreadPool();
         }
 
-        model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
+        await UniTask.SwitchToMainThread();
+
+        //model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
 
         return response;
-    }
-
-    /// <summary>
-    /// Wraps AsyncEnumerable with transition to the thread pool. 
-    /// </summary>
-    /// <param name="tokens"></param>
-    /// <returns>IAsyncEnumerable computed on a thread pool</returns>
-    private async IAsyncEnumerable<string> ChatConcurrent(IAsyncEnumerable<string> tokens)
-    {
-        await foreach (var token in tokens)
-        {           
-            yield return token;
-        }
-    }
-
-
-    [CreateAssetMenu(fileName = "New LLM Model", menuName = "Project A/LLM Model")]
-    [System.Serializable]
-    public class ColonistModel : ScriptableObject
-    {
-        public new string name;
-        public string lastAnswer;
-        [TextArea(3, 10)]
-        public string prompt;
-
-        public ChatHistory chatHistory;
-
-        public ChatSession session;
     }
 }

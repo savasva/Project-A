@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class UIManager : MonoBehaviour
 
     public GameObject worldObjContainer;
     public GameObject worldObjTemplate;
+
+    [Header("LLM Chat")]
+    public GameObject chatMessageContainer;
+    public GameObject cainMessageTemplate;
+    public GameObject crewMessageTemplate;
 
     void Awake()
     {
@@ -33,5 +39,18 @@ public class UIManager : MonoBehaviour
             WorldObjectButton btn = curr.GetComponent<WorldObjectButton>();
             btn.Initialize(obj);
         }
+    }
+
+    public void AddUserMessage(string msg)
+    {
+        Transform message = Instantiate(cainMessageTemplate, chatMessageContainer.transform).transform;
+        message.Find("Content").GetComponent<TMP_Text>().text = msg;
+    }
+
+    public AsyncChatEntry AddCrewMessage()
+    {
+        Transform message = Instantiate(crewMessageTemplate, chatMessageContainer.transform).transform;
+
+        return message.GetComponent<AsyncChatEntry>();
     }
 }
