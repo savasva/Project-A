@@ -26,7 +26,7 @@ public class PromptDisplay : MonoBehaviour
     public void Respond(string response)
     {
         bool approved = (response.ToLower() == "yes");
-        question.caller.ReceiveResponse(approved);
+        //question.caller.ReceiveResponse(approved);
         Destroy(yes.gameObject);
         Destroy(no.gameObject);
     }
