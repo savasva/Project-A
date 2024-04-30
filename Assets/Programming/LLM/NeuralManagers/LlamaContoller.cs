@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LLama;
 using LLama.Common;
 using Cysharp.Threading.Tasks;
-using System.Security.Cryptography;
+using PimDeWitte.UnityMainThreadDispatcher;
 
 public class LlamaContoller : MonoBehaviour
 {
@@ -71,8 +71,8 @@ public class LlamaContoller : MonoBehaviour
 
         IAsyncEnumerable<string> chatStream = model.session.ChatAsync(userMsg, false,
             new InferenceParams() {
-                Temperature = 0.6f,
-                MaxTokens = 55,
+                Temperature = model.temperature,
+                MaxTokens = model.maxTokens,
                 AntiPrompts = new List<string> { "User:", }
             }
         );
@@ -80,9 +80,14 @@ public class LlamaContoller : MonoBehaviour
         await foreach (var token in chatStream)
         {
             response += token;
-            await UniTask.SwitchToMainThread();
-            msgUI.Append(token);
-            await UniTask.SwitchToThreadPool();
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                msgUI.Append(token);
+            });
+            //msgUI.SendMessage("Append", token);
+            //await UniTask.SwitchToMainThread();
+            //msgUI.Append(token);
+            //await UniTask.SwitchToThreadPool();
         }
 
         await UniTask.SwitchToMainThread();
