@@ -21,7 +21,7 @@ public class LlamaContoller : MonoBehaviour
     {
         inst = this;
         //jsonParser = new ColonistModel();
-        //CreateModel(engineerModel);
+        CreateModel(engineerModel);
 
         CreateModel(bioengineerModel);
     }
@@ -49,15 +49,15 @@ public class LlamaContoller : MonoBehaviour
         Debug.Log("Model Created");
     }
 
-    public void PromptTest (string prompt) {
-        UIManager.inst.AddUserMessage(prompt);
+    public void PromptTest (ColonistModel model, string prompt) 
+    {    
+        //Add user prompt to chat
+        UIManager.inst.AddUserMessage(model, prompt);
 
         //float startTime = Time.realtimeSinceStartup;
         //string res = await ProcessPrompt(engineerModel, prompt);
 
-        //ProcessPrompt(engineerModel, prompt).Forget();
-
-        ProcessPrompt(bioengineerModel, prompt).Forget();
+        ProcessPrompt(model, prompt).Forget();
 
         //Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
 
@@ -71,7 +71,7 @@ public class LlamaContoller : MonoBehaviour
         ChatHistory.Message userMsg = new ChatHistory.Message(AuthorRole.User, prompt);
         //model.session.AddMessage(userMsg);
 
-        AsyncChatEntry msgUI = UIManager.inst.AddCrewMessage();
+        AsyncChatEntry msgUI = UIManager.inst.AddCrewMessage(model);
 
         await UniTask.SwitchToThreadPool();
 

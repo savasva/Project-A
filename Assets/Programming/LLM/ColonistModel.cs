@@ -19,4 +19,7 @@ public class ColonistModel : ScriptableObject
     public ChatHistory chatHistory;
 
     public ChatSession session;
+
+    [Header("UI Parameters")]
+    public GameObject chatMessageContainer;
 }

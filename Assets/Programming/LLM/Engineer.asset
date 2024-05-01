@@ -15,3 +15,6 @@ MonoBehaviour:
   name: Engineer
   lastAnswer: 
   prompt: You are an engineer aboard the colonist starship named the New Horizons.
+  maxTokens: 64
+  temperature: 0.6
+  chatMessageContainer: {fileID: 0}

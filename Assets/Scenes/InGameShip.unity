@@ -18165,6 +18165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptField: {fileID: 632761738}
+  modelToPrompt: {fileID: 11400000, guid: f2b05e7c33081574795161f9e8ec11ba, type: 2}
 --- !u!114 &777241049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48923,6 +48924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptField: {fileID: 2056329618}
+  modelToPrompt: {fileID: 11400000, guid: 082ac6334a1bb496e83de07f981e686a, type: 2}
 --- !u!1001 &1892275324
 PrefabInstance:
   m_ObjectHideFlags: 0

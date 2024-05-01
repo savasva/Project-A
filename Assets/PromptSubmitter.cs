@@ -9,6 +9,8 @@ public class PromptSubmitter : MonoBehaviour
     [SerializeField]
     TMP_InputField promptField;
 
+    public ColonistModel modelToPrompt;
+
     Button self;
 
     // Start is called before the first frame update
@@ -18,7 +20,7 @@ public class PromptSubmitter : MonoBehaviour
 
         self.onClick.AddListener(() =>
         {
-            LlamaContoller.inst.PromptTest(promptField.text);
+            LlamaContoller.inst.PromptTest(modelToPrompt, promptField.text);
         });
     }
 }
