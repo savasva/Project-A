@@ -1,30 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UI;
-using TMPro;
-//using System.Linq;
-using LLama.Common;
 
 public class ChatManager : MonoBehaviour
 {
-    //Message Text Field to be set to current chat history
-    [SerializeField] private TMP_Text MessageTextComponent;
+    [SerializeField] private GameObject EngrChatScreen;
+    [SerializeField] private GameObject BioChatScreen;
 
-    //whatever holds the engr's chat history???
-    //...
-
-    public void SelectEngrChat()
+    void Awake()
     {
-        //get engr chat history
-        //ChatHistory engrHistory = ;
-
-        //set the text shown in the text component to the engr's chat history
-        //MessageTextComponent.text = HistoryToText(ChatHistory history);
+        SwitchToEngrChat();
     }
 
-    public void SelectBioChat()
+    public void SwitchToEngrChat()
     {
+        //deactivate all chat screen views except the engr chat
+        BioChatScreen.SetActive(false);
 
+        //activate the engr chat 
+        EngrChatScreen.SetActive(true);
+    }
+
+    public void SwitchToBioChat()
+    {
+        //deactivate all chat screen views except the bio chat
+        EngrChatScreen.SetActive(false);
+
+        //activate the bio chat 
+        BioChatScreen.SetActive(true);
     }
 }
