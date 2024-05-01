@@ -15,11 +15,15 @@ public class LlamaContoller : MonoBehaviour
 
     public ColonistModel engineerModel;
 
+    public ColonistModel bioengineerModel;
+
     public void Start()
     {
         inst = this;
         //jsonParser = new ColonistModel();
-        CreateModel(engineerModel);
+        //CreateModel(engineerModel);
+
+        CreateModel(bioengineerModel);
     }
 
     public void CreateModel(ColonistModel givenModel)
@@ -51,7 +55,9 @@ public class LlamaContoller : MonoBehaviour
         //float startTime = Time.realtimeSinceStartup;
         //string res = await ProcessPrompt(engineerModel, prompt);
 
-        ProcessPrompt(engineerModel, prompt).Forget();
+        //ProcessPrompt(engineerModel, prompt).Forget();
+
+        ProcessPrompt(bioengineerModel, prompt).Forget();
 
         //Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
 

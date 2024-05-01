@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b425d2cc4a59640e6bdd2510c162d52f, type: 3}
   m_Name: Bio
   m_EditorClassIdentifier: 
-  name: 
+  name: Bio-Engineer
   lastAnswer: 
-  prompt: 
+  prompt: You are an bio-engineer aboard the colonist starship named the New Horizons.
   maxTokens: 64
   temperature: 0.6
