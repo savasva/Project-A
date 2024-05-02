@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     public GameObject worldObjTemplate;
 
     [Header("LLM Chat")]
-    public GameObject chatMessageContainer;
     public GameObject cainMessageTemplate;
     public GameObject crewMessageTemplate;
 
@@ -41,15 +40,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void AddUserMessage(string msg)
+    public void AddUserMessage(ColonistModel model, string msg)
     {
-        Transform message = Instantiate(cainMessageTemplate, chatMessageContainer.transform).transform;
+        Transform message = Instantiate(cainMessageTemplate, model.chatMessageContainer.transform).transform;
         message.Find("Content").GetComponent<TMP_Text>().text = msg;
     }
 
-    public AsyncChatEntry AddCrewMessage()
+    public AsyncChatEntry AddCrewMessage(ColonistModel model)
     {
-        Transform message = Instantiate(crewMessageTemplate, chatMessageContainer.transform).transform;
+         Transform message = Instantiate(crewMessageTemplate, model.chatMessageContainer.transform).transform;
 
         return message.GetComponent<AsyncChatEntry>();
     }
