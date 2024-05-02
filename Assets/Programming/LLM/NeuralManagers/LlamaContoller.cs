@@ -57,6 +57,7 @@ public class LlamaContoller : MonoBehaviour
         //float startTime = Time.realtimeSinceStartup;
         //string res = await ProcessPrompt(engineerModel, prompt);
 
+        //process prompt
         ProcessPrompt(model, prompt).Forget();
 
         //Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);

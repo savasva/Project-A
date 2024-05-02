@@ -11,8 +11,6 @@ public class UIManager : MonoBehaviour
     public GameObject worldObjTemplate;
 
     [Header("LLM Chat")]
-    // public GameObject engrChatMessageContainer;
-    // public GameObject bioChatMessageContainer;
     public GameObject cainMessageTemplate;
     public GameObject crewMessageTemplate;
 
@@ -44,21 +42,8 @@ public class UIManager : MonoBehaviour
 
     public void AddUserMessage(ColonistModel model, string msg)
     {
-        //Transform message;
-
         Transform message = Instantiate(cainMessageTemplate, model.chatMessageContainer.transform).transform;
         message.Find("Content").GetComponent<TMP_Text>().text = msg;
-
-        // if(model == gameObject.GetComponent<LlamaContoller>().engineerModel)
-        // {
-        //     Transform message = Instantiate(cainMessageTemplate, engrChatMessageContainer.transform).transform;
-        //     message.Find("Content").GetComponent<TMP_Text>().text = msg;
-        // }
-        // else if(model == gameObject.GetComponent<LlamaContoller>().bioengineerModel)
-        // {
-        //     Transform message = Instantiate(cainMessageTemplate, bioChatMessageContainer.transform).transform;
-        //     message.Find("Content").GetComponent<TMP_Text>().text = msg;
-        // }
     }
 
     public AsyncChatEntry AddCrewMessage(ColonistModel model)
