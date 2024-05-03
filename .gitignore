@@ -74,3 +74,7 @@ crashlytics-build.properties
 
 # LLM Model files
 /[Aa]ssets/Programming/LLM/ImportedLLMBases/
+Assets/StreamingAssets/phi-3.gguf
+*.gguf
+Assets/StreamingAssets/llama3-8B-Q2K.gguf.meta
+Assets/StreamingAssets/phi-3.gguf.meta

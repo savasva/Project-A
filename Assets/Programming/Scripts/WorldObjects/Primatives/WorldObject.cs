@@ -72,7 +72,7 @@ public class WorldObject : MonoBehaviour, IInteractable
     {
         get
         {
-            List<Goal> goals = new List<Goal>();
+            List<Goal> goals = new();
 
             foreach(WorldObjectProperty prop in info.properties)
             {
@@ -108,15 +108,15 @@ public struct WorldObjectInfo
     public WorldObjectInfo(bool isNone = true)
     {
         name = "";
-        properties = new List<WorldObjectProperty>();
+        properties = new();
         state = new WorldObjectState(isNone);
     }
 
     public static WorldObjectInfo none = new WorldObjectInfo(true);
 
-    public WorldObjectProperty GetProperty(Type property)
+    public T GetProperty<T>() where T : WorldObjectProperty
     {
-        return properties.Find(p => p.GetType() == property);
+        return (T)properties.Find(p => p.GetType() == typeof(T));
     }
 
     public void InitProperties(WorldObject obj)
@@ -130,7 +130,7 @@ public struct WorldObjectInfo
 
     public List<BaseAction> GetPropertyActions()
     {
-        List<BaseAction> final = new List<BaseAction>();
+        List<BaseAction> final = new();
 
         foreach (WorldObjectProperty prop in properties)
         {

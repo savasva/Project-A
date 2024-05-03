@@ -11,8 +11,8 @@ public abstract class Sense : MonoBehaviour
 
     private void Start()
     {
-        rangeTransforms = new List<Transform>();
-        rangeInteractables = new List<IInteractable>();
+        rangeTransforms = new();
+        rangeInteractables = new();
         owner = GetComponent<Colonist>();
     }
 

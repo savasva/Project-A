@@ -136,16 +136,16 @@ public class ColonyManager : MonoBehaviour
         worldItems = FindObjectsByType<WorldItem>(FindObjectsSortMode.None).ToList();
 
         //TODO: May be better to populate this by hand, but it only rudns once so shrug emoji.
-        worldObjects = new WorldObjectCollection(FindObjectsByType<WorldObject>(FindObjectsSortMode.None).ToList());
+        worldObjects = new WorldObjectCollection(FindObjectsByType<WorldObject>(FindObjectsSortMode.None));
 
         /*
          * Setup scene information so workstations and such can be assigned.
          */
-        sleepObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.benefit.tiredness < 0).ToList());
-        eatObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.benefit.hunger < 0).ToList());
-        cainTerminals = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.GetType() == typeof(TerminalObject)).ToList());
+        sleepObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.benefit.tiredness < 0));
+        eatObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.benefit.hunger < 0));
+        cainTerminals = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.GetType() == typeof(TerminalObject)));
         //workObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => typeof(obj.taskType) == typeof(WorkTask)).ToList());
-        flamableObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.info.GetProperty(typeof(FlamableProperty)) != null).ToList());
+        flamableObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => obj.info.GetProperty<FlamableProperty>() != null));
     }
 
     //TODO: Using WorldObject as a parameter creates a cylic dependency between Colonist and WorldObject. This my bite us in the ass later.

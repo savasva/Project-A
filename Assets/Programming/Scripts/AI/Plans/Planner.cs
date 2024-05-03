@@ -62,7 +62,7 @@ public class Planner : MonoBehaviour
 
             foreach (BaseAction action in actions)
             {
-                //if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
+                 //if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
                 chosenAction = action.PredictFit(cond.predicate, comparisonState);
 

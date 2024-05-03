@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using System.Collections;
 
 [System.Serializable]
-public class WorldObjectCollection
+public class WorldObjectCollection : IEnumerable<WorldObject>
 {
     public List<WorldObject> objects;
 
     public WorldObjectCollection()
     {
-        objects = new List<WorldObject>();
+        objects = new();
     }
 
-    public WorldObjectCollection(List<WorldObject> _objects)
+    public WorldObjectCollection(IEnumerable<WorldObject> _objects)
     {
-        objects = _objects;
+        objects = _objects.ToList();
     }
 
     public WorldObject GetFreestObject()
@@ -116,5 +117,15 @@ public class WorldObjectCollection
         }
 
         return pathLength;
+    }
+
+    public IEnumerator<WorldObject> GetEnumerator()
+    {
+        return (IEnumerator<WorldObject>)objects;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return (IEnumerator<WorldObject>)objects;
     }
 }

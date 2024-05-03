@@ -28,7 +28,7 @@ public class QuickAIDialogue : MonoBehaviour
     void Start()
     {
         singleton = this;
-        QuestionQueue = new List<CainQuestion>();
+        QuestionQueue = new();
         Debug.Log(JsonUtility.ToJson(new tempJson()));
     }
 

@@ -18,7 +18,7 @@ public class DoubleEndedQueueDrawer : PropertyDrawer
         if (queueProperty != null)
         {
             // Convert the `queue` field to a list and render it.
-            List<SerializedProperty> queueList = new List<SerializedProperty>();
+            List<SerializedProperty> queueList = new();
             for (int i = 0; i < queueProperty.arraySize; i++)
             {
                 SerializedProperty element = queueProperty.GetArrayElementAtIndex(i);

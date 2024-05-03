@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class SerializedDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
 	[SerializeField, HideInInspector]
-	private List<TKey> keyData = new List<TKey>();
+	private List<TKey> keyData = new();
 
 	[SerializeField, HideInInspector]
-	private List<TValue> valueData = new List<TValue>();
+	private List<TValue> valueData = new();
 
 	void ISerializationCallbackReceiver.OnAfterDeserialize()
 	{
