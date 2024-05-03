@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach(WorldObject obj in room.contents.objects)
+        foreach(WorldObject obj in room.contents)
         {
             GameObject curr = Instantiate(worldObjTemplate, worldObjContainer.transform);
             WorldObjectButton btn = curr.GetComponent<WorldObjectButton>();

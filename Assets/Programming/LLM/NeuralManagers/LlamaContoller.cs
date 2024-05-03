@@ -84,7 +84,12 @@ public class LlamaContoller : MonoBehaviour
         Debug.Log(ProcessPrompt(engineerModel, prompt));
     }
 
-    async UniTask<string> ProcessPrompt(ColonistModel model, string prompt)
+    public UniTask<ChatHistory.Message> Prompt(ColonistModel model, string prompt, Action<ChatHistory.Message> onComplete = null)
+    {
+        return ProcessPrompt(model, prompt);
+    }
+
+    async UniTask<ChatHistory.Message> ProcessPrompt(ColonistModel model, string prompt)
     {
         string response = "";
         await foreach (var token in model.session.ChatAsync(new ChatHistory.Message(AuthorRole.User, prompt),
@@ -93,9 +98,11 @@ public class LlamaContoller : MonoBehaviour
             response += token;
         }
 
-        model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
+        ChatHistory.Message responseMsg = new ChatHistory.Message(AuthorRole.Assistant, response);
 
-        return response;
+        model.session.AddMessage(responseMsg);
+
+        return responseMsg;
     }
 
     /// <summary>
@@ -109,20 +116,5 @@ public class LlamaContoller : MonoBehaviour
         {           
             yield return token;
         }
-    }
-
-
-    [CreateAssetMenu(fileName = "New LLM Model", menuName = "Project A/LLM Model")]
-    [System.Serializable]
-    public class ColonistModel : ScriptableObject
-    {
-        public new string name;
-        public string lastAnswer;
-        [TextArea(3, 10)]
-        public string prompt;
-
-        public ChatHistory chatHistory;
-
-        public ChatSession session;
     }
 }

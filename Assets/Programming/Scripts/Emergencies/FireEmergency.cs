@@ -15,8 +15,8 @@ public class FireEmergency : Emergency
     {
         intensity = Mathf.Clamp01(intensity);
 
-        List<WorldObject> objs = ColonyManager.inst.flamableObjects.objects;
-        int targetCount = Mathf.CeilToInt(objs.Count * intensity);
+        IEnumerable<WorldObject> objs = ColonyManager.inst.flamableObjects;
+        int targetCount = Mathf.CeilToInt(objs.Count() * intensity);
 
         //https://stackoverflow.com/questions/48087/select-n-random-elements-from-a-listt-in-c-sharp
         targets = new WorldObjectCollection(objs.OrderBy(o => Random.Range(0f, 1f)).Take(targetCount));

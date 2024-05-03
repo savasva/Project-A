@@ -56,7 +56,7 @@ public class Planner : MonoBehaviour
         /*
          * Check any objects in the world for actions
          */
-        foreach (WorldObject obj in ColonyManager.inst.worldObjects.objects)
+        foreach (WorldObject obj in ColonyManager.inst.worldObjects)
         {
             BaseAction[] actions = obj.Actions;
 

@@ -4,23 +4,25 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using System.Collections;
+using UnityEngine.UIElements;
 
 [System.Serializable]
-public class WorldObjectCollection : IEnumerable<WorldObject>
+public class WorldObjectCollection<T> : IEnumerable<WorldObject> where T : WorldObject
 {
-    public List<WorldObject> objects;
+    [SerializeField]
+    protected List<T> objects;
 
     public WorldObjectCollection()
     {
         objects = new();
     }
 
-    public WorldObjectCollection(IEnumerable<WorldObject> _objects)
+    public WorldObjectCollection(IEnumerable<T> _objects)
     {
         objects = _objects.ToList();
     }
 
-    public WorldObject GetFreestObject()
+    public T GetFreestObject()
     {
         int shortestLine = 100000;
         int bestIndex = 0;
@@ -36,7 +38,7 @@ public class WorldObjectCollection : IEnumerable<WorldObject>
 
         return objects[bestIndex];
     }
-    public WorldObject GetFreeObject()
+    public T GetFreeObject()
     {
         for (int i = 0; i < objects.Count; i++)
         {
@@ -49,14 +51,14 @@ public class WorldObjectCollection : IEnumerable<WorldObject>
         return null;
     }
 
-    public void Push(WorldObject obj)
+    public void Push(T obj)
     {
         objects.Add(obj);
     }
 
     //O(n^2) I think? Kinda sucks.
     //TODO: Make IEnumerator that calculates X paths per frame. (yield return new WaitForEndOfFrame())
-    public WorldObject GetNearestObject(Colonist col)
+    public T GetNearestObject(Colonist col)
     {
         int closestIndex = 0;
         float closestDist = 10000;
@@ -119,13 +121,69 @@ public class WorldObjectCollection : IEnumerable<WorldObject>
         return pathLength;
     }
 
-    public IEnumerator<WorldObject> GetEnumerator()
+    public IEnumerator<T> GetEnumerator()
     {
-        return (IEnumerator<WorldObject>)objects;
+        return (IEnumerator<T>)objects.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return (IEnumerator<WorldObject>)objects;
+        return (IEnumerator<T>)objects.GetEnumerator();
     }
+
+    IEnumerator<WorldObject> IEnumerable<WorldObject>.GetEnumerator()
+    {
+        return objects.Cast<WorldObject>().GetEnumerator();
+    }
+}
+
+//https://learn.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator?view=net-8.0
+/*public class WorldObjectEnumerator<T> : IEnumerator<T> where T : WorldObject
+{
+    public List<T> objects;
+    int index = -1;
+
+    public WorldObjectEnumerator(List<T> _objects) {
+        objects = _objects;
+    }
+
+    public T Current {
+        get
+        {
+            try
+            {
+                return objects[index];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+    }
+
+    object IEnumerator.Current => Current;
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool MoveNext()
+    {
+        index++;
+        return index < objects.Count;
+    }
+
+    public void Reset()
+    {
+        index = -1;
+    }
+}*/
+
+public class WorldObjectCollection : WorldObjectCollection<WorldObject> {
+
+    public WorldObjectCollection() : base() { }
+
+    public WorldObjectCollection(IEnumerable<WorldObject> _objects) : base(_objects) { }
+
 }

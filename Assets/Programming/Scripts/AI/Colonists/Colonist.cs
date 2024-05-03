@@ -12,6 +12,7 @@ public class Colonist : MonoBehaviour
     Plan currentPlan;
 
     [Header("\"Who I am\" Variables")]
+    public ColonistModel model;
     public ColonistState state;
     public Big5Personality personality;
 
