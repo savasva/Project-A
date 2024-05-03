@@ -11,7 +11,7 @@ public class LlamaContoller : MonoBehaviour
     //private string ModelPath = "phi-3.gguf";
     public static LlamaContoller inst;
 
-    public void Start()
+    public void Awake()
     {
         inst = this;
     }

@@ -144,6 +144,7 @@ public class ScreenManager : MonoBehaviour
     {
         foreach (Colonist col in ColonyManager.inst.colonists.Values)
         {
+            Debug.Log(col.name);
             ChatPanel panel = Instantiate(ChatPanelTemplate, ChatScreen.transform, false).GetComponent<ChatPanel>();
             panel.Init(col);
             panel.Off();
