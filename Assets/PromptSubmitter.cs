@@ -16,11 +16,11 @@ public class PromptSubmitter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        self = GetComponent<Button>();
+        /*self = GetComponent<Button>();
 
         self.onClick.AddListener(() =>
         {
-            LlamaContoller.inst.PromptTest(modelToPrompt, promptField.text);
-        });
+            LlamaContoller.inst.Prom(modelToPrompt, promptField.text);
+        });*/
     }
 }

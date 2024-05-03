@@ -43,7 +43,7 @@ public class PTRANS : BaseAction
     {
         (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
-        foreach (WorldObject obj in ColonyManager.inst.worldObjects.objects)
+        foreach (WorldObject obj in ColonyManager.inst.worldObjects)
         {
             examinee.position = obj.GetDestination();
 

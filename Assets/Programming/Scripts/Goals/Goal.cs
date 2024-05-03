@@ -33,7 +33,7 @@ public class Goal
     [SerializeField]
     //protected DoubleEndedQueue<BaseAction> actionHistory = new DoubleEndedQueue<BaseAction>();
     [SerializeReference]
-    public List<BaseAction> actionQueueVisualizer = new List<BaseAction>();
+    public List<BaseAction> actionQueueVisualizer = new();
     public BaseAction CurrentAction {
         get {
             if (NeedsSubgoal)
@@ -47,7 +47,7 @@ public class Goal
      * Subgoals
      **/
     DoubleEndedQueue<Goal> subgoalQueue = new DoubleEndedQueue<Goal>();
-    public List<Goal> subgoalQueueVisualizer = new List<Goal>();
+    public List<Goal> subgoalQueueVisualizer = new();
     public Goal CurrentSubgoal { get { return subgoalQueue.Cursor.Value; } }
     public bool NeedsSubgoal { get { return subgoalQueue.Count == 0; } }
     public int SubgoalCount { get { return subgoalQueue.Count; } }

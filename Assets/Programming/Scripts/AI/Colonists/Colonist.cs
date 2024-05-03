@@ -12,6 +12,7 @@ public class Colonist : MonoBehaviour
     Plan currentPlan;
 
     [Header("\"Who I am\" Variables")]
+    public ColonistModel model;
     public ColonistState state;
     public Big5Personality personality;
 
@@ -93,7 +94,7 @@ public class Colonist : MonoBehaviour
         /**
          * Initialize goals that can be instantiated by Colonists directly.
          **/
-        personalGoalPool = new List<Goal>();
+        personalGoalPool = new();
         personalGoalPool.AddRange(ColonyManager.inst.GlobalGoalPool);
         personalGoalPool.AddRange(state.role.Goals);
     }

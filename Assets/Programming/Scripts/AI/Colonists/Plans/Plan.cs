@@ -17,9 +17,9 @@ public class Plan
 
     public Plan()
     {
-        nodes = new List<PlanNode>();
-        edges = new List<PlanEdge>();
-        stack = new DoubleEndedQueue<BaseAction>();
+        nodes = new();
+        edges = new();
+        stack = new();
     }
 
     /*public PlanNode AddNode(ColonistState state)

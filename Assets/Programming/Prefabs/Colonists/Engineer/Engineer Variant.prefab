@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: model
+      value: 
+      objectReference: {fileID: 11400000, guid: 082ac6334a1bb496e83de07f981e686a, type: 2}
+    - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: state.role
       value: 1731637798799409152
       objectReference: {fileID: 0}

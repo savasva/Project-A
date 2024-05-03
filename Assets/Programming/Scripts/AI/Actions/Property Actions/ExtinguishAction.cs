@@ -32,7 +32,7 @@ public class ExtinguishAction : BaseAction
     public override void OnStart()
     {
         base.OnStart();
-        prop = (FlamableProperty)obj.info.GetProperty(typeof(FlamableProperty));
+        prop = obj.info.GetProperty<FlamableProperty>();
         Debug.Log(obj.name);
         Debug.Log(prop.burnProgress);
     }
