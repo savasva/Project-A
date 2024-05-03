@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FlamableProperty : WorldObjectProperty
+public class FlamableProperty : WorldObjProperty
 {
     [Range(0f, 1f)]
     public float burnProgress;

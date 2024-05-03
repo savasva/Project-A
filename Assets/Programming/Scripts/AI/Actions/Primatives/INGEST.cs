@@ -7,7 +7,7 @@ public class INGEST : BaseAction
     public override Condition[] preconditions
     {
         get => new Condition[] {
-            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                 if (!colState.inventory.ContainsKey(target.name) || colState.inventory[target.name].count == 0) return float.MinValue;
 
                 return colState.inventory[target.name].count;
@@ -37,14 +37,14 @@ public class INGEST : BaseAction
         }
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
         (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
         foreach (Consumable consumable in ColonyManager.inst.consumables)
         {
             examinee.needs += consumable.nourishment;
-            float fit = predicate(examinee, WorldObjectInfo.none);
+            float fit = predicate(examinee, WorldObjInfo.none);
             if (fit > result.Item1)
             {
                 result = (fit, new INGEST(null, string.Format("Consume a {0}", consumable.name), consumable), examinee);

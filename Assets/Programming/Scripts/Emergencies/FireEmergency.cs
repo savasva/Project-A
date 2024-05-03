@@ -5,7 +5,7 @@ using System.Linq;
 
 public class FireEmergency : Emergency
 {
-    public WorldObjectCollection targets;
+    public WorldObjCollection targets;
 
     /// <summary>
     /// 
@@ -19,12 +19,12 @@ public class FireEmergency : Emergency
         int targetCount = Mathf.CeilToInt(objs.Count() * intensity);
 
         //https://stackoverflow.com/questions/48087/select-n-random-elements-from-a-listt-in-c-sharp
-        targets = new WorldObjectCollection(objs.OrderBy(o => Random.Range(0f, 1f)).Take(targetCount));
+        targets = new WorldObjCollection(objs.OrderBy(o => Random.Range(0f, 1f)).Take(targetCount));
     }
 
     public FireEmergency(IEnumerable<WorldObject> _targets)
     {
-        targets = new WorldObjectCollection(_targets);
+        targets = new WorldObjCollection(_targets);
     }
 
     public override void Execute()

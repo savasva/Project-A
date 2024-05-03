@@ -60,9 +60,21 @@ public class BaseAction
     /// <param name="predicate">The condition that gives this Action it's weight. Either an Action's precondition or a goal's activationFit.</param>
     /// <param name="examinee">The ColonistState that is being evaluated.</param>
     /// <returns></returns>
-    public virtual (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+    public virtual (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
         return (0f, null, ColonistState.none);
+    }
+
+    /// <summary>
+    /// Determines how well this Action fulfills a given scenario.<br></br>
+    /// When chaining actions together we pass in the following action's precondition to ensure that we get to a state where the NPC can accomplish their plan.
+    /// </summary>
+    /// <param name="predicate">The condition that gives this Action it's weight. Either an Action's precondition or a goal's activationFit.</param>
+    /// <param name="examinee">The ColonistState that is being evaluated.</param>
+    /// <returns></returns>
+    public virtual (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee, WorldObjInfo objInfo)
+    {
+        return PredictFit(predicate, examinee);
     }
 
     public enum ActionState

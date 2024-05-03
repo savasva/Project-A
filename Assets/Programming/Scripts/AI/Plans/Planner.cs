@@ -62,11 +62,19 @@ public class Planner : MonoBehaviour
 
             foreach (BaseAction action in actions)
             {
-                 //if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
+                //if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
-                chosenAction = action.PredictFit(cond.predicate, comparisonState);
+                Debug.LogFormat("Testing Action {0}", action);
 
-                Debug.LogFormat("Action: {0} - Fit: {1}", action.GetType().Name, chosenAction.Item1);
+                if (action == null)
+                {
+                    Debug.LogError("NULL ACTION! Skipping.");
+                    continue;
+                }
+
+                chosenAction = action.PredictFit(cond.predicate, comparisonState, obj.info);
+
+                Debug.LogFormat("Action: {0} ({1}) - Fit: {2}", action.GetType().Name, obj.info.name, chosenAction.Item1);
 
                 if (chosenAction.Item1 > bestAction.Weight)
                 {
@@ -99,7 +107,7 @@ public class Planner : MonoBehaviour
 
         foreach (Condition precondition in bestAction.preconditions)
         {
-            float predicateFit = precondition.predicate(bestState, WorldObjectInfo.none);
+            float predicateFit = precondition.predicate(bestState, WorldObjInfo.none);
             if (predicateFit <= 0)
             {
                 // Recursively generate a sub-plan to satisfy the unmet precondition

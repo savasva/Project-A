@@ -3,23 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PsychChairObject : WorldObject
+public class PsychChairObj : WorldObject
 {
     public class TherapyAction : BaseAction
     {
         [SerializeField]
-        PsychChairObject seat;
+        PsychChairObj seat;
 
         public override Condition[] preconditions
         {
             get => new Condition[] {
-                new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                     return -ActionHelpers.Proximity(colState, seat);
                 })
             };
         }
 
-        public TherapyAction(PsychChairObject _seat): base() {
+        public TherapyAction(PsychChairObj _seat): base() {
             seat = _seat;
         }
 
@@ -47,14 +47,14 @@ public class PsychChairObject : WorldObject
         /// <param name="goal"></param>
         /// <param name="examinee"></param>
         /// <returns></returns>
-        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
         {
             //TODO: Update sleep time to be derived from GameTime whenever it is implemented.
             float sleepTime = 200;
 
             examinee.needs += (benefit * sleepTime);
 
-            return (predicate(examinee, WorldObjectInfo.none), new TherapyAction(this.seat), examinee);
+            return (predicate(examinee, WorldObjInfo.none), new TherapyAction(this.seat), examinee);
         }
     }
 }

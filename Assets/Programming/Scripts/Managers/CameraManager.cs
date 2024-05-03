@@ -6,7 +6,7 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager inst;
 
-    CameraObject currentCam;
+    CameraObj currentCam;
     //public CameraObject[] cameras;
 
     void Awake()
@@ -19,7 +19,7 @@ public class CameraManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void UpdateCurrentCam(CameraObject newCam)
+    public void UpdateCurrentCam(CameraObj newCam)
     {
         if (currentCam != null)
         {

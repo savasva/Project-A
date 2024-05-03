@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraObject : WorldObject
+public class CameraObj : WorldObject
 {
     [Header("Camera Properties")]
 

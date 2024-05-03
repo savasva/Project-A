@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Sirenix.Serialization;
 using System;
 
-public class ContainerObject : WorldObject
+public class ContainerObj : WorldObject
 {
     public Inventory contents = new();
     public int capacity;
@@ -26,13 +26,13 @@ public class ContainerObject : WorldObject
 
     public class VendAction : BaseAction
     {
-        public ContainerObject vendor;
+        public ContainerObj vendor;
         public Consumable target;
 
         public override Condition[] preconditions
         {
             get => new Condition[] {
-                new Condition((ColonistState colState, WorldObjectInfo objInfo) =>
+                new Condition((ColonistState colState, WorldObjInfo objInfo) =>
                 {
                     if (!vendor.contents.ContainsKey(target.name) || vendor.contents[target.name].count == 0) return float.MinValue;
 
@@ -43,7 +43,7 @@ public class ContainerObject : WorldObject
 
         public VendAction() : base() { }
 
-        public VendAction(Colonist _doer, string _name, ContainerObject _vendor, Consumable _target) : base(_doer, _name)
+        public VendAction(Colonist _doer, string _name, ContainerObj _vendor, Consumable _target) : base(_doer, _name)
         {
             vendor = _vendor;
             target = _target;
@@ -56,7 +56,7 @@ public class ContainerObject : WorldObject
             Complete();
         }
 
-        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
         {
             (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
@@ -66,7 +66,7 @@ public class ContainerObject : WorldObject
                 examinee.inventory.Add(slot.Value.item);
 
                 //Test fit
-                float fit = predicate(examinee, WorldObjectInfo.none);
+                float fit = predicate(examinee, WorldObjInfo.none);
                 if (fit > result.Item1)
                 {
                     result = (fit, new VendAction(null, string.Format("Get {0} from {1}", slot.Value.item, vendor.name), vendor, (Consumable)slot.Value.item), examinee);

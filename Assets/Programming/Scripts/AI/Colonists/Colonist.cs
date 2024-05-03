@@ -157,6 +157,7 @@ public class Colonist : MonoBehaviour
     {
         if (NeedsGoal)
         {
+            Debug.Log("Needs goal!");
             ChooseGoal();
             UpdateCurrentGoal();
         }

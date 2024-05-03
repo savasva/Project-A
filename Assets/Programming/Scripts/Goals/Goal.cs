@@ -17,7 +17,7 @@ public class Goal
     /// The criteria that must be met in order for this goal to be valid. The better the match, the higher the value this function should return.
     /// </summary>
     public virtual Condition ResultFit {
-        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => 1);
+        get => new Condition((ColonistState colState, WorldObjInfo objInfo) => 1);
     }
 
     public GoalState state = GoalState.Queued;

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Condition
 {
-    public Func<ColonistState, WorldObjectInfo, float> predicate;
+    public Func<ColonistState, WorldObjInfo, float> predicate;
 
-    public Condition(Func<ColonistState, WorldObjectInfo, float> condition)
+    public Condition(Func<ColonistState, WorldObjInfo, float> condition)
     {
         predicate = condition;
     }
@@ -17,7 +17,7 @@ public class Condition
     /// <param name="state"></param>
     /// <param name="objInfo"></param>
     /// <returns></returns>
-    public float Evaluate(ColonistState state, WorldObjectInfo objInfo)
+    public float Evaluate(ColonistState state, WorldObjInfo objInfo)
     {
         return predicate(state, objInfo);
     }

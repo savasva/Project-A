@@ -27,13 +27,14 @@ public class ColonyManager : MonoBehaviour
 
     [Header("Background Info")]
     public List<WorldItem> worldItems;
-    public WorldObjectCollection<WorldObject> worldObjects = new();
-    public WorldObjectCollection<CameraObject> cameraObjects = new();
-    public WorldObjectCollection eatObjects = new();
-    public WorldObjectCollection sleepObjects = new();
-    public WorldObjectCollection workObjects = new();
-    public WorldObjectCollection<TerminalObject> cainTerminals = new();
-    public WorldObjectCollection flamableObjects = new();
+    public WorldObjCollection<WorldObject> worldObjects = new();
+    public WorldObjCollection<CameraObj> cameraObjects = new();
+    public WorldObjCollection eatObjects = new();
+    public WorldObjCollection sleepObjects = new();
+    public WorldObjCollection workObjects = new();
+    public WorldObjCollection<TerminalObj> cainTerminals = new();
+    public WorldObjCollection flamableObjects = new();
+    public WorldObjCollection damagableObjects = new();
     public Consumable[] consumables;
 
     [Header("Lights")]
@@ -138,17 +139,18 @@ public class ColonyManager : MonoBehaviour
         worldItems = FindObjectsByType<WorldItem>(FindObjectsSortMode.None).ToList();
 
         //TODO: May be better to populate this by hand, but it only rudns once so shrug emoji.
-        worldObjects = new WorldObjectCollection(FindObjectsByType<WorldObject>(FindObjectsSortMode.None));
+        worldObjects = new WorldObjCollection(FindObjectsByType<WorldObject>(FindObjectsSortMode.None));
 
         /*
          * Setup scene information so workstations and such can be assigned.
          */
-        sleepObjects = new WorldObjectCollection(worldObjects.Where(obj => obj.benefit.tiredness < 0));
-        eatObjects = new WorldObjectCollection(worldObjects.Where(obj => obj.benefit.hunger < 0));
-        cainTerminals = new WorldObjectCollection<TerminalObject>(worldObjects.Where(obj => obj.GetType() == typeof(TerminalObject)).Cast<TerminalObject>());
+        sleepObjects = new WorldObjCollection(worldObjects.Where(obj => obj.benefit.tiredness < 0));
+        eatObjects = new WorldObjCollection(worldObjects.Where(obj => obj.benefit.hunger < 0));
+        cainTerminals = new WorldObjCollection<TerminalObj>(worldObjects.Where(obj => obj.GetType() == typeof(TerminalObj)).Cast<TerminalObj>());
         //workObjects = new WorldObjectCollection(worldObjects.objects.Where(obj => typeof(obj.taskType) == typeof(WorkTask)).ToList());
-        flamableObjects = new WorldObjectCollection(worldObjects.Where(obj => obj.info.GetProperty<FlamableProperty>() != null));
-        cameraObjects = new WorldObjectCollection<CameraObject>(worldObjects.Where(obj => obj.GetType() == typeof(CameraObject)).Cast<CameraObject>());
+        flamableObjects = new WorldObjCollection(worldObjects.Where(obj => obj.info.HasProperty<FlamableProperty>()));
+        damagableObjects = new WorldObjCollection(worldObjects.Where(obj => obj.info.HasProperty<DamagableProperty>()));
+        cameraObjects = new WorldObjCollection<CameraObj>(worldObjects.Where(obj => obj.GetType() == typeof(CameraObj)).Cast<CameraObj>());
     }
 
     //TODO: Using WorldObject as a parameter creates a cylic dependency between Colonist and WorldObject. This my bite us in the ass later.

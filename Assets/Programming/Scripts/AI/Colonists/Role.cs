@@ -7,11 +7,9 @@ using UnityEngine;
 public abstract class Role : IInteractable
 {
     public Color color;
-    public virtual List<Goal> Goals {
-        get => new List<Goal>();
-    }
+    public virtual Goal[] Goals => new Goal[0];
 
-    public BaseAction[] Actions => new BaseAction[0];
+    public virtual BaseAction[] Actions => new BaseAction[0];
 
     public Vector3 GetDestination()
     {
@@ -27,7 +25,13 @@ public abstract class Role : IInteractable
 
 public class EngineerRole : Role
 {
-
+    public override BaseAction[] Actions
+    {
+        get => new BaseAction[]
+        {
+            new RepairAction()
+        };
+    }
 }
 
 public class XenobioRole : Role

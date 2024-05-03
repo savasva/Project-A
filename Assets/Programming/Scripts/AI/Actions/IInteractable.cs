@@ -11,6 +11,6 @@ public interface IInteractable
 
     public BaseAction[] Actions { get; }
 
-    public List<Goal> Goals { get; }
+    public Goal[] Goals { get; }
 
 }

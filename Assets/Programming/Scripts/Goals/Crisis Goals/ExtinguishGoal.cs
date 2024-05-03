@@ -13,7 +13,7 @@ public class ExtinguishGoal : Goal
     /// </summary>
     public override Condition ResultFit
     {
-        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f);
+        get => new Condition((ColonistState colState, WorldObjInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f);
     }
 
     public override bool Evaluate(ColonistState state)

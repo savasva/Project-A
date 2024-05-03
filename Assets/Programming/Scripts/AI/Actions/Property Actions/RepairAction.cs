@@ -1,30 +1,30 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //TODO: Should this be an action tied to the Fire Extinguisher itself??
-public class ExtinguishAction : BaseAction
+public class RepairAction : BaseAction
 {
     [SerializeField]
     WorldObject obj;
-    FlamableProperty prop;
-    const float ExtinguishRate = 0.05f;
+    DamagableProperty prop;
+    int repairIndex = 0;
+    const float RepairRate = 0.05f;
 
     public override Condition[] preconditions
     {
         get => new Condition[] {
             new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                 return -ActionHelpers.Proximity(colState, obj);
-            }),
-            new Condition((ColonistState colState, WorldObjInfo objInfo) => {
-                return colState.inventory.Has("Fire Extinguisher") ? 1 : -1;
             })
-            
         };
     }
 
-    public ExtinguishAction(WorldObject _obj)
+    public RepairAction()
+    {
+
+    }
+
+    public RepairAction(WorldObject _obj)
     {
         obj = _obj;
     }
@@ -32,38 +32,43 @@ public class ExtinguishAction : BaseAction
     public override void OnStart()
     {
         base.OnStart();
-        prop = obj.info.GetProperty<FlamableProperty>();
-        Debug.Log(obj.name);
-        Debug.Log(prop.burnProgress);
+        prop = obj.info.GetProperty<DamagableProperty>();
     }
 
     public override void OnTick()
     {
         base.OnTick();
 
-        if (prop.burnProgress <= 0)
+        if (repairIndex == prop.components.Count)
         {
             Complete();
+            return;
         }
 
-        prop.burnProgress -= ExtinguishRate * Time.deltaTime;
+        if (prop.components[repairIndex].durability >= 1f)
+        {
+            repairIndex++;
+            return;
+        }
+
+        prop.components[repairIndex].durability -= RepairRate * Time.deltaTime;
     }
 
     protected override void Complete()
     {
-        obj.info.state.aflame = false;
+        obj.info.state.damaged = false;
 
         base.Complete();
     }
 
     public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
-        if (obj.info.state.aflame)
+        foreach (WorldObject currObj in ColonyManager.inst.damagableObjects)
         {
-            obj.info.state.aflame = false;
-            float fit = predicate(examinee, obj.info);
-            obj.info.state.aflame = true;
-            return (fit, new ExtinguishAction(obj), examinee);
+            if (currObj.info.state.damaged)
+            {
+                return (predicate(examinee, currObj.info), new RepairAction(currObj), examinee);
+            }
         }
 
         return (float.MinValue, null, examinee);

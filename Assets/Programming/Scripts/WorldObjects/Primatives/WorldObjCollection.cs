@@ -7,17 +7,17 @@ using System.Collections;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class WorldObjectCollection<T> : IEnumerable<WorldObject> where T : WorldObject
+public class WorldObjCollection<T> : IEnumerable<WorldObject> where T : WorldObject
 {
     [SerializeField]
     protected List<T> objects;
 
-    public WorldObjectCollection()
+    public WorldObjCollection()
     {
         objects = new();
     }
 
-    public WorldObjectCollection(IEnumerable<T> _objects)
+    public WorldObjCollection(IEnumerable<T> _objects)
     {
         objects = _objects.ToList();
     }
@@ -180,10 +180,10 @@ public class WorldObjectCollection<T> : IEnumerable<WorldObject> where T : World
     }
 }*/
 
-public class WorldObjectCollection : WorldObjectCollection<WorldObject> {
+public class WorldObjCollection : WorldObjCollection<WorldObject> {
 
-    public WorldObjectCollection() : base() { }
+    public WorldObjCollection() : base() { }
 
-    public WorldObjectCollection(IEnumerable<WorldObject> _objects) : base(_objects) { }
+    public WorldObjCollection(IEnumerable<WorldObject> _objects) : base(_objects) { }
 
 }

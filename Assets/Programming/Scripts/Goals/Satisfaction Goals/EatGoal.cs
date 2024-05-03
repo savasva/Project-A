@@ -7,7 +7,7 @@ public class EatGoal : Goal
 
     public override Condition ResultFit
     {
-        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.hunger);
+        get => new Condition((ColonistState colState, WorldObjInfo objInfo) => -colState.needs.hunger);
     }
 
     public EatGoal() : base() { }
