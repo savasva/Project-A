@@ -4,7 +4,7 @@ using System.Linq;
 
 public class PriorityQueue<T>
 {
-    List<PriorityNode> queue = new List<PriorityNode>();
+    List<PriorityNode> queue = new();
     public int Count { get { return queue.Count; } }
     //TODO: default(T) may have unexpected consequences for us later. Be careful of using this function! Debug.Log is your friend.
     public PriorityNode First { get { if (Count > 0) return queue[0]; else return null; } }

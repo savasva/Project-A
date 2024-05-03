@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class EmergencyManager : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class EmergencyManager : MonoBehaviour
 
     [SerializeField]
     bool activeEmergency = false;
+
+    [SerializeField]
+    [Range(0, 1f)]
+    float fireIntensity;
 
     private void Awake()
     {
@@ -17,6 +22,14 @@ public class EmergencyManager : MonoBehaviour
             Destroy(this);
     }
 
+    private void Start()
+    {
+        
+    }
 
-    
+    [Button]
+    void StartFire()
+    {
+        FireEmergency test = new FireEmergency(fireIntensity);
+    }
 }

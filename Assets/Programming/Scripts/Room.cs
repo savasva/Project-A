@@ -9,6 +9,6 @@ public class Room : MonoBehaviour
 
     private void Start()
     {
-        contents.objects = GetComponentsInChildren<WorldObject>().ToList();
+        contents = new WorldObjectCollection(GetComponentsInChildren<WorldObject>());
     }
 }

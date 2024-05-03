@@ -6,7 +6,7 @@ using System;
 
 public class ContainerObject : WorldObject
 {
-    public Inventory contents;
+    public Inventory contents = new();
     public int capacity;
 
     public bool IsEmpty { get { return contents.Count <= 0; } }
@@ -62,14 +62,22 @@ public class ContainerObject : WorldObject
 
             foreach (KeyValuePair<string, InventorySlot> slot in vendor.contents)
             {
+                //Make changes
                 examinee.inventory.Add(slot.Value.item);
+
+                //Test fit
                 float fit = predicate(examinee, WorldObjectInfo.none);
                 if (fit > result.Item1)
                 {
                     result = (fit, new VendAction(null, string.Format("Get {0} from {1}", slot.Value.item, vendor.name), vendor, (Consumable)slot.Value.item), examinee);
                 }
+
+                //Revert changes
                 examinee.inventory.Remove(slot.Value.item);
             }
+
+            Debug.Log(vendor);
+            Debug.Log(vendor.contents.Count);
 
             return result;
         }

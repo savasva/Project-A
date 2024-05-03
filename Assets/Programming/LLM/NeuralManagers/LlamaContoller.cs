@@ -65,7 +65,12 @@ public class LlamaContoller : MonoBehaviour
         //UIManager.inst.AddCrewMessage(res);
     }
 
-    async UniTask<string> ProcessPrompt(ColonistModel model, string prompt)
+    public UniTask<ChatHistory.Message> Prompt(ColonistModel model, string prompt, Action<ChatHistory.Message> onComplete = null)
+    {
+        return ProcessPrompt(model, prompt);
+    }
+
+    async UniTask<ChatHistory.Message> ProcessPrompt(ColonistModel model, string prompt)
     {
         string response = "";
 
@@ -100,7 +105,10 @@ public class LlamaContoller : MonoBehaviour
         await UniTask.SwitchToMainThread();
 
         //model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
+        ChatHistory.Message responseMsg = new ChatHistory.Message(AuthorRole.Assistant, response);
 
-        return response;
+        model.session.AddMessage(responseMsg);
+
+        return responseMsg;
     }
 }

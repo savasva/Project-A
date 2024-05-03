@@ -88,7 +88,7 @@ public class DoubleEndedQueue<T>
 
     public List<T> ToList()
     {
-        List<T> list = new List<T>();
+        List<T> list = new();
 
         if (Count == 0) return list;
 
