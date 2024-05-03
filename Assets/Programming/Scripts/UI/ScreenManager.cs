@@ -22,21 +22,8 @@ public class ScreenManager : MonoBehaviour
     [Header("Chat Screen")]
     [SerializeField] GameObject ChatScreen;
     [SerializeField] GameObject ChatPanelTemplate;
-    struct ChatPanel
-    {
-        public Colonist owner;
-        public GameObject panel;
-
-        public ChatPanel(Colonist _owner, GameObject _panel)
-        {
-            owner = _owner;
-            panel = _panel;
-        }
-
-        public void On() {  panel.SetActive(true); }
-        public void Off() { panel.SetActive(false); }
-    }
-    List<ChatPanel> ChatPanels = new();
+    
+    Dictionary<Colonist, ChatPanel> ChatPanels = new();
 
     [Header("Profile Screen")]
     [SerializeField] GameObject ProfilesScreen;
@@ -144,12 +131,12 @@ public class ScreenManager : MonoBehaviour
 
     public void SelectChat(Colonist col)
     {
-        foreach (ChatPanel panel in ChatPanels)
+        foreach (KeyValuePair<Colonist, ChatPanel> panel in ChatPanels)
         {
-            if (panel.owner == col)
-                panel.On();
+            if (panel.Key == col)
+                panel.Value.On();
             else
-                panel.Off();
+                panel.Value.Off();
         }
     }
 
@@ -157,10 +144,10 @@ public class ScreenManager : MonoBehaviour
     {
         foreach (Colonist col in ColonyManager.inst.colonists.Values)
         {
-            GameObject panelObj = Instantiate(ChatPanelTemplate, ChatScreen.transform, false);
-            ChatPanel panel = new ChatPanel(col, panelObj);
+            ChatPanel panel = Instantiate(ChatPanelTemplate, ChatScreen.transform, false).GetComponent<ChatPanel>();
+            panel.Init(col);
             panel.Off();
-            ChatPanels.Add(panel);
+            ChatPanels.Add(col, panel);
         }
     }
 

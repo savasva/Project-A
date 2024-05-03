@@ -428,6 +428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2383a6d8ac2e1742b6957965f5b4f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crewMessageTemplate: {fileID: 8329597276418158300, guid: 14a1f937c87694e6ca8a24ddf270b310, type: 3}
+  gaiaMessageTemplate: {fileID: 4497255231755252259, guid: 1edec8ec715ec4905be3f969e8f4d049, type: 3}
   msgContainer: {fileID: 4661981706564438296}
   sendButton: {fileID: 4681998840035453932}
   input: {fileID: 1603011470288619291}
@@ -782,6 +784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptField: {fileID: 1603011470288619291}
+  modelToPrompt: {fileID: 0}
 --- !u!1 &4661981706564438296
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,11 +863,11 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 15
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

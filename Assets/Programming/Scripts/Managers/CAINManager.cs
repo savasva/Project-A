@@ -34,7 +34,7 @@ public class CAINManager : MonoBehaviour
         display.question = question;
         */
 
-        QuickAIDialogue.singleton.AddQuestion(question);
+        //QuickAIDialogue.singleton.AddQuestion(question);
     }
 
     [System.Serializable]

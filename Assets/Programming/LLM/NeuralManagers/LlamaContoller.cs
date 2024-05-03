@@ -11,19 +11,9 @@ public class LlamaContoller : MonoBehaviour
     //private string ModelPath = "phi-3.gguf";
     public static LlamaContoller inst;
 
-    public ColonistModel jsonParser;
-
-    public ColonistModel engineerModel;
-
-    public ColonistModel bioengineerModel;
-
     public void Start()
     {
         inst = this;
-        //jsonParser = new ColonistModel();
-        CreateModel(engineerModel);
-
-        CreateModel(bioengineerModel);
     }
 
     public void CreateModel(ColonistModel givenModel)
@@ -49,35 +39,25 @@ public class LlamaContoller : MonoBehaviour
         Debug.Log("Model Created");
     }
 
-    public void PromptTest (ColonistModel model, string prompt) 
-    {    
-        //Add user prompt to chat
-        UIManager.inst.AddUserMessage(model, prompt);
-
-        //float startTime = Time.realtimeSinceStartup;
-        //string res = await ProcessPrompt(engineerModel, prompt);
-
-        //process prompt
-        ProcessPrompt(model, prompt).Forget();
-
-        //Debug.LogFormat("Received response in {0} sec(s)\n\n{1}", Time.realtimeSinceStartup - startTime, res);
-
-        //UIManager.inst.AddCrewMessage(res);
-    }
-
-    public UniTask<ChatHistory.Message> Prompt(ColonistModel model, string prompt, Action<ChatHistory.Message> onComplete = null)
+    public void ChatPrompt(ChatPanel targetPanel, ColonistModel model, string prompt) 
     {
-        return ProcessPrompt(model, prompt);
+        ChatHistory.Message msg = new ChatHistory.Message(AuthorRole.User, prompt);
+
+        //Add user prompt to chat
+        targetPanel.AddMessage(msg);
+
+        //process prompt, where it is added to chat
+        ProcessPrompt(targetPanel, model, prompt).Forget();
     }
 
-    async UniTask<ChatHistory.Message> ProcessPrompt(ColonistModel model, string prompt)
+    async UniTask ProcessPrompt(ChatPanel targetPanel, ColonistModel model, string prompt)
     {
         string response = "";
 
         ChatHistory.Message userMsg = new ChatHistory.Message(AuthorRole.User, prompt);
         //model.session.AddMessage(userMsg);
 
-        AsyncChatEntry msgUI = UIManager.inst.AddCrewMessage(model);
+        AsyncChatEntry msgUI = targetPanel.AddMessage(AuthorRole.Assistant, model);
 
         await UniTask.SwitchToThreadPool();
 
@@ -85,7 +65,7 @@ public class LlamaContoller : MonoBehaviour
             new InferenceParams() {
                 Temperature = model.temperature,
                 MaxTokens = model.maxTokens,
-                AntiPrompts = new List<string> { "User:", }
+                AntiPrompts = new List<string> { "User:", "System:" }
             }
         );
 
@@ -104,11 +84,9 @@ public class LlamaContoller : MonoBehaviour
 
         await UniTask.SwitchToMainThread();
 
-        //model.session.AddMessage(new ChatHistory.Message(AuthorRole.Assistant, response));
-        ChatHistory.Message responseMsg = new ChatHistory.Message(AuthorRole.Assistant, response);
+        msgUI.MarkComplete();
+        Debug.Log("Complete!");
 
-        model.session.AddMessage(responseMsg);
-
-        return responseMsg;
+        Debug.Log(model.session.History.Messages.Count);
     }
 }
