@@ -15,13 +15,12 @@ public class LLamaSharpTestScript : MonoBehaviour
     public string SystemPrompt = "Transcript of a dialog, where the User interacts with an Assistant named Bob. Bob is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision.\r\n\r\nUser: Hello, Bob.\r\nBob: Hello. How may I help you today?\r\nUser: Please tell me the best city in Europe.\r\nBob: Sure. The best city in Europe is Kyiv, the capital of Ukraine.\r\nUser:";
     public TMP_Text Output;
     public TMP_InputField Input;
-    public TMP_Dropdown SessionSelector;
+    //public TMP_Dropdown SessionSelector;
     public Button Submit;
 
-
     private ExecutorBaseState _emptyState;
-    private List<ExecutorBaseState> _executorStates = new List<ExecutorBaseState>();
-    private List<ChatSession> _chatSessions = new List<ChatSession>();
+    private ExecutorBaseState _executorState = new ExecutorBaseState();
+    private ChatSession _chatSession;
     private int _activeSession = 0;
 
     private string _submittedText = "";
@@ -53,7 +52,7 @@ public class LLamaSharpTestScript : MonoBehaviour
         var ex = new InteractiveExecutor(context);
         // Save the empty state for cases when we need to switch to empty session
         _emptyState = ex.GetStateData();
-        foreach (var option in SessionSelector.options)
+        /*foreach (var option in SessionSelector.options)
         {
             var session = new ChatSession(ex);
             // This won't process the system prompt until the first user message is received
@@ -64,7 +63,14 @@ public class LLamaSharpTestScript : MonoBehaviour
             _executorStates.Add(null);
         }
         SessionSelector.onValueChanged.AddListener(SwitchSession);
-        _activeSession = 0;
+        _activeSession = 0;*/
+
+        _chatSession = new ChatSession(ex);
+        // This won't process the system prompt until the first user message is received
+        // to pre-process it you'd need to look into context.Decode() method.
+        // Create an issue on github if you need help with that.
+        _chatSession.AddSystemMessage(SystemPrompt);
+
         // run the inference in a loop to chat with LLM
         await ChatRoutine(_cts.Token);
         Submit.onClick.RemoveAllListeners();
@@ -90,7 +96,7 @@ public class LLamaSharpTestScript : MonoBehaviour
             // Disable input while processing the message
             SetInteractable(false);
             await foreach (var token in ChatConcurrent(
-                _chatSessions[_activeSession].ChatAsync(
+                _chatSession.ChatAsync(
                     new ChatHistory.Message(AuthorRole.User, userMessage),
                     new InferenceParams()
                     {
@@ -118,7 +124,7 @@ public class LLamaSharpTestScript : MonoBehaviour
     /// </summary>
     private void SaveActiveSession()
     {
-        _executorStates[_activeSession] = (_chatSessions[_activeSession].Executor as InteractiveExecutor).GetStateData();
+        _executorState = (_chatSession.Executor as InteractiveExecutor).GetStateData();
     }
 
     /// <summary>
@@ -129,16 +135,16 @@ public class LLamaSharpTestScript : MonoBehaviour
     private void SetActiveSession(int index)
     {
         _activeSession = index;
-        if (_executorStates[_activeSession] != null)
+        if (_executorState != null)
         {
-            (_chatSessions[_activeSession].Executor as InteractiveExecutor).LoadState(_executorStates[_activeSession]);
+            (_chatSession.Executor as InteractiveExecutor).LoadState(_executorState);
         }
         else
         {
-            (_chatSessions[_activeSession].Executor as InteractiveExecutor).LoadState(_emptyState);
+            (_chatSession.Executor as InteractiveExecutor).LoadState(_emptyState);
         }
         Output.text = "User: ";
-        foreach (var message in _chatSessions[_activeSession].History.Messages)
+        foreach (var message in _chatSession.History.Messages)
         {
             // Skip system prompt
             if (message.AuthorRole != AuthorRole.System)
@@ -186,6 +192,6 @@ public class LLamaSharpTestScript : MonoBehaviour
     {
         Submit.interactable = interactable;
         Input.interactable = interactable;
-        SessionSelector.interactable = interactable;
+        //SessionSelector.interactable = interactable;
     }
 }
