@@ -25,6 +25,11 @@ public abstract class Role : IInteractable
 
 public class EngineerRole : Role
 {
+    public override Goal[] Goals => new Goal[]
+    {
+        new PatrolGoal()
+    };
+
     public override BaseAction[] Actions
     {
         get => new BaseAction[]

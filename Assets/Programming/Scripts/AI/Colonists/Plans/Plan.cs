@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Plan
 {
-    public DoubleEndedQueue<BaseAction> stack;
+    public Dequeue<BaseAction> stack;
 
     public PlanNode root;
     [SerializeField]

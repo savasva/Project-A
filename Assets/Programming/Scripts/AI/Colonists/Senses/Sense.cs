@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public abstract class Sense : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public abstract class Sense : MonoBehaviour
     protected List<IInteractable> rangeInteractables;
     [SerializeField]
     protected List<Transform> rangeTransforms;
+    [SerializeField]
+    protected List<WorldObject> rangeObjs; 
 
     private void Start()
     {
@@ -16,6 +19,7 @@ public abstract class Sense : MonoBehaviour
         owner = GetComponent<Colonist>();
     }
 
+    [Button("Scan")]
     public abstract List<IInteractable> Scan(); 
 
     protected abstract bool IsValid(Transform interactable);

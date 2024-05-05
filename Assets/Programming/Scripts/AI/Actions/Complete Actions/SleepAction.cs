@@ -10,7 +10,6 @@ public class SleepAction : BaseAction
     {
         get => new Condition[] {
             new Condition((ColonistState colState, WorldObjInfo objInfo) => {
-                Debug.LogFormat("Distance to {0}: {1}", bed.info.name, ActionHelpers.Proximity(colState, bed));
                 return -ActionHelpers.Proximity(colState, bed);
             })
         };
