@@ -57,6 +57,7 @@ public class Goal
     public int SubgoalCount { get { return subgoalQueue.Count; } }
 
     public Goal() {
+        name = GetType().Name;
         _goalType = GoalType;
     }
 

@@ -13,7 +13,7 @@ public class BaseAction
 
     public Colonist doer;
     [SerializeField]
-    string name = "Unnamed Task";
+    public string name = "Unnamed Task";
     public Needs benefit = new Needs();
     public Action OnComplete = () => { };
 

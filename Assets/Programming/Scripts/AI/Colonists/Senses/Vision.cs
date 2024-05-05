@@ -35,12 +35,17 @@ public class Vision : Sense
 
         Collider[] inRange = Physics.OverlapSphere(transform.position, range, targetLayers.value);
         rangeTransforms = inRange.Select((Collider c) => { return c.transform; }).ToList();
+        rangeObjs.Clear();
 
         foreach (Transform t in rangeTransforms)
         {
             if (IsValid(t))
             {
                 valids.Add(t.GetComponent<IInteractable>());
+
+                WorldObject o = t.GetComponent<WorldObject>();
+                if (o != null)
+                    rangeObjs.Add(o);
             }
         }
 

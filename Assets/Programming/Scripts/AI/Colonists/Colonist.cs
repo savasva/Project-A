@@ -1,8 +1,5 @@
-using Sirenix.OdinInspector.Editor.Internal;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -81,7 +78,7 @@ public class Colonist : MonoBehaviour
     int staticAvoidance;
 
     List<Goal> personalGoalPool;
-    Sense[] senses;
+    public Sense[] senses;
 
     private void Awake()
     {
@@ -172,16 +169,19 @@ public class Colonist : MonoBehaviour
 
     public void UpdateValidGoals()
     {
-        while (goalQueue.Count > 1)
+        while (goalQueue.Count > 0)
         {
             goalQueue.Dequeue();
         }
 
         foreach (Goal goal in GoalPool)
         {
-            if (goal.Evaluate(state)) {
+            bool eval = goal.Evaluate(state);
+            if (eval) {
                 goalQueue.Enqueue(goal.DeepCopy(), (int)goal.GoalType);
             }
+
+            Debug.LogFormat("<b><color=red>{0}:</color></b> {1} is {2}", model.name, goal.GetType(), eval ? "VALID" : "INVALID");
         }
 
         //If no goal applies, just wander.
@@ -198,7 +198,6 @@ public class Colonist : MonoBehaviour
     {
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
-            Debug.LogFormat("Executing Goal {0}", CurrentGoal.value.GetType());
             CurrentGoal.value.doer = this;
             CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
             //CurrentGoal.value.Execute(false);
