@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class BaseAction
@@ -11,7 +12,8 @@ public class BaseAction
     public ActionState state = ActionState.Queued;
 
     public Colonist doer;
-    private string name = "Unnamed Task";
+    [SerializeField]
+    string name = "Unnamed Task";
     public Needs benefit = new Needs();
     public Action OnComplete = () => { };
 

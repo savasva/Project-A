@@ -64,7 +64,7 @@ public class Planner : MonoBehaviour
             {
                 //if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
-                Debug.LogFormat("Testing Action {0}", action);
+                //Debug.LogFormat("Testing Action {0}", action);
 
                 if (action == null)
                 {
@@ -121,7 +121,13 @@ public class Planner : MonoBehaviour
     public static Plan BuildPlan(Colonist col, Goal goal)
     {
         Plan plan = new Plan();
-        GeneratePlanRecursive(col, col.state, goal.ResultFit, plan);
+
+        Debug.LogFormat("<b><color=green>Planner:</color></b> Building plan for {0}.", goal.GetType());
+
+        foreach(Condition cond in goal.ResultFits)
+        {
+            GeneratePlanRecursive(col, col.state, cond, plan);
+        }
 
         return plan;
     }

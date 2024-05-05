@@ -9,6 +9,14 @@ public class Goal
     /**
      * Parameters
      **/
+    [SerializeField]
+    string name;
+
+    public virtual GoalTypes GoalType => GoalTypes.Instrumental;
+    [SerializeField] GoalTypes _goalType;
+
+    public GoalState state = GoalState.Queued;
+
     public Colonist doer = null;
 
     public Plan plan;
@@ -16,14 +24,11 @@ public class Goal
     /// <summary>
     /// The criteria that must be met in order for this goal to be valid. The better the match, the higher the value this function should return.
     /// </summary>
-    public virtual Condition ResultFit {
-        get => new Condition((ColonistState colState, WorldObjInfo objInfo) => 1);
+    public virtual Condition[] ResultFits {
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => 1)
+        };
     }
-
-    public GoalState state = GoalState.Queued;
-
-    private string name;
-    public virtual GoalTypes GoalType => GoalTypes.Instrumental;
     
     protected bool subgoal = false;
 
@@ -32,8 +37,7 @@ public class Goal
      **/
     [SerializeField]
     //protected DoubleEndedQueue<BaseAction> actionHistory = new DoubleEndedQueue<BaseAction>();
-    [SerializeReference]
-    public List<BaseAction> actionQueueVisualizer = new();
+
     public BaseAction CurrentAction {
         get {
             if (NeedsSubgoal)
@@ -46,18 +50,21 @@ public class Goal
     /**
      * Subgoals
      **/
-    DoubleEndedQueue<Goal> subgoalQueue = new DoubleEndedQueue<Goal>();
-    public List<Goal> subgoalQueueVisualizer = new();
+    [SerializeField]
+    Dequeue<Goal> subgoalQueue = new Dequeue<Goal>();
     public Goal CurrentSubgoal { get { return subgoalQueue.Cursor.Value; } }
     public bool NeedsSubgoal { get { return subgoalQueue.Count == 0; } }
     public int SubgoalCount { get { return subgoalQueue.Count; } }
 
-    public Goal() { }
+    public Goal() {
+        _goalType = GoalType;
+    }
 
     public Goal(string _name, Colonist _colonist)
     {
         name = _name;
         doer = _colonist;
+        _goalType = GoalType;
     }
 
     public virtual bool Evaluate(ColonistState state)
@@ -86,14 +93,12 @@ public class Goal
     public void SetPlan(Plan newPlan)
     {
         plan = newPlan;
-        UpdatePreviews();
     }
 
     protected void EnqueueAction(BaseAction action)
     {
-        plan.stack.Enqueue(action);
+        plan.stack.AddLast(action);
 
-        UpdatePreviews();
         Debug.LogFormat("{0}: Enqueued action {1}", GetType(), action.GetType());
     }
 
@@ -102,24 +107,14 @@ public class Goal
         if (CurrentAction != null) CurrentAction.state = BaseAction.ActionState.Interrupted;
 
         if (action != null) plan.stack.AddFirst(action);
-
-        UpdatePreviews();
     }
 
     public void CompleteAction()
     {
-        plan.stack.Dequeue();
+        plan.stack.RemoveLast();
 
         if (plan.stack.Count == 0)
             CompleteGoal();
-
-        UpdatePreviews();
-    }
-
-    void UpdatePreviews()
-    {
-        actionQueueVisualizer = plan.stack.ToList();
-        subgoalQueueVisualizer = subgoalQueue.ToList();
     }
 
     public virtual Goal DeepCopy()

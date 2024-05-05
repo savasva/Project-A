@@ -28,8 +28,8 @@ public class ChatPanel : MonoBehaviour
         LlamaContoller.inst.CreateModel(model);
         sendButton.onClick.AddListener(() =>
         {
-            Debug.Log(input.text);
             LlamaContoller.inst.ChatPrompt(this, model, input.text);
+            input.text = "";
         });
     }
 

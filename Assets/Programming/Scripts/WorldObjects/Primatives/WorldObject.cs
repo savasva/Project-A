@@ -126,7 +126,7 @@ public struct WorldObjInfo
 
     public bool HasProperty<T>() where T : WorldObjProperty
     {
-        return (T)properties.Find(p => p.GetType() == typeof(T)) == null;
+        return (T)properties.Find(p => p.GetType() == typeof(T)) != null;
     }
 
     public void InitProperties(WorldObject obj)
