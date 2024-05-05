@@ -65,7 +65,7 @@ public class LlamaContoller : MonoBehaviour
             new InferenceParams() {
                 Temperature = model.temperature,
                 MaxTokens = model.maxTokens,
-                AntiPrompts = new List<string> { "User:", "System:" }
+                AntiPrompts = new List<string> { "User:" }//, "System:" }
             }
         );
 

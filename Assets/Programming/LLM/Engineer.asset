@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Engineer
   lastAnswer: 
-  prompt: You are an engineer aboard the colonist starship named the New Horizons.
+  prompt: 'Your name is Anika Johnson. You are a 24 year old female engineer and
+    a recent college graduate. '
   maxTokens: 64
   temperature: 0.6
   chatMessageContainer: {fileID: 0}
