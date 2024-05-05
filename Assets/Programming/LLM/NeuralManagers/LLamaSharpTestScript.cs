@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using LLama;
 using LLama.Common;
+using LLama.Native;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine.UI;
@@ -66,10 +67,7 @@ public class LLamaSharpTestScript : MonoBehaviour
         _activeSession = 0;*/
 
         _chatSession = new ChatSession(ex);
-        // This won't process the system prompt until the first user message is received
-        // to pre-process it you'd need to look into context.Decode() method.
-        // Create an issue on github if you need help with that.
-        _chatSession.AddSystemMessage(SystemPrompt);
+        await _chatSession.AddAndProcessSystemMessage(SystemPrompt);
 
         // run the inference in a loop to chat with LLM
         await ChatRoutine(_cts.Token);
