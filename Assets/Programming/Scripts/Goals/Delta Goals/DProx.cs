@@ -11,9 +11,11 @@ public class DProx : Goal
 
     Vector3 destination;
 
-    public override Condition ResultFit
+    public override Condition[] ResultFits
     {
-        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -Vector3.Distance(colState.position, destination));
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => -Vector3.Distance(colState.position, destination))
+        };
     }
 
     public DProx(Colonist _colonist, Vector3 _destination)
@@ -53,7 +55,7 @@ public class DProx : Goal
     void HandleObstacle(WorldObject obstacle)
     {
         Debug.Log(obstacle.name);
-        if (obstacle.GetType() == typeof(DoorObject))
+        if (obstacle.GetType() == typeof(DoorObj))
         {
             WorldModGoal igoal = new WorldModGoal(doer, "CAIN, please open the door.", obstacle, "Open");
             //Interrupt(igoal);

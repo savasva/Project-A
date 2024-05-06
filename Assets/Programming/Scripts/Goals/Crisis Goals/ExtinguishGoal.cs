@@ -11,9 +11,11 @@ public class ExtinguishGoal : Goal
     /// <summary>
     /// Should be positive if the object is NOT on fire
     /// </summary>
-    public override Condition ResultFit
+    public override Condition[] ResultFits
     {
-        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f);
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f)
+        };
     }
 
     public override bool Evaluate(ColonistState state)

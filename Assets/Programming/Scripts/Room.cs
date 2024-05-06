@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    public WorldObjectCollection contents;
+    public WorldObjCollection contents;
 
     private void Start()
     {
-        contents = new WorldObjectCollection(GetComponentsInChildren<WorldObject>());
+        contents = new WorldObjCollection(GetComponentsInChildren<WorldObject>());
     }
 }

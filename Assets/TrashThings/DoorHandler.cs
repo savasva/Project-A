@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DoorHandler : MonoBehaviour
 {
-    public DoorObject[] Doors;
+    public DoorObj[] Doors;
 
     public void ChangeDoorState(int id)
     {

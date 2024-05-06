@@ -4,7 +4,7 @@ using UnityEngine;
 public class WorldItem : MonoBehaviour, IInteractable {
     public InventoryItem item;
 
-    public List<Goal> Goals { get; }
+    public Goal[] Goals => new Goal[0];
 
     public BaseAction[] Actions => new BaseAction[0];
 

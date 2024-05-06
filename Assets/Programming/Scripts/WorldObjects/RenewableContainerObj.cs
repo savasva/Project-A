@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RenewableContainerObject : ContainerObject
+public class RenewableContainerObj : ContainerObj
 {
     public float renewTime;
     public InventoryItem renewResults;
@@ -11,19 +11,19 @@ public class RenewableContainerObject : ContainerObject
     public class RenewAction : BaseAction
     {
         [SerializeField]
-        RenewableContainerObject container;
+        RenewableContainerObj container;
         float currRenewTime = 0;
 
         public override Condition[] preconditions
         {
             get => new Condition[] {
-                new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+                new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                     return -ActionHelpers.Proximity(colState, container);
                 })
             };
         }
 
-        public RenewAction(RenewableContainerObject _machine)
+        public RenewAction(RenewableContainerObj _machine)
         {
             container = _machine;
         }
@@ -50,9 +50,9 @@ public class RenewableContainerObject : ContainerObject
             base.Complete();
         }
 
-        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+        public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
         {
-            return (predicate(examinee, WorldObjectInfo.none), new RenewAction(container), examinee);
+            return (predicate(examinee, WorldObjInfo.none), new RenewAction(container), examinee);
         }
     }
 }

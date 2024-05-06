@@ -14,10 +14,10 @@ public class ExtinguishAction : BaseAction
     public override Condition[] preconditions
     {
         get => new Condition[] {
-            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                 return -ActionHelpers.Proximity(colState, obj);
             }),
-            new Condition((ColonistState colState, WorldObjectInfo objInfo) => {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                 return colState.inventory.Has("Fire Extinguisher") ? 1 : -1;
             })
             
@@ -56,18 +56,8 @@ public class ExtinguishAction : BaseAction
         base.Complete();
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
-        /*foreach (WorldObject currObj in ColonyManager.inst.flamableObjects.objects)
-        {
-            Debug.Log(currObj.info.state.aflame);
-            if (currObj.info.state.aflame)
-            {
-                return (predicate(examinee, currObj.info), new ExtinguishAction(currObj), examinee);
-            }
-        }*/
-
-        //Debug.LogFormat("{0}, {1}", obj.info.state.aflame, predicate(examinee, obj.info));
         if (obj.info.state.aflame)
         {
             obj.info.state.aflame = false;

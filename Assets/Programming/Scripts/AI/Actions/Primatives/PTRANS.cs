@@ -39,7 +39,7 @@ public class PTRANS : BaseAction
         doer.mover.ResetPath();
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
         (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
@@ -47,11 +47,11 @@ public class PTRANS : BaseAction
         {
             examinee.position = obj.GetDestination();
 
-            float fit = predicate(examinee, WorldObjectInfo.none);
+            float fit = predicate(examinee, WorldObjInfo.none);
 
             if (fit > result.Item1)
             {
-                result = (fit, new PTRANS(null, string.Format("Moving to {0}", examinee.position), examinee.position), examinee);
+                result = (fit, new PTRANS(null, string.Format("Moving to {0} ({1})", obj.info.name, examinee.position), examinee.position), examinee);
             }
         }
 

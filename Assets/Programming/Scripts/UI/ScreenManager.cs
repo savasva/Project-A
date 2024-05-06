@@ -63,7 +63,7 @@ public class ScreenManager : MonoBehaviour
     {
         ClearSidebar();
 
-        foreach (CameraObject obj in ColonyManager.inst.cameraObjects)
+        foreach (CameraObj obj in ColonyManager.inst.cameraObjects)
         {
             GameObject btnObj = Instantiate(ButtonTemplate, Sidebar.transform, false);
             Button btn = btnObj.GetComponent<Button>();

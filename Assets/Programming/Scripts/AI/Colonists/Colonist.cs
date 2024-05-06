@@ -1,7 +1,5 @@
-using Sirenix.OdinInspector.Editor.Internal;
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +13,10 @@ public class Colonist : MonoBehaviour
     public ColonistModel model;
     public ColonistState state;
     public Big5Personality personality;
+
+    [Header("Planning")]
+    [SerializeField]
+    float goalDelay = 0.15f;
 
     [Header("Memory")]
     //Short-Term Memory / Working Memory
@@ -44,8 +46,9 @@ public class Colonist : MonoBehaviour
         }
     }
 
-    PriorityQueue<Goal> goalQueue;
-    public PriorityQueue<Goal>.PriorityNode CurrentGoal {
+    [SerializeField]
+    GoalPQueue goalQueue;
+    public GoalPQueue.PriorityNode CurrentGoal {
         get {
             return goalQueue.First;
         }
@@ -65,7 +68,6 @@ public class Colonist : MonoBehaviour
             return NeedsGoal || CurrentGoal.value.plan.stack.Count == 0;
         }
     }
-    public List<Goal> goalQueueVisualizer;
 
     List<IInteractable> knownInteractables;
 
@@ -76,14 +78,14 @@ public class Colonist : MonoBehaviour
     int staticAvoidance;
 
     List<Goal> personalGoalPool;
-    Sense[] senses;
+    public Sense[] senses;
 
     private void Awake()
     {
         mover = GetComponent<NavMeshAgent>();
 
         //actionQueue = new DoubleEndedQueue<BaseAction>();
-        goalQueue = new PriorityQueue<Goal>();
+        goalQueue = new GoalPQueue();
         senses = GetComponents<Sense>();
         mobileAvoidance = mover.avoidancePriority;
         UpdateState();
@@ -97,6 +99,8 @@ public class Colonist : MonoBehaviour
         personalGoalPool = new();
         personalGoalPool.AddRange(ColonyManager.inst.GlobalGoalPool);
         personalGoalPool.AddRange(state.role.Goals);
+
+        StartCoroutine(ScanForGoals(goalDelay));
     }
 
     // Update is called once per frame
@@ -122,16 +126,15 @@ public class Colonist : MonoBehaviour
             
             foreach (Sense sense in senses)
             {
-                Debug.Log(sense.GetType().Name);
                 foreach (IInteractable obj in sense.Scan())
                 {
                     pool.AddRange(obj.Goals);
                 }
             }
 
-            pool = pool.OrderBy((g) => {
+            /*pool = pool.OrderBy((g) => {
                 return (int)g.GoalType;
-            }).ToList();
+            }).ToList();*/
 
             return pool;
         }
@@ -157,27 +160,28 @@ public class Colonist : MonoBehaviour
     {
         if (NeedsGoal)
         {
-            ChooseGoal();
-            UpdateCurrentGoal();
+            //UpdateValidGoals();
+            //Debug.Log("Needs goal!");
+            //_currentGoal = GetValidGoals()[0];
+            //UpdateCurrentGoal();
         }
     }
 
-    public void ChooseGoal()
+    public void UpdateValidGoals()
     {
+        while (goalQueue.Count > 0)
+        {
+            goalQueue.Dequeue();
+        }
+
         foreach (Goal goal in GoalPool)
         {
-            if (goal.Evaluate(state)) {
-                //TODO: Implement COPY function
-                Goal newGoal = goal.DeepCopy();
-                if (goal.GetType() == typeof(ExtinguishGoal))
-                {
-                    ExtinguishGoal eGoal = (ExtinguishGoal)goal;
-                    Debug.Log(eGoal.obj);
-                }
-                newGoal.doer = this;
-                goalQueue.Enqueue(newGoal, 1000 - (int)newGoal.GoalType);
-                return;
+            bool eval = goal.Evaluate(state);
+            if (eval) {
+                goalQueue.Enqueue(goal.DeepCopy(), (int)goal.GoalType);
             }
+
+            Debug.LogFormat("<b><color=red>{0}:</color></b> {1} is {2}", model.name, goal.GetType(), eval ? "VALID" : "INVALID");
         }
 
         //If no goal applies, just wander.
@@ -194,12 +198,10 @@ public class Colonist : MonoBehaviour
     {
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
-            Debug.LogFormat("Executing Goal {0}", CurrentGoal.value.GetType());
+            CurrentGoal.value.doer = this;
             CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
             //CurrentGoal.value.Execute(false);
         }
-
-        goalQueueVisualizer = goalQueue.ToList();
     }
 
     public void UpdateCurrentAction()
@@ -247,5 +249,15 @@ public class Colonist : MonoBehaviour
     public void RemoveInteractable(IInteractable interactable)
     {
         knownInteractables.Remove(interactable);
+    }
+
+    IEnumerator ScanForGoals(float scanFreq)
+    {
+        while (true)
+        {
+            UpdateValidGoals();
+            UpdateCurrentGoal();
+            yield return new WaitForSeconds(scanFreq);
+        }
     }
 }

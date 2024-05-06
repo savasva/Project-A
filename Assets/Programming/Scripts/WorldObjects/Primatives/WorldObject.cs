@@ -10,7 +10,7 @@ public class WorldObject : MonoBehaviour, IInteractable
     [SerializeReference]
     public BaseAction[] actions;
 
-    public WorldObjectInfo info;
+    public WorldObjInfo info;
     public Transform moveDestination;
     public Needs benefit;
     
@@ -41,6 +41,11 @@ public class WorldObject : MonoBehaviour, IInteractable
         info.InitProperties(this);
     }
 
+    void Update()
+    {
+        info.state.position = transform.position;
+    }
+
     /// <summary>
     /// What should this object do when it is interacted with by the Player?
     /// ex: Switch to this camera if it's a CameraObject
@@ -68,18 +73,18 @@ public class WorldObject : MonoBehaviour, IInteractable
 
     public BaseAction[] Actions => actions.Concat(info.GetPropertyActions()).ToArray();
 
-    public List<Goal> Goals
+    public Goal[] Goals
     {
         get
         {
             List<Goal> goals = new();
 
-            foreach(WorldObjectProperty prop in info.properties)
+            foreach(WorldObjProperty prop in info.properties)
             {
                 goals.AddRange(prop.PropGoals);
             }
 
-            return goals;
+            return goals.ToArray();
         }
     }
 
@@ -98,33 +103,38 @@ public class WorldObject : MonoBehaviour, IInteractable
 }
 
 [System.Serializable]
-public struct WorldObjectInfo
+public struct WorldObjInfo
 {
     public string name;
     [SerializeReference]
-    public List<WorldObjectProperty> properties;
-    public WorldObjectState state;
+    public List<WorldObjProperty> properties;
+    public WorldObjState state;
 
-    public WorldObjectInfo(bool isNone = true)
+    public WorldObjInfo(bool isNone = true)
     {
         name = "";
-        properties = new();
-        state = new WorldObjectState(isNone);
+        properties = new List<WorldObjProperty>();
+        state = new WorldObjState(isNone);
     }
 
-    public static WorldObjectInfo none = new WorldObjectInfo(true);
+    public static WorldObjInfo none = new WorldObjInfo(true);
 
-    public T GetProperty<T>() where T : WorldObjectProperty
+    public T GetProperty<T>() where T : WorldObjProperty
     {
         return (T)properties.Find(p => p.GetType() == typeof(T));
     }
 
+    public bool HasProperty<T>() where T : WorldObjProperty
+    {
+        return (T)properties.Find(p => p.GetType() == typeof(T)) != null;
+    }
+
     public void InitProperties(WorldObject obj)
     {
-        foreach (WorldObjectProperty prop in properties)
+        state.position = obj.transform.position;
+        foreach (WorldObjProperty prop in properties)
         {
             prop.InitProperty(obj);
-            Debug.Log(prop.PropGoals[0].GetType());
         }
     }
 
@@ -132,7 +142,7 @@ public struct WorldObjectInfo
     {
         List<BaseAction> final = new();
 
-        foreach (WorldObjectProperty prop in properties)
+        foreach (WorldObjProperty prop in properties)
         {
             final.AddRange(prop.PropActions);
         }
@@ -142,21 +152,27 @@ public struct WorldObjectInfo
 }
 
 [System.Serializable]
-public struct WorldObjectState
+public struct WorldObjState
 {
+    public Vector3 position;
     public bool isNone;
     public bool aflame;
+    public bool damaged;
+    public bool broken;
 
-    public WorldObjectState(bool _none = true)
+    public WorldObjState(bool _none = true)
     {
+        position = Vector3.zero;
         aflame = false;
+        damaged = false;
+        broken = false;
         isNone = _none;
     }
 
-    public static WorldObjectState none
+    public static WorldObjState none
     {
         get {
-            return new WorldObjectState();
+            return new WorldObjState();
         }
     }
 }

@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using System.Collections;
-using UnityEngine.UIElements;
 
 [System.Serializable]
-public class WorldObjectCollection<T> : IEnumerable<WorldObject> where T : WorldObject
+public class WorldObjCollection<T> : IEnumerable<WorldObject> where T : WorldObject
 {
     [SerializeField]
     protected List<T> objects;
 
-    public WorldObjectCollection()
+    public WorldObjCollection()
     {
         objects = new();
     }
 
-    public WorldObjectCollection(IEnumerable<T> _objects)
+    public WorldObjCollection(IEnumerable<T> _objects)
     {
         objects = _objects.ToList();
     }
@@ -123,12 +121,12 @@ public class WorldObjectCollection<T> : IEnumerable<WorldObject> where T : World
 
     public IEnumerator<T> GetEnumerator()
     {
-        return (IEnumerator<T>)objects.GetEnumerator();
+        return objects.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return (IEnumerator<T>)objects.GetEnumerator();
+        return objects.GetEnumerator();
     }
 
     IEnumerator<WorldObject> IEnumerable<WorldObject>.GetEnumerator()
@@ -137,53 +135,11 @@ public class WorldObjectCollection<T> : IEnumerable<WorldObject> where T : World
     }
 }
 
-//https://learn.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator?view=net-8.0
-/*public class WorldObjectEnumerator<T> : IEnumerator<T> where T : WorldObject
-{
-    public List<T> objects;
-    int index = -1;
+[System.Serializable]
+public class WorldObjCollection : WorldObjCollection<WorldObject> {
 
-    public WorldObjectEnumerator(List<T> _objects) {
-        objects = _objects;
-    }
+    public WorldObjCollection() : base() { }
 
-    public T Current {
-        get
-        {
-            try
-            {
-                return objects[index];
-            }
-            catch (IndexOutOfRangeException)
-            {
-                throw new InvalidOperationException();
-            }
-        }
-    }
-
-    object IEnumerator.Current => Current;
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool MoveNext()
-    {
-        index++;
-        return index < objects.Count;
-    }
-
-    public void Reset()
-    {
-        index = -1;
-    }
-}*/
-
-public class WorldObjectCollection : WorldObjectCollection<WorldObject> {
-
-    public WorldObjectCollection() : base() { }
-
-    public WorldObjectCollection(IEnumerable<WorldObject> _objects) : base(_objects) { }
+    public WorldObjCollection(IEnumerable<WorldObject> _objects) : base(_objects) { }
 
 }

@@ -11,7 +11,7 @@ public class TAKE : BaseAction
     public override Condition[] preconditions
     {
         get => new Condition[] {
-            new Condition((ColonistState colState, WorldObjectInfo objInfo) =>
+            new Condition((ColonistState colState, WorldObjInfo objInfo) =>
             {
                 //TODO: Should this be an action tied to the Fire Extinguisher itself??
                 return -ActionHelpers.Proximity(colState, worldItem);
@@ -39,7 +39,7 @@ public class TAKE : BaseAction
         Complete();
     }
 
-    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjectInfo, float> predicate, ColonistState examinee)
+    public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
         (float, BaseAction, ColonistState) result = (float.MinValue, null, ColonistState.none);
 
@@ -47,7 +47,7 @@ public class TAKE : BaseAction
         {
             examinee.inventory.Add(worldItem.item);
 
-            float fit = predicate(examinee, WorldObjectInfo.none);
+            float fit = predicate(examinee, WorldObjInfo.none);
 
             if (fit > result.Item1)
             {

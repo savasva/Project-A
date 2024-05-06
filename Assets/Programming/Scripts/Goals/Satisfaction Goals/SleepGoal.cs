@@ -8,8 +8,10 @@ public class SleepGoal : Goal
     /// <summary>
     /// Should be true if the Colonist is NOT tired
     /// </summary>
-    public override Condition ResultFit {
-        get => new Condition((ColonistState colState, WorldObjectInfo objInfo) => -colState.needs.tiredness);
+    public override Condition[] ResultFits {
+        get => new Condition[] {
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => (-colState.needs.tiredness) - (ActionHelpers.Proximity(colState, objInfo.state)))
+        };
     }
 
     public override bool Evaluate(ColonistState state)
