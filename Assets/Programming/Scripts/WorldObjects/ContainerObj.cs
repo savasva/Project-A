@@ -76,9 +76,6 @@ public class ContainerObj : WorldObject
                 examinee.inventory.Remove(slot.Value.item);
             }
 
-            Debug.Log(vendor);
-            Debug.Log(vendor.contents.Count);
-
             return result;
         }
     }

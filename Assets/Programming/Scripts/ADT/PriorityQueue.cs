@@ -1,9 +1,10 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
 public class PriorityQueue<T>
 {
+    [SerializeField]
     List<PriorityNode> queue = new();
     public int Count { get { return queue.Count; } }
     //TODO: default(T) may have unexpected consequences for us later. Be careful of using this function! Debug.Log is your friend.
@@ -52,6 +53,7 @@ public class PriorityQueue<T>
         return list;
     }
 
+    [System.Serializable]
     public class PriorityNode
     {
         public float priority;

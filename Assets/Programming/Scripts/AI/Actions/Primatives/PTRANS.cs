@@ -51,7 +51,7 @@ public class PTRANS : BaseAction
 
             if (fit > result.Item1)
             {
-                result = (fit, new PTRANS(null, string.Format("Moving to {0}", examinee.position), examinee.position), examinee);
+                result = (fit, new PTRANS(null, string.Format("Moving to {0} ({1})", obj.info.name, examinee.position), examinee.position), examinee);
             }
         }
 

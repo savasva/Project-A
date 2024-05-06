@@ -24,7 +24,7 @@ public class Planner : MonoBehaviour
             Destroy(this);
     }
 
-    public static (ColonistState, BaseAction) GetBestAction(Colonist col, ColonistState comparisonState, Condition cond)
+    public static (ColonistState, BaseAction, float) GetBestAction(Colonist col, ColonistState comparisonState, Condition cond)
     {
         //PlanNode bestAction = new PlanNode(colState);
         //PlanEdge bestEdge = new PlanEdge(null, null, null, float.MinValue);
@@ -43,7 +43,25 @@ public class Planner : MonoBehaviour
 
             chosenAction = action.PredictFit(cond.predicate, comparisonState);
 
-            Debug.LogFormat("Action: {0} - Fit: {1}", action.GetType().Name, chosenAction.Item1);
+            //Debug.LogFormat("Action: {0} - Fit: {1}", action.GetType().Name, chosenAction.Item1);
+
+            if (chosenAction.Item1 > bestAction.Weight)
+            {
+                bestAction.action = chosenAction.Item2;
+                bestAction.SetWeight(chosenAction.Item1);
+                bestState = chosenAction.Item3;
+
+                //Debug.LogFormat("<b><color=green>Planner:</color></b> Selected action {0} ({1}).", bestAction.action.name, bestAction.Weight);
+
+            }
+        }
+
+        /*
+         * Check Role actions
+         */
+        foreach (BaseAction action in col.state.role.Actions)
+        {
+            chosenAction = action.PredictFit(cond.predicate, comparisonState);
 
             if (chosenAction.Item1 > bestAction.Weight)
             {
@@ -64,17 +82,17 @@ public class Planner : MonoBehaviour
             {
                 //if (i != 0 && parent.Item2.action.GetType() == action.GetType()) continue;
 
-                Debug.LogFormat("Testing Action {0}", action);
+                //Debug.LogFormat("Testing Action {0}", action);
 
                 if (action == null)
                 {
-                    Debug.LogError("NULL ACTION! Skipping.");
+                    Debug.LogErrorFormat("<b>{0}:</b> NULL ACTION! Skipping.", obj.gameObject.name);
                     continue;
                 }
 
                 chosenAction = action.PredictFit(cond.predicate, comparisonState, obj.info);
 
-                Debug.LogFormat("Action: {0} ({1}) - Fit: {2}", action.GetType().Name, obj.info.name, chosenAction.Item1);
+                //Debug.LogFormat("Action: {0} ({1}) - Fit: {2}", action.GetType().Name, obj.info.name, chosenAction.Item1);
 
                 if (chosenAction.Item1 > bestAction.Weight)
                 {
@@ -87,15 +105,15 @@ public class Planner : MonoBehaviour
 
         bestAction.action.doer = col;
 
-        return (bestState, bestAction.action);
+        return (bestState, bestAction.action, bestAction.Weight);
     }
 
     public static void GeneratePlanRecursive(Colonist col, ColonistState comparisonState, Condition condition, Plan currentPlan)
     {
         // Find the best action to satisfy the given condition
-        (ColonistState bestState, BaseAction bestAction) = GetBestAction(col, comparisonState, condition);
+        (ColonistState bestState, BaseAction bestAction, float weight) = GetBestAction(col, comparisonState, condition);
 
-        Debug.LogFormat("Selected {0}", bestAction.GetType().Name);
+        Debug.LogFormat("<b><color=green>Planner:</color></b> Selected {0} ({1}).", bestAction.GetType(), weight);
 
         // If no action is found, error
         if (bestAction == null)
@@ -121,7 +139,13 @@ public class Planner : MonoBehaviour
     public static Plan BuildPlan(Colonist col, Goal goal)
     {
         Plan plan = new Plan();
-        GeneratePlanRecursive(col, col.state, goal.ResultFit, plan);
+
+        Debug.LogFormat("<b><color=green>Planner:</color></b> Building plan for {0}.", goal.GetType());
+
+        foreach(Condition cond in goal.ResultFits)
+        {
+            GeneratePlanRecursive(col, col.state, cond, plan);
+        }
 
         return plan;
     }

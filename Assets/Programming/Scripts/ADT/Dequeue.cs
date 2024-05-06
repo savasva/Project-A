@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DoubleEndedQueue<T>
+public class Dequeue<T>
 {
-    [SerializeField]
-    protected LinkedList<T> queue = new LinkedList<T>();
+    protected LinkedList<T> queue = new();
+    [SerializeField] List<T> _queue = new();
     public int Count { get { return queue.Count - 1; } }
     //TODO: default(T) may have unexpected consequences for us later. Be careful of using this function! Debug.Log is your friend.
     public LinkedListNode<T> Head { get { return queue.First; } }
@@ -16,7 +14,7 @@ public class DoubleEndedQueue<T>
     public LinkedListNode<T> Cursor { get { return _cursor; } }
     public T First { get { if (Count > 0) return Head.Next.Value; else return default(T); } }
 
-    public DoubleEndedQueue() {
+    public Dequeue() {
         queue.AddFirst(new LinkedListNode<T>(default(T)));
         _cursor = Head;
     }
@@ -26,14 +24,16 @@ public class DoubleEndedQueue<T>
         return (queue.Find(value) != null);
     }
 
-    public void Enqueue(T value)
+    public void AddLast(T value)
     {
         queue.AddLast(value);
         if (Cursor == Head)
             Next();
+
+        _queue = ToList();
     }
 
-    public T Dequeue()
+    public T RemoveLast()
     {
         if (Count == 0)
         {
@@ -53,6 +53,8 @@ public class DoubleEndedQueue<T>
         T firstValue = Head.Next.Value;
         queue.Remove(Head.Next);
 
+        _queue = ToList();
+
         return firstValue;
     }
 
@@ -66,6 +68,8 @@ public class DoubleEndedQueue<T>
         queue.AddAfter(Head, value);
         if (Cursor == Head)
             Next();
+
+        _queue = ToList();
     }
 
     public LinkedListNode<T> Next()

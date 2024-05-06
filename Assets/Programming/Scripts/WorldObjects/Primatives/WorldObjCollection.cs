@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using System.Collections;
-using UnityEngine.UIElements;
 
 [System.Serializable]
 public class WorldObjCollection<T> : IEnumerable<WorldObject> where T : WorldObject
@@ -123,12 +121,12 @@ public class WorldObjCollection<T> : IEnumerable<WorldObject> where T : WorldObj
 
     public IEnumerator<T> GetEnumerator()
     {
-        return (IEnumerator<T>)objects.GetEnumerator();
+        return objects.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return (IEnumerator<T>)objects.GetEnumerator();
+        return objects.GetEnumerator();
     }
 
     IEnumerator<WorldObject> IEnumerable<WorldObject>.GetEnumerator()
@@ -137,49 +135,7 @@ public class WorldObjCollection<T> : IEnumerable<WorldObject> where T : WorldObj
     }
 }
 
-//https://learn.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator?view=net-8.0
-/*public class WorldObjectEnumerator<T> : IEnumerator<T> where T : WorldObject
-{
-    public List<T> objects;
-    int index = -1;
-
-    public WorldObjectEnumerator(List<T> _objects) {
-        objects = _objects;
-    }
-
-    public T Current {
-        get
-        {
-            try
-            {
-                return objects[index];
-            }
-            catch (IndexOutOfRangeException)
-            {
-                throw new InvalidOperationException();
-            }
-        }
-    }
-
-    object IEnumerator.Current => Current;
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool MoveNext()
-    {
-        index++;
-        return index < objects.Count;
-    }
-
-    public void Reset()
-    {
-        index = -1;
-    }
-}*/
-
+[System.Serializable]
 public class WorldObjCollection : WorldObjCollection<WorldObject> {
 
     public WorldObjCollection() : base() { }
