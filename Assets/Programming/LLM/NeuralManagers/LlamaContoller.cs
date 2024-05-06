@@ -28,7 +28,7 @@ public class LlamaContoller : MonoBehaviour
         var model = LLamaWeights.LoadFromFile(parameters);
         // Initialize a chat session
         var context = model.CreateContext(parameters);
-        var ex = new InteractiveExecutor(context);
+        var ex = new InstructExecutor(context);
         givenModel.session = new ChatSession(ex);
 
         //Add System Prompt to history
@@ -59,7 +59,7 @@ public class LlamaContoller : MonoBehaviour
 
         await UniTask.SwitchToThreadPool();
 
-        IAsyncEnumerable<string> chatStream = model.session.ChatAsync(userMsg, false,
+        IAsyncEnumerable<string> chatStream = model.session.Executor.InferAsync(string.Format("{0}\n{1}", model.prompt, prompt),
             new InferenceParams() {
                 Temperature = model.temperature,
                 MaxTokens = model.maxTokens,

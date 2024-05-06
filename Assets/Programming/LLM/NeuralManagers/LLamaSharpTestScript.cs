@@ -21,8 +21,8 @@ public class LLamaSharpTestScript : MonoBehaviour
 
     private ExecutorBaseState _emptyState;
     private ExecutorBaseState _executorState = new ExecutorBaseState();
+    private InstructExecutor _executor;
     private ChatSession _chatSession;
-    private int _activeSession = 0;
 
     private string _submittedText = "";
     private CancellationTokenSource _cts;
@@ -50,9 +50,9 @@ public class LLamaSharpTestScript : MonoBehaviour
         await UniTask.SwitchToMainThread();
         // Initialize a chat session
         using var context = model.CreateContext(parameters);
-        var ex = new InteractiveExecutor(context);
+        _executor = new InstructExecutor(context);
         // Save the empty state for cases when we need to switch to empty session
-        _emptyState = ex.GetStateData();
+        _emptyState = _executor.GetStateData();
         /*foreach (var option in SessionSelector.options)
         {
             var session = new ChatSession(ex);
@@ -66,7 +66,7 @@ public class LLamaSharpTestScript : MonoBehaviour
         SessionSelector.onValueChanged.AddListener(SwitchSession);
         _activeSession = 0;*/
 
-        _chatSession = new ChatSession(ex);
+        _chatSession = new ChatSession(_executor);
         await _chatSession.AddAndProcessSystemMessage(SystemPrompt);
 
         // run the inference in a loop to chat with LLM
@@ -94,11 +94,11 @@ public class LLamaSharpTestScript : MonoBehaviour
             // Disable input while processing the message
             SetInteractable(false);
             await foreach (var token in ChatConcurrent(
-                _chatSession.ChatAsync(
-                    new ChatHistory.Message(AuthorRole.User, userMessage),
+                _executor.InferAsync(
+                    string.Format("{0}\n\n{1}", SystemPrompt, userMessage),
                     new InferenceParams()
                     {
-                        Temperature = 0.6f,
+                        Temperature = 0.3f,
                         AntiPrompts = new List<string> { "User:" }
                     }
                 )
@@ -132,7 +132,6 @@ public class LLamaSharpTestScript : MonoBehaviour
     /// <param name="index"></param>
     private void SetActiveSession(int index)
     {
-        _activeSession = index;
         if (_executorState != null)
         {
             (_chatSession.Executor as InteractiveExecutor).LoadState(_executorState);
