@@ -944,8 +944,9 @@ MonoBehaviour:
 
 
     You are chatting with the ship''s artificial captain,
-    GAIA. Please respond with ONLY ONE MESSAGE, and mark the end of your response
-    with <|EOLINE|>. Respond to GAIA as if she''s just asked the following:'
+    GAIA. If GAIA says something that you do not understand or know, say that you
+    do not know. Respond with ONLY ONE MESSAGE. Mark the end of your response with
+    <|EOLINE|>. Respond to GAIA as if she''s just said the following:'
   Output: {fileID: 737283690}
   Input: {fileID: 737283688}
   Submit: {fileID: 737283689}
