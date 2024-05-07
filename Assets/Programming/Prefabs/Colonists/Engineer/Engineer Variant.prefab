@@ -8,13 +8,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: AIName
+      value: GAIA
+      objectReference: {fileID: 0}
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: prompt
+      value: 'Anika Johnson is a 24 year old female engineer and a recent college
+        graduate. She is excitable, outgoing, extroverted, and enthusiastic about
+        anything mechanical. She is a bit of a workaholic and loves her job. Currently,
+        she is working as a crew member on board an interstellar spacecraft called
+        the New Horizon. The crew''s mission is to reach a solar system far away
+        from Earth in order to set up a colony and explore the planets in the solar
+        system. Anika''s job is to make sure that all the components and operations
+        of the ship are working. She is able to repair and replace parts with a 3D
+        printer in her work station.
+
+        
+
+        GAIA is an artificial intelligence
+        assistant on board the New Horizon. Its purpose is to assist Anika and the
+        other crew members with tasks around the ship. It can also answer any questions
+        they have. GAIA and Anika communicate via a computer terminal.
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: playerName
+      value: Anika Johnson
+      objectReference: {fileID: 0}
     - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: model
       value: 
       objectReference: {fileID: 11400000, guid: 082ac6334a1bb496e83de07f981e686a, type: 2}
     - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: goalDelay
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: state.role
       value: 1731637798799409152
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: state.needs.tiredness
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: 'managedReferences[1731637798799409152]'
@@ -38,15 +75,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.92
+      value: 19.34
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9803499
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.54
+      value: 6.91
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -54,15 +91,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -92,8 +129,23 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 8ed68b5240e854781a8080883d8d14b9, type: 2}
+    - target: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: llm
+      value: 
+      objectReference: {fileID: 852768375342278974}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+--- !u!114 &852768375342278974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+  m_PrefabInstance: {fileID: 595315999869039391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95e88cdd1b0a159692667660a065473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Dalia LLMing 2.unity.meta
 guid: f83b224fc520e4822bf88418a8359475
+========
+guid: bf76626f96a60f44e9a12e6dc4b318da
+folderAsset: yes
+>>>>>>>> UI-Menus:Assets/Scenes/Emergencies.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

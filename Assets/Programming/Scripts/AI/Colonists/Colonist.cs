@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(ColonistModel))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class Colonist : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class Colonist : MonoBehaviour
 
     [Header("Planning")]
     [SerializeField]
-    float goalDelay = 0.15f;
+    float goalDelay = 5f;
 
     [Header("Memory")]
     //Short-Term Memory / Working Memory

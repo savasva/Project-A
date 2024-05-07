@@ -7,25 +7,32 @@ public class AsyncChatEntry : MonoBehaviour
 	[SerializeField]
 	TMP_Text textbox;
 	string goalString = "";
+	bool started = false;
 	bool fullResponse = false;
 
 	public void Append(string addition) {
         //textbox.text += addition;
 
         goalString += addition;
-
-
-        StartCoroutine(CharAppend(addition));
 	}
 
-	public void MarkComplete()
+	public void Set(string text)
+	{
+		goalString = text;
+		if (!started) StartCoroutine(CharAppend());
+    }
+
+    public void MarkComplete()
 	{
 		fullResponse = true;
 	}
 
-	IEnumerator CharAppend(string addition)
+	IEnumerator CharAppend()
 	{
-		const float delay = 0.25f;
+		const float delay = 0.05f;
+
+		started = true;
+		textbox.text = "";
 
 		while (!fullResponse) {
 			if (textbox.text.Length < goalString.Length)
