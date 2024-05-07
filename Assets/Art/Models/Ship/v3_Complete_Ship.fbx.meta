@@ -3,7 +3,22 @@ guid: f8dd0eaed8029334eb4e9eb43f5ee0fc
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass_Ship_Mat
+    second: {fileID: 2100000, guid: 8ecceef1992bee745becbe3bd9dd1b16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light_Ship_Mat
+    second: {fileID: 2100000, guid: 2803303092e517449ba4b6052d573644, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ship_Mat
+    second: {fileID: 2100000, guid: 3ceb927ca4cd115458bdf67b66edea29, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -88,7 +103,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1.25
+    globalScale: 125
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
