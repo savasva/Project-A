@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.01494557, g: 0.008003156, b: 0.0045858365, a: 1}
+  m_IndirectSpecularColor: {r: 0.014990508, g: 0.008016511, b: 0.0045788353, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -649,7 +649,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-151312
+  m_Name: pb_Mesh-59960
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1125,7 +1125,7 @@ PrefabInstance:
       objectReference: {fileID: 951857467}
     - target: {fileID: 7571429064328367660, guid: 180d98ee163104ae79600525543f808a, type: 3}
       propertyPath: m_VersionIndex
-      value: 1246
+      value: 1258
       objectReference: {fileID: 0}
     - target: {fileID: 8532998642129444987, guid: 180d98ee163104ae79600525543f808a, type: 3}
       propertyPath: m_Mesh
@@ -1133,7 +1133,7 @@ PrefabInstance:
       objectReference: {fileID: 320997978}
     - target: {fileID: 8532998642129444987, guid: 180d98ee163104ae79600525543f808a, type: 3}
       propertyPath: m_VersionIndex
-      value: 792
+      value: 804
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1270,7 +1270,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150000
+  m_Name: pb_Mesh-60304
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1903,7 +1903,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-151254
+  m_Name: pb_Mesh-60242
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2297,7 +2297,7 @@ PrefabInstance:
       objectReference: {fileID: 426071797}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 94
+      value: 106
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -2421,7 +2421,7 @@ PrefabInstance:
       objectReference: {fileID: 239987552}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 118
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -2858,7 +2858,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150012
+  m_Name: pb_Mesh-60316
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3549,7 +3549,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150270
+  m_Name: pb_Mesh-60262
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4168,7 +4168,7 @@ PrefabInstance:
       objectReference: {fileID: 702613001}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 94
+      value: 106
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -4292,7 +4292,7 @@ PrefabInstance:
       objectReference: {fileID: 1876413017}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 118
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -4597,7 +4597,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-149852
+  m_Name: pb_Mesh-61110
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4948,7 +4948,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-152012
+  m_Name: pb_Mesh-61196
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -5393,7 +5393,7 @@ PrefabInstance:
       objectReference: {fileID: 1527054776}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 94
+      value: 106
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -5517,7 +5517,7 @@ PrefabInstance:
       objectReference: {fileID: 1846201805}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 115
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -5868,7 +5868,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-149864
+  m_Name: pb_Mesh-61122
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -6304,7 +6304,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-151184
+  m_Name: pb_Mesh-60448
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -6895,7 +6895,7 @@ PrefabInstance:
       objectReference: {fileID: 824281600}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 97
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -7019,7 +7019,7 @@ PrefabInstance:
       objectReference: {fileID: 648211792}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 115
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -7329,7 +7329,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150200
+  m_Name: pb_Mesh-60016
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -7494,7 +7494,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-151240
+  m_Name: pb_Mesh-60228
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -7774,7 +7774,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-151196
+  m_Name: pb_Mesh-60460
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -8630,7 +8630,7 @@ PrefabInstance:
       objectReference: {fileID: 949341856}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 94
+      value: 106
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -8754,7 +8754,7 @@ PrefabInstance:
       objectReference: {fileID: 1248873841}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 118
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -9706,7 +9706,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150188
+  m_Name: pb_Mesh-60004
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -10260,24 +10260,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8448248098130310796, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
   m_PrefabInstance: {fileID: 5186883659254687630}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1320982767 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5751293101451768904, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
-  m_PrefabInstance: {fileID: 5186883659254687630}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a50e3140c3ecaaf1c848dbf141cc2074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1383824573
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150074
+  m_Name: pb_Mesh-61562
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -10508,7 +10497,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150086
+  m_Name: pb_Mesh-61574
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -10822,7 +10811,7 @@ PrefabInstance:
       objectReference: {fileID: 45775898}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 97
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -10946,7 +10935,7 @@ PrefabInstance:
       objectReference: {fileID: 1609790769}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 115
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -11272,7 +11261,7 @@ PrefabInstance:
       objectReference: {fileID: 987561362}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 97
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -11396,7 +11385,7 @@ PrefabInstance:
       objectReference: {fileID: 866311321}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 115
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -11574,7 +11563,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-149926
+  m_Name: pb_Mesh-61386
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -12165,7 +12154,7 @@ PrefabInstance:
       objectReference: {fileID: 1414712855}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 94
+      value: 106
       objectReference: {fileID: 0}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -12289,7 +12278,7 @@ PrefabInstance:
       objectReference: {fileID: 1383824573}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 118
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Tangents.Array.data[69].x
@@ -12832,7 +12821,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-151300
+  m_Name: pb_Mesh-59948
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -13100,15 +13089,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b425d2cc4a59640e6bdd2510c162d52f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1762202446 stripped
+--- !u!114 &1762202450 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 447055878760163464, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+  m_CorrespondingSourceObject: {fileID: 852768375342278974, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
   m_PrefabInstance: {fileID: 5936599956053906897}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a50e3140c3ecaaf1c848dbf141cc2074, type: 3}
+  m_Script: {fileID: 11500000, guid: e95e88cdd1b0a159692667660a065473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1815018450
@@ -13364,7 +13353,7 @@ PrefabInstance:
       objectReference: {fileID: 1865915768}
     - target: {fileID: 2137951077568343062, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 70
+      value: 82
       objectReference: {fileID: 0}
     - target: {fileID: 3201155436041692232, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_Name
@@ -13376,7 +13365,7 @@ PrefabInstance:
       objectReference: {fileID: 520055934}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_VersionIndex
-      value: 255
+      value: 267
       objectReference: {fileID: 0}
     - target: {fileID: 3250689520522868529, guid: bbd940c07f04b4e89a55efa115861bf7, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -14040,7 +14029,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-149914
+  m_Name: pb_Mesh-61374
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -14199,6 +14188,28 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1860262659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3781573170698210821, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+  m_PrefabInstance: {fileID: 5186883659254687630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b425d2cc4a59640e6bdd2510c162d52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1860262663 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+  m_PrefabInstance: {fileID: 5186883659254687630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95e88cdd1b0a159692667660a065473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1863722786
 GameObject:
   m_ObjectHideFlags: 0
@@ -14239,7 +14250,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-150282
+  m_Name: pb_Mesh-60274
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -14409,7 +14420,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-152000
+  m_Name: pb_Mesh-61184
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -14790,6 +14801,8 @@ GameObject:
   - component: {fileID: 1929989849}
   - component: {fileID: 1929989850}
   - component: {fileID: 1929989851}
+  - component: {fileID: 1929989853}
+  - component: {fileID: 1929989854}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -14886,6 +14899,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeEmergency: 0
   fireIntensity: 0
+--- !u!114 &1929989853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8858f72a98d35e34ba1b8b1e73aa2788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  llmClient: {fileID: 0}
+--- !u!114 &1929989854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50e3140c3ecaaf1c848dbf141cc2074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedOptions: 1
+  expertOptions: 0
+  host: localhost
+  port: 13333
+  stream: 1
+  grammar: 
+  seed: 0
+  numPredict: 256
+  cachePrompt: 1
+  temperature: 0.2
+  topK: 40
+  topP: 0.9
+  minP: 0.05
+  repeatPenalty: 1.1
+  presencePenalty: 0
+  frequencyPenalty: 0
+  tfsZ: 1
+  typicalP: 1
+  repeatLastN: 64
+  penalizeNl: 1
+  penaltyPrompt: 
+  mirostat: 0
+  mirostatTau: 5
+  mirostatEta: 0.1
+  nProbs: 0
+  ignoreEos: 0
+  nKeep: -1
+  stop: []
+  playerName: user
+  AIName: assistant
+  prompt: A chat between a curious human and an artificial intelligence assistant.
+    The assistant gives helpful, detailed, and polite answers to the human's questions.
+  setNKeepToPrompt: 1
+  chatTemplate: llama3 chat
+  grammarString: 
+  numThreads: -1
+  numGPULayers: 0
+  parallelPrompts: -1
+  debug: 0
+  asynchronousStartup: 0
+  remote: 0
+  killExistingServersOnStart: 1
+  model: llama3-8B-Q2K.gguf
+  lora: 
+  contextSize: 0
+  batchSize: 512
+  SelectedModel: 0
+  modelProgress: 1
+  modelCopyProgress: 1
+  modelHide: 1
 --- !u!1001 &1931135976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17052,13 +17140,53 @@ PrefabInstance:
     - target: {fileID: 3781573170698210821, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
       propertyPath: llm
       value: 
-      objectReference: {fileID: 1320982767}
+      objectReference: {fileID: 1860262663}
     - target: {fileID: 3781573170698210821, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
       propertyPath: name
       value: Xenobio
       objectReference: {fileID: 0}
     - target: {fileID: 3781573170698210821, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: port
+      value: 13333
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: AIName
+      value: Julia Hernandez
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: prompt
+      value: "Julia Hernandez is a 43 year old female xenobiologist, which means
+        that she studies alien biology. She is egotistical, competitive, and a little
+        bit rude. She is also very curious and observant, and she enjoys critical
+        conversations and learning new things. Currently, she is working as a crew
+        member on board an interstellar spacecraft called the New Horizon. The crew's
+        mission is to reach a solar system far away from Earth in order to set up
+        a colony. They are currently halfway through their journey in space. Julia's
+        job is to research any alien matter the crew comes across, cure space diseases,
+        and manufacture food. She does her work and research in the biolab.\r\n\r\nGAIA
+        is an artificial intelligence assistant on board the New Horizon. Its purpose
+        is to assist Julia and the other crew members with tasks around the ship.
+        It can also answer any questions they have. GAIA and Julia communicate via
+        a computer terminal.\r"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: playerName
+      value: GAIA
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: chatTemplate
+      value: llama3 chat
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: expertOptions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769686110205294078, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: advancedOptions
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5751293101451768904, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
@@ -17116,6 +17244,14 @@ PrefabInstance:
       propertyPath: killExistingServersOnStart
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5955896438483754227, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955896438483754227, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
+      propertyPath: model
+      value: 
+      objectReference: {fileID: 1860262659}
     - target: {fileID: 5955896438483754227, guid: 869f46b50ba8b42ff86243818b2bfb0a, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -17205,6 +17341,10 @@ PrefabInstance:
         terminal.'
       objectReference: {fileID: 0}
     - target: {fileID: 447055878760163464, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 447055878760163464, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
       propertyPath: playerName
       value: GAIA
       objectReference: {fileID: 0}
@@ -17224,10 +17364,49 @@ PrefabInstance:
       propertyPath: killExistingServersOnStart
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 852768375342278974, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: AIName
+      value: Anika Johnson
+      objectReference: {fileID: 0}
+    - target: {fileID: 852768375342278974, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: prompt
+      value: 'Anika Johnson is a 24 year old female engineer and a recent college
+        graduate. She is excitable, outgoing, extroverted, and enthusiastic about
+        anything mechanical. She is a bit of a workaholic and loves her job. Currently,
+        she is working as a crew member on board an interstellar spacecraft called
+        the New Horizon. The crew''s mission is to reach a solar system far away
+        from Earth in order to set up a colony and explore the planets in the solar
+        system. Anika''s job is to make sure that all the components and operations
+        of the ship are working. She is able to repair and replace parts with a 3D
+        printer in her work station.
+
+
+
+        GAIA is an artificial intelligence
+        assistant on board the New Horizon. Its purpose is to assist Anika and the
+        other crew members with tasks around the ship. It can also answer any questions
+        they have. GAIA and Anika communicate via a computer terminal.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 852768375342278974, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: playerName
+      value: GAIA
+      objectReference: {fileID: 0}
+    - target: {fileID: 852768375342278974, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: chatTemplate
+      value: llama3 chat
+      objectReference: {fileID: 0}
+    - target: {fileID: 852768375342278974, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: advancedOptions
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1964528417458520115, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
       propertyPath: model
       value: 
       objectReference: {fileID: 1762202445}
+    - target: {fileID: 1964528417458520115, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4385033296136710732, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.34
@@ -17275,10 +17454,18 @@ PrefabInstance:
     - target: {fileID: 9051717028792849093, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
       propertyPath: llm
       value: 
-      objectReference: {fileID: 1762202446}
+      objectReference: {fileID: 1762202450}
     - target: {fileID: 9051717028792849093, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
       propertyPath: name
       value: Engineer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051717028792849093, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9146055981560233750, guid: dbe75693ba5a94d42b3fb889d0fdc7b6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

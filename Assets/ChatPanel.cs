@@ -25,6 +25,10 @@ public class ChatPanel : MonoBehaviour
     {
         if (col.model == null) return;
 
+        Debug.Log(col.model.name);
+
+        Debug.Log(col.model.llm);
+
         model = col.model;
         //LlamaContoller.inst.CreateModel(model);
         sendButton.onClick.AddListener(() =>

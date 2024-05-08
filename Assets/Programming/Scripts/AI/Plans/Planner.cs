@@ -6,6 +6,9 @@ using System.Linq;
 
 public class Planner : MonoBehaviour
 {
+    [SerializeField]
+    bool debug;
+
     public static Planner inst;
 
     public const int maxPlanSteps = 3;
@@ -84,7 +87,7 @@ public class Planner : MonoBehaviour
 
                 //Debug.LogFormat("Testing Action {0}", action);
 
-                if (action == null)
+                if ((inst != null && inst.debug) && action == null)
                 {
                     Debug.LogErrorFormat("<b>{0}:</b> NULL ACTION! Skipping.", obj.gameObject.name);
                     continue;
@@ -113,7 +116,8 @@ public class Planner : MonoBehaviour
         // Find the best action to satisfy the given condition
         (ColonistState bestState, BaseAction bestAction, float weight) = GetBestAction(col, comparisonState, condition);
 
-        Debug.LogFormat("<b><color=green>Planner:</color></b> Selected {0} ({1}).", bestAction.GetType(), weight);
+        if (inst != null && inst.debug)
+            Debug.LogFormat("<b><color=green>Planner:</color></b> Selected {0} ({1}).", bestAction.GetType(), weight);
 
         // If no action is found, error
         if (bestAction == null)

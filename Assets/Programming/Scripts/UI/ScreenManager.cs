@@ -147,8 +147,6 @@ public class ScreenManager : MonoBehaviour
             btn.Init(obj);
             statusButtons.Add(btn);
 
-            
-
             /*btn.onClick.AddListener(() =>
             {
                 //SelectChat(col);

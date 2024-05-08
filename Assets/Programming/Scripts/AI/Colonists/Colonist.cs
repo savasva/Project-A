@@ -8,6 +8,9 @@ using UnityEngine.AI;
 public class Colonist : MonoBehaviour
 {
     [SerializeField]
+    bool debug;
+
+    [SerializeField]
     Plan currentPlan;
 
     [Header("\"Who I am\" Variables")]
@@ -89,11 +92,12 @@ public class Colonist : MonoBehaviour
         goalQueue = new GoalPQueue();
         senses = GetComponents<Sense>();
         mobileAvoidance = mover.avoidancePriority;
-        UpdateState();
     }
 
     private void Start()
     {
+        UpdateState();
+
         /**
          * Initialize goals that can be instantiated by Colonists directly.
          **/
@@ -182,6 +186,7 @@ public class Colonist : MonoBehaviour
                 goalQueue.Enqueue(goal.DeepCopy(), (int)goal.GoalType);
             }
 
+            if (debug)
             Debug.LogFormat("<b><color=red>{0}:</color></b> {1} is {2}", model.name, goal.GetType(), eval ? "VALID" : "INVALID");
         }
 

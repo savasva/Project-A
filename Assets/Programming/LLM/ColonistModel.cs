@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using LLMUnity;
 
-[RequireComponent(typeof(LLM))]
+[RequireComponent(typeof(LLMClient))]
 public class ColonistModel : MonoBehaviour
 {
     public new string name;
@@ -14,7 +14,7 @@ public class ColonistModel : MonoBehaviour
     [Range(0, 1f)]
     public float temperature = 0.6f;
 
-    public LLM llm;
+    public LLMClient llm;
 
     [Header("UI Parameters")]
     public GameObject chatMessageContainer;
