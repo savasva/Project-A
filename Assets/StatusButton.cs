@@ -12,7 +12,7 @@ public class StatusButton : MonoBehaviour
         obj = target;
     }
 
-    void Draw()
+    public void Draw()
     {
         string statusText = string.Format("<b>{0}</b>\n", obj.info.name);
 

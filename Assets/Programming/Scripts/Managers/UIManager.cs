@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
     public GameObject worldObjContainer;
     public GameObject worldObjTemplate;
 
+    [Header("Indicator")]
+    public GameObject colonistIndicatorContainer;
+    public GameObject colonistIndicator;
+
     [Header("LLM Chat")]
     public GameObject cainMessageTemplate;
     public GameObject crewMessageTemplate;
@@ -22,6 +26,13 @@ public class UIManager : MonoBehaviour
             Destroy(this);
 
         DontDestroyOnLoad(this);
+    }
+
+    public void CreateColonistIndicator(Colonist col)
+    {
+        ColonistIndicator indicator = Instantiate(colonistIndicator, colonistIndicatorContainer.transform, false).GetComponent<ColonistIndicator>();
+
+        indicator.Init(col);
     }
 
     public void BuildRoomUI(Room room)
@@ -38,18 +49,5 @@ public class UIManager : MonoBehaviour
             WorldObjectButton btn = curr.GetComponent<WorldObjectButton>();
             btn.Initialize(obj);
         }
-    }
-
-    public void AddUserMessage(ColonistModel model, string msg)
-    {
-        Transform message = Instantiate(cainMessageTemplate, model.chatMessageContainer.transform).transform;
-        message.Find("Content").GetComponent<TMP_Text>().text = msg;
-    }
-
-    public AsyncChatEntry AddCrewMessage(ColonistModel model)
-    {
-         Transform message = Instantiate(crewMessageTemplate, model.chatMessageContainer.transform).transform;
-
-        return message.GetComponent<AsyncChatEntry>();
     }
 }

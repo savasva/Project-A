@@ -25,10 +25,6 @@ public class ChatPanel : MonoBehaviour
     {
         if (col.model == null) return;
 
-        Debug.Log(col.model.name);
-
-        Debug.Log(col.model.llm);
-
         model = col.model;
         //LlamaContoller.inst.CreateModel(model);
         sendButton.onClick.AddListener(() =>
@@ -63,8 +59,6 @@ public class ChatPanel : MonoBehaviour
         msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = "...";
 
         AsyncChatEntry text = msgObj.GetComponent<AsyncChatEntry>();
-
-        Debug.LogFormat("{0}: {1}", model.name, prompt);
 
         //TODO: wtf is a Discard
         _ = model.llm.Chat(prompt, text.Set);

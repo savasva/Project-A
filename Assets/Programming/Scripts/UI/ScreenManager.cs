@@ -90,6 +90,7 @@ public class ScreenManager : MonoBehaviour
     public void SwitchToAlertScreen()
     {
         PopulateAlertSidebar();
+        StartCoroutine(UpdateStatusButtons(2.5f));
 
         //deactivate all screens except the alert screen
         CameraScreen.SetActive(true);
@@ -198,5 +199,18 @@ public class ScreenManager : MonoBehaviour
 
         //activate the profiles screen
         SettingsScreen.SetActive(true);
+    }
+
+    IEnumerator UpdateStatusButtons(float refreshTime)
+    {
+        while (AlertScreen.activeSelf)
+        {
+            foreach (StatusButton btn in statusButtons)
+            {
+                btn.Draw();
+            }
+
+            yield return new WaitForSeconds(refreshTime);
+        }
     }
 }

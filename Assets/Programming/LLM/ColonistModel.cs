@@ -17,5 +17,5 @@ public class ColonistModel : MonoBehaviour
     public LLMClient llm;
 
     [Header("UI Parameters")]
-    public GameObject chatMessageContainer;
+    public Sprite icon;
 }
