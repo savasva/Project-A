@@ -7,10 +7,11 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(ColonistModel))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class Colonist : MonoBehaviour
+public class Colonist : MonoBehaviour, ISuperLoggable
 {
-    public bool debug;
     public Color color;
+    public bool CanDebug { get => false; }
+    public string Prefix { get => string.Format("<b><color=#{0}>{1}</color></b>", color.ToHexString(), model.name); }
 
     [SerializeField]
     Plan currentPlan;
@@ -135,7 +136,6 @@ public class Colonist : MonoBehaviour
             {
                 foreach (IInteractable obj in sense.Scan())
                 {
-                    Debug.Log(obj.GetType());
                     pool.AddRange(obj.Goals);
                 }
             }
@@ -197,8 +197,8 @@ public class Colonist : MonoBehaviour
                 goalQueue.Enqueue(goal.DeepCopy(), (int)goal.GoalType);
             }
 
-            if (debug)
-                Debug.LogFormat("<b><color=#{0}>{1}:</color></b> {2} is {3}", color.ToHexString(), model.name, goal.GetType(), eval ? "VALID" : "INVALID");
+            if (CanDebug)
+                SuperLogger.Log(this, "{0} is {1}", color.ToHexString(), model.name, goal.GetType().ToString(), eval ? "VALID" : "INVALID");
         }
 
         //If no goal applies, just wander.
@@ -219,7 +219,7 @@ public class Colonist : MonoBehaviour
             CurrentGoal.value.state = Goal.GoalState.Started;
             CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
 
-            Debug.LogFormat("<b><color=#{0}>{1}:</color></b> Starting {2}", color.ToHexString(), model.name, CurrentGoal.value.GetType());
+            SuperLogger.Log(this, "Starting {0}", CurrentGoal.value.GetType().ToString());
             //CurrentGoal.value.Execute(false);
         }
     }

@@ -9,15 +9,16 @@ public class EmergencyManager : MonoBehaviour
 {
     public static EmergencyManager inst;
 
-    [SerializeField]
-    Color emergencyColor;
+    [Header("State")]
+    [SerializeField] int dayLength = 300;
+    [SerializeField] float time = 0f;
+    [SerializeField] float currentIntensity;
+    [SerializeField] bool activeEmergency = false;
 
-    [SerializeField]
-    bool activeEmergency = false;
+    [Header("Aesthetics")]
+    [SerializeField] Color emergencyColor;
 
-    [SerializeField]
-    [Range(0, 1f)]
-    float fireIntensity;
+    public DirectorCurve storyCurve;
 
     private void Awake()
     {
@@ -32,10 +33,17 @@ public class EmergencyManager : MonoBehaviour
         StartCoroutine(EmergencyLightLoop(2f));
     }
 
+    private void Update()
+    {
+        currentIntensity = storyCurve.curve.Evaluate(Mathf.Clamp01(time / dayLength));
+
+        time += Time.deltaTime;
+    }
+
     [Button]
     void StartFire()
     {
-        FireEmergency test = new FireEmergency(fireIntensity);
+        FireEmergency test = new FireEmergency(currentIntensity);
         //test.targets.ForEach(t => Debug.Log(t.name));
         StartEmergency(test);
     }

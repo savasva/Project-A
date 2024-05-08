@@ -47,7 +47,6 @@ public class ExtinguishAction : BaseAction
         }
 
         prop.burnProgress -= ExtinguishRate * Time.deltaTime;
-        Debug.LogFormat("{0}: {1}%", obj.info.name, prop.burnProgress * 100);
     }
 
     protected override void Complete()

@@ -1,14 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
 
 public class Planner : MonoBehaviour
 {
-    [SerializeField]
-    static bool debug = true;
+    public static bool debug = true;
 
     public static Planner inst;
 
@@ -117,7 +113,7 @@ public class Planner : MonoBehaviour
         // Find the best action to satisfy the given condition
         (ColonistState bestState, BaseAction bestAction, float weight) = GetBestAction(col, comparisonState, condition);
 
-        if (debug && col.debug)
+        if (debug && col.CanDebug)
         {
             object prey = currentPlan.stack.Peek();
             if (prey == null)
@@ -153,7 +149,7 @@ public class Planner : MonoBehaviour
     {
         Plan plan = new Plan();
 
-        if (debug && col.debug)
+        if (debug && col.CanDebug)
             Debug.LogFormat("<b><color=#{0}>{1}:</color></b> Building plan for {2}.", col.color.ToHexString(), col.model.name, goal.GetType());
 
         foreach(Condition cond in goal.ResultFits)
