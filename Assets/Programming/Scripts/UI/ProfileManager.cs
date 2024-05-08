@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class ProfileManager : MonoBehaviour
 {
+    public static ProfileManager inst;
     [SerializeField] private GameObject EngrTextPanel;
     [SerializeField] private GameObject BioTextPanel;
    
     void Awake()
     {
+        if (inst == null)
+        {
+            inst = this;
+        }
+        else if (inst != this)
+        {
+            Destroy(this);
+        }
+        
         SwitchToEngrProfile();
     }
 

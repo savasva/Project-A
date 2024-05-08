@@ -151,7 +151,7 @@ PrefabInstance:
     - target: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: 21300000, guid: e59ff78f49872974e97baaa26966434f, type: 3}
+      objectReference: {fileID: 21300000, guid: e131eb7cc901b4d40993c42bfe7f6f94, type: 3}
     - target: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: name
       value: Xenobio

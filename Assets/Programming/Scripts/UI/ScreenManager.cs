@@ -78,6 +78,32 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    void PopulateProfileSidebar()
+    {
+        ClearSidebar();
+
+        foreach (Colonist obj in ColonyManager.inst.colonists.Values)
+        {
+            GameObject btnObj = Instantiate(ButtonTemplate, Sidebar.transform, false);
+            Button btn = btnObj.GetComponent<Button>();
+
+            btnObj.GetComponentInChildren<TMP_Text>().text = obj.name;
+
+            btn.onClick.AddListener(() =>
+            {
+                if (obj.model.name == "Engineer")
+                {
+                    ProfileManager.inst.SwitchToEngrProfile();
+                }
+                else if (obj.model.name == "Xenobio")
+                {
+                    ProfileManager.inst.SwitchToBioProfile();
+                }
+
+            });
+        }
+    }
+
     void ClearSidebar()
     {
         foreach(Transform t in Sidebar.transform)
@@ -178,6 +204,8 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToProfilesScreen()
     {
+        PopulateProfileSidebar();
+
         //deactivate all screens except the profiles screen
         CameraScreen.SetActive(false);
         AlertScreen.SetActive(false);
