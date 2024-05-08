@@ -9,7 +9,7 @@ public class ExtinguishAction : BaseAction
     [SerializeField]
     WorldObject obj;
     FlamableProperty prop;
-    const float ExtinguishRate = 0.05f;
+    const float ExtinguishRate = 0.1f;
 
     public override Condition[] preconditions
     {
@@ -47,6 +47,7 @@ public class ExtinguishAction : BaseAction
         }
 
         prop.burnProgress -= ExtinguishRate * Time.deltaTime;
+        Debug.LogFormat("{0}: {1}%", obj.info.name, prop.burnProgress * 100);
     }
 
     protected override void Complete()

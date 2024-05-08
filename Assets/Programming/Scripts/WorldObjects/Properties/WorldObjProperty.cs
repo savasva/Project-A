@@ -9,7 +9,7 @@ public class WorldObjProperty
     public virtual BaseAction[] PropActions { get; }
     public virtual Goal[] PropGoals { get; }
 
-    public void InitProperty(WorldObject owner)
+    public virtual void InitProperty(WorldObject owner)
     {
         obj = owner;
     }

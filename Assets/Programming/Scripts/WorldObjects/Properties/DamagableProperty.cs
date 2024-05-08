@@ -5,7 +5,7 @@ public class DamagableProperty : WorldObjProperty
 {
     public List<WorldObjComponent> components;
 
-    const float durabilityLoss = 0.01f;
+    const float DURABILITY_LOSS = 0.001f;
 
     public override BaseAction[] PropActions => new BaseAction[] {
         
@@ -18,9 +18,14 @@ public class DamagableProperty : WorldObjProperty
 
     public override void OnTick()
     {
+        DamageTick(DURABILITY_LOSS);
+    }
+
+    public void DamageTick(float damage)
+    {
         foreach (WorldObjComponent prop in components)
         {
-            prop.durability -= durabilityLoss * Time.deltaTime;
+            prop.durability = Mathf.Clamp01(prop.durability - (damage * Time.deltaTime));
         }
     }
 }

@@ -3,11 +3,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class Planner : MonoBehaviour
 {
     [SerializeField]
-    bool debug;
+    static bool debug = true;
 
     public static Planner inst;
 
@@ -87,7 +88,7 @@ public class Planner : MonoBehaviour
 
                 //Debug.LogFormat("Testing Action {0}", action);
 
-                if ((inst != null && inst.debug) && action == null)
+                if (debug && action == null)
                 {
                     Debug.LogErrorFormat("<b>{0}:</b> NULL ACTION! Skipping.", obj.gameObject.name);
                     continue;
@@ -116,8 +117,16 @@ public class Planner : MonoBehaviour
         // Find the best action to satisfy the given condition
         (ColonistState bestState, BaseAction bestAction, float weight) = GetBestAction(col, comparisonState, condition);
 
-        if (inst != null && inst.debug)
-            Debug.LogFormat("<b><color=green>Planner:</color></b> Selected {0} ({1}).", bestAction.GetType(), weight);
+        if (debug && col.debug)
+        {
+            object prey = currentPlan.stack.Peek();
+            if (prey == null)
+                prey = col.CurrentGoal.value.ToString();
+            else
+                prey = prey.ToString();
+
+            Debug.LogFormat("<b><color=#{0}>{1}:</color></b> Selected {2} (weight: {3} in pursuit of {4}).", col.color.ToHexString(), col.model.name, bestAction.GetType(), weight, prey);
+        }
 
         // If no action is found, error
         if (bestAction == null)
@@ -144,7 +153,8 @@ public class Planner : MonoBehaviour
     {
         Plan plan = new Plan();
 
-        Debug.LogFormat("<b><color=green>Planner:</color></b> Building plan for {0}.", goal.GetType());
+        if (debug && col.debug)
+            Debug.LogFormat("<b><color=#{0}>{1}:</color></b> Building plan for {2}.", col.color.ToHexString(), col.model.name, goal.GetType());
 
         foreach(Condition cond in goal.ResultFits)
         {

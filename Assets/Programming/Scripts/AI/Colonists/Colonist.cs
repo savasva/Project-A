@@ -1,5 +1,7 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,8 +9,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Colonist : MonoBehaviour
 {
-    [SerializeField]
-    bool debug;
+    public bool debug;
+    public Color color;
 
     [SerializeField]
     Plan currentPlan;
@@ -133,6 +135,7 @@ public class Colonist : MonoBehaviour
             {
                 foreach (IInteractable obj in sense.Scan())
                 {
+                    Debug.Log(obj.GetType());
                     pool.AddRange(obj.Goals);
                 }
             }
@@ -172,22 +175,30 @@ public class Colonist : MonoBehaviour
         }
     }
 
+    [Button]
     public void UpdateValidGoals()
     {
-        while (goalQueue.Count > 0)
+        Goal currentGoal = null;
+
+        if (goalQueue.Count > 0) currentGoal = goalQueue.First.value;
+
+        while (goalQueue.Count > 1)
         {
-            goalQueue.Dequeue();
+            goalQueue.Drop();
         }
 
         foreach (Goal goal in GoalPool)
         {
             bool eval = goal.Evaluate(state);
             if (eval) {
+                if (currentGoal != null && currentGoal.GetType() == goal.GetType())
+                    continue;
+
                 goalQueue.Enqueue(goal.DeepCopy(), (int)goal.GoalType);
             }
 
             if (debug)
-            Debug.LogFormat("<b><color=red>{0}:</color></b> {1} is {2}", model.name, goal.GetType(), eval ? "VALID" : "INVALID");
+                Debug.LogFormat("<b><color=#{0}>{1}:</color></b> {2} is {3}", color.ToHexString(), model.name, goal.GetType(), eval ? "VALID" : "INVALID");
         }
 
         //If no goal applies, just wander.
@@ -205,7 +216,10 @@ public class Colonist : MonoBehaviour
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
             CurrentGoal.value.doer = this;
+            CurrentGoal.value.state = Goal.GoalState.Started;
             CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
+
+            Debug.LogFormat("<b><color=#{0}>{1}:</color></b> Starting {2}", color.ToHexString(), model.name, CurrentGoal.value.GetType());
             //CurrentGoal.value.Execute(false);
         }
     }

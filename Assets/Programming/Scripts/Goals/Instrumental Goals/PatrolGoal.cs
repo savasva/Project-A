@@ -31,5 +31,5 @@ public class PatrolGoal : Goal
 
     public PatrolGoal() : base() { }
 
-    public PatrolGoal(Colonist _colonist) : base("Get some sleep.", _colonist) { }
+    public PatrolGoal(Colonist _colonist) : base("Patrol.", _colonist) { }
 }

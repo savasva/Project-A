@@ -43,7 +43,6 @@ public class ScreenManager : MonoBehaviour
 
     void Start()
     {
-        CreateChatPanels();
         SwitchToCameraScreen();
     }
 
@@ -166,7 +165,7 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    void CreateChatPanels()
+    public void CreateChatPanels()
     {
         foreach (Colonist col in ColonyManager.inst.colonists.Values)
         {

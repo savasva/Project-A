@@ -15,7 +15,7 @@ public class SleepAction : BaseAction
         };
     }
 
-    public SleepAction(WorldObject _obj)
+    public SleepAction(WorldObject _obj) : base(null, string.Format("Sleep in {0}", _obj.info.name))
     {
         bed = _obj;
     }

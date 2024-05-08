@@ -14,7 +14,7 @@ public class ExtinguishGoal : Goal
     public override Condition[] ResultFits
     {
         get => new Condition[] {
-            new Condition((ColonistState colState, WorldObjInfo objInfo) =>  (!objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f)
+            new Condition((ColonistState colState, WorldObjInfo objInfo) =>  (obj.info.Equals(objInfo) && !objInfo.state.isNone && !objInfo.state.aflame) ? 1f : -1f)
         };
     }
 

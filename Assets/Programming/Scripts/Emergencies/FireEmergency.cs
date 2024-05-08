@@ -15,6 +15,8 @@ public class FireEmergency : Emergency
     {
         intensity = Mathf.Clamp01(intensity);
 
+        Debug.Log(intensity);
+
         IEnumerable<WorldObject> objs = ColonyManager.inst.flamableObjects;
         int targetCount = Mathf.CeilToInt(objs.Count() * intensity);
 
