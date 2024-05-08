@@ -1,7 +1,3 @@
-using LLama.Common;
-using LLMUnity;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,6 +55,8 @@ public class ChatPanel : MonoBehaviour
         msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = "...";
 
         AsyncChatEntry text = msgObj.GetComponent<AsyncChatEntry>();
+
+        Debug.LogFormat("{0}: {1}", model.name, prompt);
 
         //TODO: wtf is a Discard
         _ = model.llm.Chat(prompt, text.Set);

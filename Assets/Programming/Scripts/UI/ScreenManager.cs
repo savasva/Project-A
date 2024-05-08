@@ -9,6 +9,17 @@ public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager inst;
 
+    public enum Screen
+    {
+        Cameras,
+        Alerts,
+        Chat,
+        Profiles,
+        Settings
+    }
+
+    public Screen currScreen = Screen.Cameras;
+
     [SerializeField] GameObject Sidebar;
     [SerializeField] GameObject ButtonTemplate;
 
@@ -19,6 +30,7 @@ public class ScreenManager : MonoBehaviour
     [Header("Alert Screen")]
     [SerializeField] GameObject AlertScreen;
     [SerializeField] GameObject AlertButton;
+    [SerializeField] bool compositeStatus;
     List<StatusButton> statusButtons = new();
 
     [Header("Chat Screen")]
@@ -48,6 +60,8 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToCameraScreen()
     {
+        currScreen = Screen.Cameras;
+
         PopulateCameraSidebar();
 
         //deactivate all screens except the camera screen
@@ -114,8 +128,10 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToAlertScreen()
     {
+        currScreen = Screen.Alerts;
+
         PopulateAlertSidebar();
-        StartCoroutine(UpdateStatusButtons(2.5f));
+        StartCoroutine(UpdateStatusButtons(0.75f));
 
         //deactivate all screens except the alert screen
         CameraScreen.SetActive(true);
@@ -125,13 +141,26 @@ public class ScreenManager : MonoBehaviour
         SettingsScreen.SetActive(false);
         AlertScreen.SetActive(false);
 
-
         //activate the alert screen
         //AlertScreen.SetActive(true);
     }
 
+    public IEnumerator DrawStatusButtons(float delay)
+    {
+        while (AlertScreen.activeSelf)
+        {
+            foreach (StatusButton btn in statusButtons)
+            {
+                btn.Draw(compositeStatus);
+            }
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
     public void SwitchToChatScreen()
     {
+        currScreen = Screen.Chat;
+
         PopulateChatSidebar();
 
         //deactivate all screens except the chat screen
@@ -178,6 +207,8 @@ public class ScreenManager : MonoBehaviour
                 //SelectChat(col);
             });*/
         }
+
+        StartCoroutine(UpdateStatusButtons(2.5f));
     }
 
     public void SelectChat(Colonist col)
@@ -205,6 +236,7 @@ public class ScreenManager : MonoBehaviour
     public void SwitchToProfilesScreen()
     {
         PopulateProfileSidebar();
+        currScreen = Screen.Profiles;
 
         //deactivate all screens except the profiles screen
         CameraScreen.SetActive(false);
@@ -218,6 +250,8 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToSettingsScreen()
     {
+        currScreen = Screen.Settings;
+
         //deactivate all screens except the settings screen
         CameraScreen.SetActive(false);
         AlertScreen.SetActive(false);
@@ -230,7 +264,7 @@ public class ScreenManager : MonoBehaviour
 
     IEnumerator UpdateStatusButtons(float refreshTime)
     {
-        while (AlertScreen.activeSelf)
+        while (currScreen == Screen.Alerts)
         {
             foreach (StatusButton btn in statusButtons)
             {
