@@ -23,15 +23,32 @@ public class PriorityQueue<T>
 
     public T Dequeue()
     {
+        if (queue.Count == 0) {
+            throw new System.Exception("You cannot dequeue an empty queue.");
+        }
+
         T first = queue[0].value;
         queue.RemoveAt(0);
 
         return first;
     }
 
+    public T Drop()
+    {
+        if (queue.Count == 0)
+        {
+            throw new System.Exception("You cannot drop from an empty queue.");
+        }
+
+        T last = queue[queue.Count - 1].value;
+        queue.RemoveAt(queue.Count - 1);
+
+        return last;
+    }
+
     void Reorder()
     {
-        queue = queue.OrderByDescending(node => node.priority).ToList();
+        queue = queue.OrderByDescending(node => -node.priority).ToList();
     }
 
     public float GetPriority(T item)

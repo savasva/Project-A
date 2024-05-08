@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3789840880898267475}
   - component: {fileID: 1369539110117208876}
   - component: {fileID: 8552245302541093897}
+  - component: {fileID: 258773286492199457}
+  - component: {fileID: 8492896173533798874}
   - component: {fileID: 5513386612976635464}
   m_Layer: 0
   m_Name: Colonist
@@ -47,7 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6a6dbe19b214ce583a4d31b3ff2149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   currentPlan:
+    stack:
+      _queue: []
     root:
       action:
         state: 0
@@ -75,6 +80,7 @@ MonoBehaviour:
       weight: 0
     nodes: []
     edges: []
+  model: {fileID: 0}
   state:
     position: {x: 0, y: 0, z: 0}
     needs:
@@ -124,9 +130,17 @@ MonoBehaviour:
     intellect: 0
     adventurousness: 0
     liberalism: 0
+  goalDelay: 5
+  goalQueue:
+    queue: []
   _currentGoal:
+    name: 
+    _goalType: 5
+    state: 0
     doer: {fileID: 0}
     plan:
+      stack:
+        _queue: []
       root:
         action:
           state: 0
@@ -154,13 +168,11 @@ MonoBehaviour:
         weight: 0
       nodes: []
       edges: []
-    state: 0
-    name: 
-    actionQueueVisualizer: []
-    subgoalQueueVisualizer: []
-  goalQueueVisualizer: []
+    subgoalQueue:
+      _queue: []
   mover: {fileID: 0}
   staticAvoidance: 0
+  senses: []
   references:
     version: 2
     RefIds:
@@ -183,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeTransforms: []
+  rangeObjs: []
   targetLayers:
     serializedVersion: 2
     m_Bits: 256
@@ -191,6 +204,72 @@ MonoBehaviour:
     m_Bits: 64
   range: 10
   fov: 90
+--- !u!114 &258773286492199457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5368166762696262069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95e88cdd1b0a159692667660a065473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedOptions: 0
+  expertOptions: 0
+  host: localhost
+  port: 13333
+  stream: 1
+  grammar: 
+  seed: 0
+  numPredict: 256
+  cachePrompt: 1
+  temperature: 0.2
+  topK: 40
+  topP: 0.9
+  minP: 0.05
+  repeatPenalty: 1.1
+  presencePenalty: 0
+  frequencyPenalty: 0
+  tfsZ: 1
+  typicalP: 1
+  repeatLastN: 64
+  penalizeNl: 1
+  penaltyPrompt: 
+  mirostat: 0
+  mirostatTau: 5
+  mirostatEta: 0.1
+  nProbs: 0
+  ignoreEos: 0
+  nKeep: -1
+  stop: []
+  playerName: user
+  AIName: assistant
+  prompt: A chat between a curious human and an artificial intelligence assistant.
+    The assistant gives helpful, detailed, and polite answers to the human's questions.
+  setNKeepToPrompt: 1
+  chatTemplate: llama3 chat
+  grammarString: 
+--- !u!114 &8492896173533798874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5368166762696262069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b425d2cc4a59640e6bdd2510c162d52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  lastAnswer: 
+  prompt: 
+  maxTokens: 64
+  temperature: 0.6
+  llm: {fileID: 0}
+  chatMessageContainer: {fileID: 0}
 --- !u!195 &5513386612976635464
 NavMeshAgent:
   m_ObjectHideFlags: 0

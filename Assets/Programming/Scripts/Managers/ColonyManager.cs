@@ -48,22 +48,25 @@ public class ColonyManager : MonoBehaviour
             Destroy(this);
 
         DontDestroyOnLoad(this);
-
         PopulateKnowledgeBackground();
-        PopulateWorld();
     }
 
     private void Start()
     {
-        
+        PopulateWorld();
     }
 
     public void PopulateWorld()
     {
+        //Initialize colonist references
         foreach(Colonist col in FindObjectsByType<Colonist>(FindObjectsSortMode.None))
         {
             colonists.Add(col.state.role, col);
+            UIManager.inst.CreateColonistIndicator(col);
         }
+
+        //Chat UI
+        ScreenManager.inst.CreateChatPanels();
 
         lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
 

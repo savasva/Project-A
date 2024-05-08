@@ -52,7 +52,6 @@ public class TAKE : BaseAction
             if (fit > result.Item1)
             {
                 result = (fit, new TAKE(null, string.Format("Taking {0}.", worldItem.name), worldItem), examinee);
-                Debug.Log(worldItem.name);
             }
 
             examinee.inventory.Remove(worldItem.item);

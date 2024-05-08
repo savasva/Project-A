@@ -296,7 +296,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 10
+  m_VersionIndex: 13
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -310,8 +310,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6679990464802383666}
-  - component: {fileID: 8480494012797222416}
+  - component: {fileID: 9217563134815787874}
   - component: {fileID: 4241376170239381255}
+  - component: {fileID: 2288543235967397846}
   m_Layer: 8
   m_Name: Bed
   m_TagString: Untagged
@@ -335,7 +336,7 @@ Transform:
   - {fileID: 7511480111316017397}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8480494012797222416
+--- !u!114 &9217563134815787874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,18 +345,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3201155436041692232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd971f0c945d4c65bb38aa38d6c178a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cfe2cac11c504756af4ffc2d739e9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - rid: 5548853152682082600
+  - rid: 5881662819251257345
   info:
     name: Bed
     properties:
-    - rid: 7034652963203973138
+    - rid: 5881662819251257346
+    - rid: 5881662819251257347
     state:
+      position: {x: 0, y: 0, z: 0}
       isNone: 0
       aflame: 0
+      damaged: 0
+      broken: 0
   moveDestination: {fileID: 0}
   benefit:
     hunger: 0
@@ -407,7 +412,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5548853152682082600
+    - rid: 5881662819251257345
       type: {class: SleepAction, ns: , asm: Assembly-CSharp}
       data:
         state: 0
@@ -419,12 +424,23 @@ MonoBehaviour:
           tiredness: -0.05
           boredom: 0
           stress: 0
-        bed: {fileID: 8480494012797222416}
-    - rid: 7034652963203973138
+        bed: {fileID: 9217563134815787874}
+    - rid: 5881662819251257346
       type: {class: FlamableProperty, ns: , asm: Assembly-CSharp}
       data:
-        obj: {fileID: 8480494012797222416}
-        burnProgress: 0
+        obj: {fileID: 9217563134815787874}
+        burnProgress: 1
+    - rid: 5881662819251257347
+      type: {class: DamagableProperty, ns: , asm: Assembly-CSharp}
+      data:
+        obj: {fileID: 9217563134815787874}
+        components:
+        - name: Bed Frame
+          durability: 1
+        - name: Pillow
+          durability: 1
+        - name: Covers
+          durability: 1
 --- !u!208 &4241376170239381255
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -435,12 +451,33 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.375, y: 0.375, z: 0.375}
+  m_Extents: {x: 1.5, y: 0.5, z: 0.775}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.18, z: 0}
   m_TimeToStationary: 0.5
+--- !u!65 &2288543235967397846
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201155436041692232}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 1, z: 1.55}
+  m_Center: {x: 0, y: -0.18, z: 0}
 --- !u!1001 &3410214272650573479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -492,6 +529,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b62f6e051e7e04e48a1dbfbccb4d5098, type: 3}
       propertyPath: m_Name
       value: Covers
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b62f6e051e7e04e48a1dbfbccb4d5098, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -575,6 +616,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Base
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fa3177105c2754625bcac14bec1ea44a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -587,9 +632,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fa3177105c2754625bcac14bec1ea44a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8048677783372476196}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fa3177105c2754625bcac14bec1ea44a, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3250689520522868529}
   m_SourcePrefab: {fileID: 100100000, guid: fa3177105c2754625bcac14bec1ea44a, type: 3}
 --- !u!1 &7166902600704948815 stripped
@@ -597,27 +639,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fa3177105c2754625bcac14bec1ea44a, type: 3}
   m_PrefabInstance: {fileID: 8049227897906022174}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &8048677783372476196
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7166902600704948815}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.8179873, y: 1.0534365, z: 2.9723573}
-  m_Center: {x: -0.113832146, y: 0.52671826, z: 0.0059264703}
 --- !u!114 &3250689520522868529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1379,7 +1400,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7
+  m_VersionIndex: 10
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

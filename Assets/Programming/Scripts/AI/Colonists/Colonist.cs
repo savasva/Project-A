@@ -1,11 +1,18 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(ColonistModel))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class Colonist : MonoBehaviour
+public class Colonist : MonoBehaviour, ISuperLoggable
 {
+    public Color color;
+    public bool CanDebug { get => false; }
+    public string Prefix { get => string.Format("<b><color=#{0}>{1}</color></b>", color.ToHexString(), model.name); }
+
     [SerializeField]
     Plan currentPlan;
 
@@ -16,7 +23,7 @@ public class Colonist : MonoBehaviour
 
     [Header("Planning")]
     [SerializeField]
-    float goalDelay = 0.15f;
+    float goalDelay = 5f;
 
     [Header("Memory")]
     //Short-Term Memory / Working Memory
@@ -88,11 +95,12 @@ public class Colonist : MonoBehaviour
         goalQueue = new GoalPQueue();
         senses = GetComponents<Sense>();
         mobileAvoidance = mover.avoidancePriority;
-        UpdateState();
     }
 
     private void Start()
     {
+        UpdateState();
+
         /**
          * Initialize goals that can be instantiated by Colonists directly.
          **/
@@ -167,21 +175,30 @@ public class Colonist : MonoBehaviour
         }
     }
 
+    [Button]
     public void UpdateValidGoals()
     {
-        while (goalQueue.Count > 0)
+        Goal currentGoal = null;
+
+        if (goalQueue.Count > 0) currentGoal = goalQueue.First.value;
+
+        while (goalQueue.Count > 1)
         {
-            goalQueue.Dequeue();
+            goalQueue.Drop();
         }
 
         foreach (Goal goal in GoalPool)
         {
             bool eval = goal.Evaluate(state);
             if (eval) {
+                if (currentGoal != null && currentGoal.GetType() == goal.GetType())
+                    continue;
+
                 goalQueue.Enqueue(goal.DeepCopy(), (int)goal.GoalType);
             }
 
-            Debug.LogFormat("<b><color=red>{0}:</color></b> {1} is {2}", model.name, goal.GetType(), eval ? "VALID" : "INVALID");
+            if (CanDebug)
+                SuperLogger.Log(this, "{0} is {1}", color.ToHexString(), model.name, goal.GetType().ToString(), eval ? "VALID" : "INVALID");
         }
 
         //If no goal applies, just wander.
@@ -199,7 +216,10 @@ public class Colonist : MonoBehaviour
         if (!NeedsGoal && CurrentGoal.value.state != Goal.GoalState.Started)
         {
             CurrentGoal.value.doer = this;
+            CurrentGoal.value.state = Goal.GoalState.Started;
             CurrentGoal.value.SetPlan(Planner.BuildPlan(this, CurrentGoal.value));
+
+            SuperLogger.Log(this, "Starting {0}", CurrentGoal.value.GetType().ToString());
             //CurrentGoal.value.Execute(false);
         }
     }

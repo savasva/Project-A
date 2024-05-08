@@ -44,6 +44,11 @@ public class WorldObject : MonoBehaviour, IInteractable
     void Update()
     {
         info.state.position = transform.position;
+
+        foreach (WorldObjProperty prop in info.properties)
+        {
+            prop.OnTick();
+        }
     }
 
     /// <summary>

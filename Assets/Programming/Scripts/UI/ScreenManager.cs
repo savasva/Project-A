@@ -9,6 +9,17 @@ public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager inst;
 
+    public enum Screen
+    {
+        Cameras,
+        Alerts,
+        Chat,
+        Profiles,
+        Settings
+    }
+
+    public Screen currScreen = Screen.Cameras;
+
     [SerializeField] GameObject Sidebar;
     [SerializeField] GameObject ButtonTemplate;
 
@@ -18,6 +29,9 @@ public class ScreenManager : MonoBehaviour
 
     [Header("Alert Screen")]
     [SerializeField] GameObject AlertScreen;
+    [SerializeField] GameObject AlertButton;
+    [SerializeField] bool compositeStatus;
+    List<StatusButton> statusButtons = new();
 
     [Header("Chat Screen")]
     [SerializeField] GameObject ChatScreen;
@@ -41,12 +55,13 @@ public class ScreenManager : MonoBehaviour
 
     void Start()
     {
-        CreateChatPanels();
         SwitchToCameraScreen();
     }
 
     public void SwitchToCameraScreen()
     {
+        currScreen = Screen.Cameras;
+
         PopulateCameraSidebar();
 
         //deactivate all screens except the camera screen
@@ -77,6 +92,32 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    void PopulateProfileSidebar()
+    {
+        ClearSidebar();
+
+        foreach (Colonist obj in ColonyManager.inst.colonists.Values)
+        {
+            GameObject btnObj = Instantiate(ButtonTemplate, Sidebar.transform, false);
+            Button btn = btnObj.GetComponent<Button>();
+
+            btnObj.GetComponentInChildren<TMP_Text>().text = obj.name;
+
+            btn.onClick.AddListener(() =>
+            {
+                if (obj.model.name == "Engineer")
+                {
+                    ProfileManager.inst.SwitchToEngrProfile();
+                }
+                else if (obj.model.name == "Xenobio")
+                {
+                    ProfileManager.inst.SwitchToBioProfile();
+                }
+
+            });
+        }
+    }
+
     void ClearSidebar()
     {
         foreach(Transform t in Sidebar.transform)
@@ -87,18 +128,39 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToAlertScreen()
     {
+        currScreen = Screen.Alerts;
+
+        PopulateAlertSidebar();
+        StartCoroutine(UpdateStatusButtons(0.75f));
+
         //deactivate all screens except the alert screen
-        CameraScreen.SetActive(false);
+        CameraScreen.SetActive(true);
+
         ChatScreen.SetActive(false);
         ProfilesScreen.SetActive(false);
         SettingsScreen.SetActive(false);
+        AlertScreen.SetActive(false);
 
         //activate the alert screen
-        AlertScreen.SetActive(true);
+        //AlertScreen.SetActive(true);
+    }
+
+    public IEnumerator DrawStatusButtons(float delay)
+    {
+        while (AlertScreen.activeSelf)
+        {
+            foreach (StatusButton btn in statusButtons)
+            {
+                btn.Draw(compositeStatus);
+            }
+            yield return new WaitForSeconds(delay);
+        }
     }
 
     public void SwitchToChatScreen()
     {
+        currScreen = Screen.Chat;
+
         PopulateChatSidebar();
 
         //deactivate all screens except the chat screen
@@ -129,6 +191,26 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    void PopulateAlertSidebar()
+    {
+        ClearSidebar();
+
+        foreach (WorldObject obj in ColonyManager.inst.damagableObjects)
+        {
+            GameObject btnObj = Instantiate(AlertButton, Sidebar.transform, false);
+            StatusButton btn = btnObj.GetComponent<StatusButton>();
+            btn.Init(obj);
+            statusButtons.Add(btn);
+
+            /*btn.onClick.AddListener(() =>
+            {
+                //SelectChat(col);
+            });*/
+        }
+
+        StartCoroutine(UpdateStatusButtons(2.5f));
+    }
+
     public void SelectChat(Colonist col)
     {
         foreach (KeyValuePair<Colonist, ChatPanel> panel in ChatPanels)
@@ -140,7 +222,7 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    void CreateChatPanels()
+    public void CreateChatPanels()
     {
         foreach (Colonist col in ColonyManager.inst.colonists.Values)
         {
@@ -153,6 +235,9 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToProfilesScreen()
     {
+        PopulateProfileSidebar();
+        currScreen = Screen.Profiles;
+
         //deactivate all screens except the profiles screen
         CameraScreen.SetActive(false);
         AlertScreen.SetActive(false);
@@ -165,6 +250,8 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToSettingsScreen()
     {
+        currScreen = Screen.Settings;
+
         //deactivate all screens except the settings screen
         CameraScreen.SetActive(false);
         AlertScreen.SetActive(false);
@@ -173,5 +260,18 @@ public class ScreenManager : MonoBehaviour
 
         //activate the profiles screen
         SettingsScreen.SetActive(true);
+    }
+
+    IEnumerator UpdateStatusButtons(float refreshTime)
+    {
+        while (currScreen == Screen.Alerts)
+        {
+            foreach (StatusButton btn in statusButtons)
+            {
+                btn.Draw();
+            }
+
+            yield return new WaitForSeconds(refreshTime);
+        }
     }
 }

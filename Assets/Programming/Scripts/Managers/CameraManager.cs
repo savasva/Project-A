@@ -6,7 +6,12 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager inst;
 
-    CameraObj currentCam;
+    public CameraObj CurrentCam
+    {
+        get;
+        private set;
+    }
+
     //public CameraObject[] cameras;
 
     void Awake()
@@ -21,12 +26,12 @@ public class CameraManager : MonoBehaviour
 
     public void UpdateCurrentCam(CameraObj newCam)
     {
-        if (currentCam != null)
+        if (CurrentCam != null)
         {
-            currentCam.Toggle();
+            CurrentCam.Toggle();
         }
         
         newCam.Toggle();
-        currentCam = newCam;
+        CurrentCam = newCam;
     }
 }

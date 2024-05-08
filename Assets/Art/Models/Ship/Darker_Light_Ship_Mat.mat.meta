@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Dalia LLMing.unity.meta
+guid: f5a23532877b71e418ce6ae8058df2a9
+DefaultImporter:
+========
 guid: 4622bb50a636e364bbd776628d6f5f85
 NativeFormatImporter:
+>>>>>>>> UI-Menus:Assets/Art/Models/Ship/Darker_Light_Ship_Mat.mat.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 

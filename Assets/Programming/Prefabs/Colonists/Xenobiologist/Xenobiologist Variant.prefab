@@ -8,10 +8,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: AIName
+      value: Julia Hernandez
+      objectReference: {fileID: 0}
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: prompt
+      value: "Julia Hernandez is a 43 year old female xenobiologist, which means
+        that she studies alien biology. She is egotistical, competitive, and a little
+        bit rude. She is also very curious and observant, and she enjoys critical
+        conversations and learning new things. Currently, she is working as a crew
+        member on board an interstellar spacecraft called the New Horizon. The crew's
+        mission is to reach a solar system far away from Earth in order to set up
+        a colony. They are currently halfway through their journey in space. Julia's
+        job is to research any alien matter the crew comes across, cure space diseases,
+        and manufacture food. She does her work and research in the biolab.\r\n\r\nGAIA
+        is an artificial intelligence assistant on board the New Horizon. Its purpose
+        is to assist Julia and the other crew members with tasks around the ship.
+        It can also answer any questions they have. GAIA and Julia communicate via
+        a computer terminal.\r"
+      objectReference: {fileID: 0}
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: playerName
+      value: GAIA
+      objectReference: {fileID: 0}
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: chatTemplate
+      value: llama3 chat
+      objectReference: {fileID: 0}
+    - target: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: advancedOptions
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: model
       value: 
-      objectReference: {fileID: 11400000, guid: f2b05e7c33081574795161f9e8ec11ba, type: 2}
+      objectReference: {fileID: 3781573170698210821}
     - target: {fileID: 1369539110117208876, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: state.role
       value: 1731637798799409153
@@ -58,15 +90,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.76
+      value: 11.84
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9803499
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.54
+      value: 6.22
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -74,15 +106,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3789840880898267475, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -112,8 +144,42 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d97c5eb2f03ea4512832d5f3ed04f05d, type: 2}
+    - target: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: llm
+      value: 
+      objectReference: {fileID: 4769686110205294078}
+    - target: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 21300000, guid: e131eb7cc901b4d40993c42bfe7f6f94, type: 3}
+    - target: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+      propertyPath: name
+      value: Xenobio
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+--- !u!114 &3781573170698210821 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8492896173533798874, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+  m_PrefabInstance: {fileID: 4730482553782071263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b425d2cc4a59640e6bdd2510c162d52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4769686110205294078 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 258773286492199457, guid: 30408a84bf58a4e22b26e0ffb0177fad, type: 3}
+  m_PrefabInstance: {fileID: 4730482553782071263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95e88cdd1b0a159692667660a065473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

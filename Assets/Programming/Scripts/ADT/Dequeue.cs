@@ -60,6 +60,11 @@ public class Dequeue<T>
 
     public T Peek()
     {
+        if (Count == 0)
+        {
+            return default(T);
+        }
+
         return Head.Next.Value;
     }
 

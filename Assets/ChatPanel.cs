@@ -1,6 +1,3 @@
-using LLama.Common;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,17 +15,19 @@ public class ChatPanel : MonoBehaviour
 
     [SerializeField] TMP_InputField input;
 
-    ColonistModel model;
+    [SerializeField] ColonistModel model;
 
     public void Init(Colonist col)
     {
         if (col.model == null) return;
 
         model = col.model;
-        LlamaContoller.inst.CreateModel(model);
+        //LlamaContoller.inst.CreateModel(model);
         sendButton.onClick.AddListener(() =>
         {
-            LlamaContoller.inst.ChatPrompt(this, model, input.text);
+            AddUserMessage(input.text);
+            AddCrewMessage(input.text);
+            //LlamaContoller.inst.ChatPrompt(this, model, input.text);
             input.text = "";
         });
     }
@@ -43,33 +42,25 @@ public class ChatPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public AsyncChatEntry AddMessage(AuthorRole role, ColonistModel model = null)
+    public void AddUserMessage(string message)
     {
-        return AddMessage(new ChatHistory.Message(role, ""), model);
+        GameObject msgObj = Instantiate(gaiaMessageTemplate, msgContainer.transform, false);
+        msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = message;
     }
 
-    public AsyncChatEntry AddMessage(ChatHistory.Message msg, ColonistModel model = null)
+    public AsyncChatEntry AddCrewMessage(string prompt)
     {
-        if (msg.AuthorRole == AuthorRole.Assistant && model == null)
-        {
-            throw new MissingReferenceException("A chat message from the LLM must use the 'model' parameter.");
-        }
+        GameObject msgObj = Instantiate(crewMessageTemplate, msgContainer.transform, false);
+        msgObj.transform.Find("Image/Author").GetComponent<TMP_Text>().text = model.name.ToUpper();
+        msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = "...";
 
-        GameObject msgObj;
-        switch (msg.AuthorRole)
-        {
-            case AuthorRole.Assistant:
-                msgObj = Instantiate(crewMessageTemplate, msgContainer.transform, false);
-                msgObj.transform.Find("Image/Author").GetComponent<TMP_Text>().text = model.name.ToUpper();
-                break;
+        AsyncChatEntry text = msgObj.GetComponent<AsyncChatEntry>();
 
-            case AuthorRole.User:
-            default:
-                msgObj = Instantiate(gaiaMessageTemplate, msgContainer.transform, false);
-                msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = msg.Content;
-                break;
-        }
+        Debug.LogFormat("{0}: {1}", model.name, prompt);
 
-        return msgObj.GetComponent<AsyncChatEntry>();
+        //TODO: wtf is a Discard
+        _ = model.llm.Chat(prompt, text.Set);
+
+        return text;
     }
 }

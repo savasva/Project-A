@@ -9,7 +9,7 @@ public class ExtinguishAction : BaseAction
     [SerializeField]
     WorldObject obj;
     FlamableProperty prop;
-    const float ExtinguishRate = 0.05f;
+    const float ExtinguishRate = 0.1f;
 
     public override Condition[] preconditions
     {

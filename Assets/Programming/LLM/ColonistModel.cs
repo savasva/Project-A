@@ -1,10 +1,8 @@
-﻿using LLama;
-using LLama.Common;
-using UnityEngine;
+﻿using UnityEngine;
+using LLMUnity;
 
-[CreateAssetMenu(fileName = "New LLM Model", menuName = "Project A/LLM Model")]
-[System.Serializable]
-public class ColonistModel : ScriptableObject
+[RequireComponent(typeof(LLMClient))]
+public class ColonistModel : MonoBehaviour
 {
     public new string name;
     public string lastAnswer;
@@ -16,10 +14,8 @@ public class ColonistModel : ScriptableObject
     [Range(0, 1f)]
     public float temperature = 0.6f;
 
-    public ChatHistory chatHistory;
-
-    public ChatSession session;
+    public LLMClient llm;
 
     [Header("UI Parameters")]
-    public GameObject chatMessageContainer;
+    public Sprite icon;
 }

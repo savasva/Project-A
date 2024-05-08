@@ -14,7 +14,9 @@ public class RepairAction : BaseAction
     {
         get => new Condition[] {
             new Condition((ColonistState colState, WorldObjInfo objInfo) => {
-                Debug.LogFormat("{0} -- {1}", name, obj);
+                return objInfo.state.aflame ? float.MinValue : 1;
+            }),
+            new Condition((ColonistState colState, WorldObjInfo objInfo) => {
                 return -ActionHelpers.Proximity(colState, obj);
             })
         };
@@ -28,7 +30,6 @@ public class RepairAction : BaseAction
     public RepairAction(WorldObject _obj)
     {
         obj = _obj;
-        name = string.Format("Repair {0}.", obj.info.name);
     }
 
     public override void OnStart()
@@ -53,7 +54,7 @@ public class RepairAction : BaseAction
             return;
         }
 
-        prop.components[repairIndex].durability += RepairRate * Time.deltaTime;
+        prop.components[repairIndex].durability -= RepairRate * Time.deltaTime;
     }
 
     protected override void Complete()
@@ -65,23 +66,14 @@ public class RepairAction : BaseAction
 
     public override (float, BaseAction, ColonistState) PredictFit(Func<ColonistState, WorldObjInfo, float> predicate, ColonistState examinee)
     {
-        float bestFit = float.MinValue;
-        BaseAction bestAction = null;
-
         foreach (WorldObject currObj in ColonyManager.inst.damagableObjects)
         {
-            currObj.info.state.damaged = !currObj.info.state.damaged;
-
-            float fit = predicate(examinee, currObj.info);
-            if (fit > bestFit)
+            if (currObj.info.state.damaged)
             {
-                bestAction = new RepairAction(currObj);
-                bestFit = fit;
+                return (predicate(examinee, currObj.info), new RepairAction(currObj), examinee);
             }
-
-            currObj.info.state.damaged = !currObj.info.state.damaged;
         }
 
-        return (bestFit, bestAction, examinee);
+        return (float.MinValue, null, examinee);
     }
 }
