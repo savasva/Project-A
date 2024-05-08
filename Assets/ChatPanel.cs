@@ -19,7 +19,7 @@ public class ChatPanel : MonoBehaviour
 
     [SerializeField] TMP_InputField input;
 
-    ColonistModel model;
+    [SerializeField] ColonistModel model;
 
     public void Init(Colonist col)
     {
@@ -59,6 +59,8 @@ public class ChatPanel : MonoBehaviour
         msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = "...";
 
         AsyncChatEntry text = msgObj.GetComponent<AsyncChatEntry>();
+
+        Debug.LogFormat("{0}: {1}", model.name, prompt);
 
         //TODO: wtf is a Discard
         _ = model.llm.Chat(prompt, text.Set);

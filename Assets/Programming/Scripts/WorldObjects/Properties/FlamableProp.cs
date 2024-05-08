@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class FlamableProperty : WorldObjProperty
 {
@@ -15,4 +13,9 @@ public class FlamableProperty : WorldObjProperty
     {
         new ExtinguishGoal(null, obj)
     };
+
+    public override void OnTick()
+    {
+        //burnProgress += burnProgress * Time.deltaTime;
+    }
 }

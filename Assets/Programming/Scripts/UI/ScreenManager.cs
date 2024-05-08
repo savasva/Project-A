@@ -18,6 +18,8 @@ public class ScreenManager : MonoBehaviour
 
     [Header("Alert Screen")]
     [SerializeField] GameObject AlertScreen;
+    [SerializeField] GameObject AlertButton;
+    List<StatusButton> statusButtons = new();
 
     [Header("Chat Screen")]
     [SerializeField] GameObject ChatScreen;
@@ -87,14 +89,19 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchToAlertScreen()
     {
+        PopulateAlertSidebar();
+
         //deactivate all screens except the alert screen
-        CameraScreen.SetActive(false);
+        CameraScreen.SetActive(true);
+
         ChatScreen.SetActive(false);
         ProfilesScreen.SetActive(false);
         SettingsScreen.SetActive(false);
+        AlertScreen.SetActive(false);
+
 
         //activate the alert screen
-        AlertScreen.SetActive(true);
+        //AlertScreen.SetActive(true);
     }
 
     public void SwitchToChatScreen()
@@ -126,6 +133,26 @@ public class ScreenManager : MonoBehaviour
             {
                 SelectChat(col);
             });
+        }
+    }
+
+    void PopulateAlertSidebar()
+    {
+        ClearSidebar();
+
+        foreach (WorldObject obj in ColonyManager.inst.damagableObjects)
+        {
+            GameObject btnObj = Instantiate(AlertButton, Sidebar.transform, false);
+            StatusButton btn = btnObj.GetComponent<StatusButton>();
+            btn.Init(obj);
+            statusButtons.Add(btn);
+
+            
+
+            /*btn.onClick.AddListener(() =>
+            {
+                //SelectChat(col);
+            });*/
         }
     }
 

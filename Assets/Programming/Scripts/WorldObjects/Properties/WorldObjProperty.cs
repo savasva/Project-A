@@ -13,4 +13,9 @@ public class WorldObjProperty
     {
         obj = owner;
     }
+
+    public virtual void OnTick()
+    {
+
+    }
 }
