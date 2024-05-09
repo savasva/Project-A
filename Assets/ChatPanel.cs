@@ -51,7 +51,8 @@ public class ChatPanel : MonoBehaviour
     public AsyncChatEntry AddCrewMessage(string prompt)
     {
         GameObject msgObj = Instantiate(crewMessageTemplate, msgContainer.transform, false);
-        msgObj.transform.Find("Image/Author").GetComponent<TMP_Text>().text = model.name.ToUpper();
+        //msgObj.transform.Find("Image/Author").GetComponent<TMP_Text>().text = model.name.ToUpper();
+        msgObj.transform.Find("Image").GetComponent<Image>().sprite = model.icon;
         msgObj.transform.Find("Content").GetComponent<TMP_Text>().text = "...";
 
         AsyncChatEntry text = msgObj.GetComponent<AsyncChatEntry>();

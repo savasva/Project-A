@@ -25,6 +25,7 @@ public class ColonyManager : MonoBehaviour
         }
     }
 
+
     [Header("Background Info")]
     public List<WorldItem> worldItems;
     public WorldObjCollection<WorldObject> worldObjects = new();
@@ -36,8 +37,9 @@ public class ColonyManager : MonoBehaviour
     public WorldObjCollection flamableObjects = new();
     public WorldObjCollection damagableObjects = new();
     public Consumable[] consumables;
+    public List<Room> rooms;
 
-    [Header("Lights")]
+[Header("Lights")]
     public Light[] lights;
 
     private void Awake()
@@ -73,6 +75,11 @@ public class ColonyManager : MonoBehaviour
         foreach (WorldObject obj in worldObjects)
         {
             obj.info.InitProperties(obj);
+        }
+
+        foreach (Room room in FindObjectsByType<Room>(FindObjectsSortMode.None))
+        {
+            rooms.Add(room);
         }
 
         Debug.Log("Objects initialized and cached!");

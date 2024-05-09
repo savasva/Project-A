@@ -22,6 +22,7 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] GameObject Sidebar;
     [SerializeField] GameObject ButtonTemplate;
+    [SerializeField] GameObject ButtonContainerTemplate;
 
     [Header("Camera Screen")]
     //Screen GameObjects
@@ -78,17 +79,27 @@ public class ScreenManager : MonoBehaviour
     {
         ClearSidebar();
 
-        foreach (CameraObj obj in ColonyManager.inst.cameraObjects)
+        foreach (Room room in ColonyManager.inst.rooms)
         {
-            GameObject btnObj = Instantiate(ButtonTemplate, Sidebar.transform, false);
-            Button btn = btnObj.GetComponent<Button>();
+            ButtonContainer cont = Instantiate(ButtonContainerTemplate, Sidebar.transform, false).GetComponent<ButtonContainer>();
+            IEnumerable<CameraObj> cams = room.contents.OfType<CameraObj>();
 
-            btnObj.GetComponentInChildren<TMP_Text>().text = obj.info.name;
-
-            btn.onClick.AddListener(() =>
+            foreach (CameraObj obj in cams)
             {
-                CameraManager.inst.UpdateCurrentCam(obj);
-            });
+                GameObject btnObj = Instantiate(ButtonTemplate, Sidebar.transform, false);
+                Button btn = btnObj.GetComponent<Button>();
+
+                btnObj.GetComponentInChildren<TMP_Text>().text = obj.info.name;
+
+                btn.onClick.AddListener(() =>
+                {
+                    CameraManager.inst.UpdateCurrentCam(obj);
+                });
+
+                cont.AddButton(btnObj);
+            }
+
+            cont.Init(room.name);
         }
     }
 

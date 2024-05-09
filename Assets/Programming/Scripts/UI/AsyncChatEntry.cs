@@ -19,7 +19,7 @@ public class AsyncChatEntry : MonoBehaviour
 	public void Set(string text)
 	{
 		goalString = text;
-		if (!started) StartCoroutine(CharAppend());
+		if (!started) ColonyManager.inst.StartCoroutine(CharAppend());
     }
 
     public void MarkComplete()
